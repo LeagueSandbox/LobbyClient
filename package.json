@@ -4,7 +4,8 @@
   "description": "Client for the Sightstone IntWars sandbox.",
   "main": "src/browser/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .",
+    "watch": "./node_modules/.bin/webpack-dev-server --hot"
   },
   "keywords": [
     "intwars",
@@ -29,8 +30,11 @@
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
   },
-  "scripts": {
-    "start": "./node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .",
-    "watch": "./node_modules/.bin/webpack-dev-server --hot"
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-route": "^1.5.3",
+    "babel-polyfill": "^6.7.4",
+    "bluebird": "^3.3.4",
+    "font-awesome": "^4.5.0"
   }
 }
