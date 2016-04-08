@@ -1,0 +1,68 @@
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.fade-in {
+	animation-name: fade-in;
+	animation-duration: 0.3s;
+	animation-fill-mode: both;
+}
+
+@keyframes fade-out {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		display: none;
+		opacity: 0;
+	}
+}
+
+.fade-out {
+	animation-name: fade-out;
+	animation-duration: 0.3s;
+	animation-fill-mode: both;
+}
+
+@keyframes wobble {
+	from {
+		transform: none;
+	}
+
+	15% {
+		transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+	}
+	
+	30% {
+		transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+	}
+
+	45% {
+		transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+	}
+
+  	60% {
+		transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+	}
+
+	75% {
+		transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+	}
+
+	to {
+		transform: none;
+	}
+}
+
+.wobble {
+	animation-name: wobble;
+	animation-duration: 0.3s;
+	animation-fill-mode: both;
+}

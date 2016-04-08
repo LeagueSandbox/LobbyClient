@@ -1,19 +1,23 @@
 "use strict";
 
 // Import the Babel polyfill, needed for generators.
-import "babel-polyfill";
+//import "babel-polyfill";
 
-// Import Font Awesome.
+// Import CSS.
 import "font-awesome/css/font-awesome.min.css";
+import "./css/main.css";
+import "./css/animations.css";
 
 // Import Angular and dependencies.
 import "angular";
 import "angular-route";
 
-const app = angular.module("app", ["ngRoute"]);
-
+// Import components.
 import loginCtrl from "./components/login/loginCtrl";
 import loginTemplate from "./components/login/loginView.html";
+
+// Setup actual angular application.
+const app = angular.module("app", ["ngRoute"]);
 
 // Setup controllers.
 app.controller("loginCtrl", loginCtrl);

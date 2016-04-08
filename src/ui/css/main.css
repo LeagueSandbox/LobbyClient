@@ -1,0 +1,25 @@
+/* Contains main css reused in different parts of the app. Simple, right? */
+
+/* Reset some dumb styles. */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+	cursor: default;
+	-webkit-pointer-events: none;
+}
+
+body {
+	overflow: hidden;
+
+	height: 100vh;
+	width: 100vw;
+
+	border-radius: 4px;
+}
+
+.content {
+	width: 100%;
+	height: 100%;
+}

@@ -1,1 +1,25 @@
-{{ message }}
+<div class="login-component">
+	<div class="background"></div>
+	<div class="login-container">
+		<div class="login-form" ng-class="{ wobble: previousInvalid }">
+			<div class="summoner-icon">
+				<img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/profileicon/0.png">
+				<div class="spinner-container" ng-class="isLoading ? 'fade-in' : 'fade-out'">
+					<div class="spinner"></div>
+				</div>
+			</div>
+
+			<div class="title">Welcome</div>
+
+			<div class="username-header">Username</div>
+			<input class="username-field" ng-class="{ invalid: previousInvalid }" ng-change="previousInvalid = false" ng-model="username" type="text">
+
+			<div class="password-header">Password</div>
+			<input class="password-field" ng-class="{ invalid: previousInvalid }" ng-change="previousInvalid = false" ng-model="password" type="password">
+
+			<div class="login-button" ng-class="{ disabled: !username || !password }" ng-click="login()">Login</div>
+
+			<div class="no-account">No account? <span class="register">Register</span></div>
+		</div>
+	</div>
+</div>

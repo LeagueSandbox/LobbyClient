@@ -12,7 +12,7 @@ app.on("window-all-closed", () => {
 
 let mainWindow;
 app.on("ready", () => {
-    mainWindow = new BrowserWindow({ width: 1530, height: 755, frame: false, transparent: true });
+    mainWindow = new BrowserWindow({ width: 1200, height: 700, frame: false, transparent: true });
     mainWindow.loadURL(`file://${__dirname}/../ui/index.html`);
     mainWindow.openDevTools({ detach: true });
 
