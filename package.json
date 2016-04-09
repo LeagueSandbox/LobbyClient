@@ -4,7 +4,7 @@
   "description": "Client for the Sightstone IntWars sandbox.",
   "main": "src/browser/main.js",
   "scripts": {
-    "start": "./node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .",
+    "start": "./node_modules/.bin/electron .",
     "watch": "./node_modules/.bin/webpack-dev-server --hot"
   },
   "keywords": [
