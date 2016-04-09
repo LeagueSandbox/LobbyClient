@@ -1,7 +1,7 @@
 {
-  "name": "intwars-client",
+  "name": "leaguesandbox-lobbyclient",
   "version": "0.0.1",
-  "description": "Client for the Sightstone IntWars sandbox.",
+  "description": "Lobby client for the League Sandbox project.",
   "main": "src/browser/main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
