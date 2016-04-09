@@ -1,128 +1,149 @@
+@import "helpers";
+
+@font: "Lato";
+
+@checkbox-width: 20px;
+@checkbox-height: 20px;
+
+@select-height: 30px;
+@select-border-radius: 5px;
+
 .ui-kit.checkbox {
-	width: 20px;
-	height: 20px;
+	width: @checkbox-width;
+	height: @checkbox-height;
+
+	& > .checkbox-visual {
+		.full-size;
+		.round;
+		.center-children;
+
+		cursor: pointer;
+		border: 4px solid rgb(84, 84, 185);
+	}
+
+	& > .checkbox-visual > .dot {
+		.round;
+		.transitions(transform);
+
+		cursor: pointer;
+		width: @checkbox-width / 2;
+		height: @checkbox-height / 2;
+
+		background-color: rgba(84, 84, 185, 0.75);
+		transform: scale(0);
+	}
+
+	&.checked > .checkbox-visual > .dot {
+		transform: scale(1);
+	}
 }
 
-.ui-kit.checkbox > .checkbox-visual {
-	width: 20px;
-	height: 20px;
-
-	border-radius: 50%;
-	border: 4px solid rgb(84, 84, 185);
-  
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.ui-kit.checkbox > .checkbox-visual > .dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-
-	background-color: rgba(84, 84, 185, 0.75);
-
-	transform: scale(0);
-	transition: transform 0.1s ease-in-out;
-}
-
-.ui-kit.checkbox.checked > .checkbox-visual > .dot {
-	transform: scale(1);
-}
-
+// This is because css does not transform the size to the .ui-kit.select element created within the uikit-switch directive.
 uikit-switch {
 	width: 100%;
-	height: 30px;
+	height: @select-height;
 }
 
 .ui-kit.select {
-	height: 30px;
+	.full-size;
 	position: relative;
 
-	-webkit-user-select: none;
-	cursor: default;
-}
+	span {
+		.transitions(background-color);
+		display: block;
 
-.ui-kit.select span {
-	line-height: 30px;
-	display: block;
-	font-family: "Lato";
-	color: white;
+		line-height: @select-height;
+		font-family: @font;
 
-	transition: background-color 0.2s ease;
-	background-color: rgb(84, 84, 185);
+		color: white;
+		background-color: rgb(84, 84, 185);
 
-	position: relative;
-	cursor: pointer;
+		cursor: pointer;
+		padding-left: 5px;
+	}
 
-	padding-left: 5px;
-}
+	// Make lighter if disabled.
+	&.disabled span {
+		cursor: not-allowed;
+		background-color: rgba(116, 116, 177, 0.75);
+	}
 
-.ui-kit.select .placeholder {
-	border-radius: 5px;
-	border: 1px solid rgb(84, 84, 185);
-	transition: border 0.2s ease;
-}
+	.placeholder {
+		.transitions(border, background-color);
 
-.ui-kit.select .placeholder:after {
-	content: "\f063";
-	font-family: "FontAwesome";
+		border-radius: @select-border-radius;
+		border: 1px solid rgb(84, 84, 185);
+	}
 
-	position: absolute;
-	right: 5px;
+	// Light up on hover if not disabled or expanded.
+	&:not(.disabled):not(.expanded) .placeholder:hover {
+		background-color: rgb(100, 100, 185);
+	}
 
-	transition: transform 0.2s ease;
-}
+	// Make header of list if expanded.
+	&.expanded .placeholder {
+		cursor: default;
+		font-weight: bold;
 
-.ui-kit.select .options {
-	position: absolute;
-	overflow: hidden;
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+		border-bottom: 1px solid rgb(140, 140, 228);
+	}
 
-	width: 100%;
-	visibility: hidden;
-	opacity: 0;
+	// Arrow after the placeholder.
+	&:not(.disabled) .placeholder:after {
+		.transitions(transform);
 
-	transition: visibility 0.2s ease, opacity 0.2s ease;
-}
+		content: "\f063";
+		font-family: "FontAwesome";
 
-.ui-kit.select.expanded .options {
-	visibility: visible;
-	opacity: 1;
-}
+		position: absolute;
+		right: 5px;
+	}
 
-.ui-kit.select.expanded .options span:hover {
-	background-color: rgb(100, 100, 185);
-}
+	// Rotate our little arrow if we are expanded.
+	&.expanded .placeholder:after {
+		transform: rotate(180deg);
+	}
 
-.ui-kit.select.expanded .placeholder {
-	cursor: default;
+	// Remove default list styles.
+	ul {
+		list-style: none;
+	}
 
-	color: white;
-	font-weight: bold;
+	// Round corners of last option.
+	li:last-of-type > span {
+		border-bottom-left-radius: @select-border-radius;
+		border-bottom-right-radius: @select-border-radius;
+	}
 
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom: 1px solid rgb(140, 140, 228);
-}
+	.options {
+		.full-size;
+		.transitions(visibility, opacity);
 
-.ui-kit.select.expanded .placeholder:after {
-	transform: rotate(180deg);
-}
+		position: absolute;
+		overflow: hidden;
 
-.ui-kit.select ul {
-	list-style: none;
-}
+		visibility: hidden;
+		opacity: 0;
+	}
 
-.ui-kit.select li:last-of-type > span {
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-}
+	&.expanded .options {
+		visibility: visible;
+		opacity: 1;
 
-.ui-kit.select.expanded .options span.selected:after {
-	content: "\f00c";
-	font-family: "FontAwesome";
+		span:hover {
+			background-color: rgb(100, 100, 185);
+		}
 
-	position: absolute;
-	right: 5px;
-	color: rgb(142, 142, 224);
+		span.selected:after {
+			// Checkmark
+			content: "\f00c";
+			font-family: "FontAwesome";
+
+			position: absolute;
+			right: 5px;
+			color: rgb(142, 142, 224);
+		}
+	}
 }
