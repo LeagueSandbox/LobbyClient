@@ -3,6 +3,7 @@
 const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const ipc = electron.ipcMain;
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
@@ -18,5 +19,13 @@ app.on("ready", () => {
 
     mainWindow.on("closed", () => {
         mainWindow = null;
+    });
+
+    ipc.on("close", () => {
+    	mainWindow && mainWindow.close();
+    });
+
+    ipc.on("minimize", () => {
+    	mainWindow && mainWindow.minimize();
     });
 });

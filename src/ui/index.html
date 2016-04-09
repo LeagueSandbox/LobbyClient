@@ -9,8 +9,26 @@
 </head>
 <body>
 	<div class="content" ng-view></div>
+	<div class="draggable"></div>
+
+	<div class="app-controls">
+		<i class="fa fa-minus" onclick="_minimize()"></i>
+		<i class="fa fa-times" onclick="_close()"></i>
+	</div>
 
 	<script src="http://localhost:8080/webpack-dev-server.js"></script>
 	<script src="http://localhost:8080/built/bundle.js"></script>
+	<script>
+		"use strict";
+
+		const ipc = require('electron').ipcRenderer;
+		window._close = function() {
+			ipc.send("close");
+		};
+
+		window._minimize = function() {
+			ipc.send("minimize");
+		};
+	</script>
 </body>
 </html>

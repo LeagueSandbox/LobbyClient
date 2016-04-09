@@ -22,3 +22,48 @@ body {
 .content {
 	.full-size;
 }
+
+.draggable {
+	position: absolute;
+	left: 0;
+	top: 0;
+
+	width: 100vw;
+	height: 2vh;
+	-webkit-app-region: drag;
+
+	z-index: -100;
+}
+
+.app-controls {
+	.transitions(color);
+
+	width: 50px;
+	height: 25px;
+
+	position: absolute;
+	right: 0;
+	top: 0;
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+	border-bottom-left-radius: 8px;
+	color: darken(white, 40%);
+
+	background-color: rgba(0, 0, 0, 0.3);
+
+	.fa:hover {
+		color: white;
+	}
+
+	.fa-minus {
+		margin-top: 7px;
+		margin-right: 10px;
+	}
+
+	.fa-times {
+		margin-right: 5px;
+	}
+}
