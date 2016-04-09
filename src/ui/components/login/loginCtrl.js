@@ -1,7 +1,7 @@
 import "../../css/login.less";
 
 export default class LoginCtrl {
-	constructor($scope, $timeout) {
+	constructor($scope, $timeout, $location) {
 		$scope.isLoading = false;
 
 		$scope.login = () => {
@@ -10,10 +10,9 @@ export default class LoginCtrl {
 			$scope.previousInvalid = false;
 
 			$timeout(() => {
-				$scope.isLoading = false;
-				$scope.previousInvalid = true;
+				$location.path("/lobby/config");
 			}, 1000);
 		};
 	}
 }
-LoginCtrl.$inject = ["$scope", "$timeout"];
+LoginCtrl.$inject = ["$scope", "$timeout", "$location"];

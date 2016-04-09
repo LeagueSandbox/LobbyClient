@@ -1,0 +1,139 @@
+@import "helpers";
+
+@font: "Lato";
+@header-height: 50px;
+
+@tab-width: 80px;
+
+.lobby-config {
+	.full-size;
+
+	display: flex;
+	flex-direction: column;
+
+	.header {
+		.full-size;
+
+		display: flex;
+		align-items: center;
+
+		flex: 0 @header-height;
+		background-color: white;
+
+		border-bottom: 1px solid #eceeef;
+		box-shadow: 0 2px 0 rgba(236, 238, 239, 0.25);
+
+		.back-button {
+			.center-children;
+			.transitions(color);
+
+			height: @header-height;
+			width: @header-height;
+			cursor: pointer;
+
+			border-right: 1px solid #cacaca;
+
+			font-size: @header-height * (4/7);
+			color: #cacaca;
+
+			& > i {
+				cursor: pointer;
+			}
+
+			&:hover {
+				color: darken(#cacaca, 30%);
+			}
+		}
+
+		.title {
+			padding-left: 10px;
+			line-height: @header-height;
+
+			color: #525252;
+
+			font-family: @font;
+			font-size: 22px;
+			text-transform: uppercase;
+		}
+	}
+
+	.contents {
+		.full-size;
+		flex: 1;
+		
+		display: flex;
+
+		.tabs {
+			.full-size;
+			flex: 0 @tab-width;
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			background-color: rgb(46, 49, 54);
+
+			.tab {
+				.transitions(color);
+				.center-children;
+
+				flex-direction: column;
+				position: relative;
+
+				cursor: pointer;
+				& > * { cursor: pointer; }
+
+				width: @tab-width;
+				height: @tab-width;
+
+				color: #AFAFAF;
+
+				i {
+					font-size: 30px;
+				}
+
+				.name {
+					width: @tab-width;
+					text-align: center;
+
+					font-family: @font;
+					font-size: 12px;
+					text-transform: uppercase;
+
+					position: absolute;
+					bottom: 5px;
+				}
+			}
+
+			.tab.active, .tab:hover {
+				color: white;
+			}
+
+			.tab:after {
+				.round;
+				.transitions(background-color);
+
+				content: "";
+
+				width: 10px;
+				height: 10px;
+				background-color: transparent;
+
+				position: absolute;
+				left: -5px;
+				top: calc(~"50% - 5px");
+			}
+
+			.tab.active:after {
+				background-color: rgb(84, 84, 185);
+			}
+		}
+
+		.config-content {
+			.full-size;
+			flex: 1;
+
+			background-color: lightgray;
+		}
+	}
+}
