@@ -11,7 +11,7 @@ module.exports = {
 
 			// CSS, Less
 			{ test: /\.css$/, loader: 'style-loader!css-loader' },
-            { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+			{ test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
 
 			// Fonts.
 			{ test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff"},
