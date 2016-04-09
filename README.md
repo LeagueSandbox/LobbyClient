@@ -1,9 +1,12 @@
 # LobbyClient
 
-## Development
+# Setup guide
+- Install Node.js (https://nodejs.org/en/)
+- Clone the repository to a local folder
+- Run `npm install` at the project root
 
-To start building LobbyClient, follow these steps:
-- Clone the repository to a local folder.
-- `cd` into the folder and install npm packages using `npm install`.
 
-Once this is done, you can start the Webpack dev server using `npm run-script watch` and the actual application with `npm start`. When you update a file, Webpack will automatically compile the bundle and reload the application.
+# Development
+- Start the development server with `npm run-script watch`
+- Start the application with `npm start`
+- Make changes
