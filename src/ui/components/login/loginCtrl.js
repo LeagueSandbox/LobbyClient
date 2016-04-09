@@ -5,6 +5,7 @@ export default class LoginCtrl {
 		$scope.isLoading = false;
 
 		$scope.login = () => {
+			if (!$scope.username || !$scope.password) return;
 			$scope.isLoading = true;
 			$scope.previousInvalid = false;
 
