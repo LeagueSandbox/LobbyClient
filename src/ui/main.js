@@ -21,12 +21,16 @@ import loginTemplate from "./components/login/loginView.html";
 import checkboxCtrl from "./directives/checkbox/checkboxCtrl";
 import checkboxTemplate from "./directives/checkbox/checkboxView.html";
 
+import selectCtrl from "./directives/uikit-select/selectCtrl";
+import selectTemplate from "./directives/uikit-select/selectView.html";
+
 // Setup actual angular application.
 const app = angular.module("app", ["ngRoute"]);
 
 // Setup controllers.
 app.controller("loginCtrl", loginCtrl);
 app.controller("checkboxCtrl", checkboxCtrl);
+app.controller("selectCtrl", selectCtrl);
 
 // Setup directives.
 app.directive('checkbox', () => ({
@@ -34,6 +38,13 @@ app.directive('checkbox', () => ({
 	template: checkboxTemplate,
 	controller: "checkboxCtrl",
 	scope: { "value": "=", "text": "@" }
+}));
+
+app.directive('uikitSwitch', () => ({
+	restrict: "E",
+	template: selectTemplate,
+	controller: "selectCtrl",
+	scope: { "value": "=", "placeholder": "@" }
 }));
 
 // Setup routes.

@@ -35,3 +35,67 @@
 .ui-kit.checkbox.checked > .checkbox-visual > .dot {
 	transform: scale(1);
 }
+
+uikit-switch {
+	width: 100%;
+	height: 30px;
+}
+
+.ui-kit.select {
+	height: 30px;
+	position: relative;
+
+	-webkit-user-select: none;
+	cursor: default;
+}
+
+.ui-kit.select span {
+	line-height: 30px;
+	display: block;
+	font-family: "Lato";
+	color: white;
+
+	transition: background-color 0.2s ease;
+	background-color: rgb(84, 84, 185);
+
+	position: relative;
+	cursor: pointer;
+
+	padding-left: 5px;
+}
+
+.ui-kit.select .placeholder {
+	border-radius: 5px;
+	border: 2px solid rgb(84, 84, 185);
+	transition: border 0.2s ease;
+}
+
+.ui-kit.select .options {
+	position: absolute;
+	overflow: hidden;
+
+	width: 100%;
+	visibility: hidden;
+	opacity: 0;
+
+	transition: visibility 0.2s ease, opacity 0.2s ease;
+}
+
+.ui-kit.select.expanded .options {
+	visibility: visible;
+	opacity: 1;
+}
+
+.ui-kit.select.expanded .options span:hover {
+	background-color: rgb(100, 100, 185);
+}
+
+.ui-kit.select.expanded .placeholder {
+	color: black;
+	border-radius: 0px;
+	border-bottom-color: transparent;
+}
+
+.ui-kit.select ul {
+	list-style: none;
+}
