@@ -3,7 +3,7 @@
 	<div class="login-container">
 		<div class="login-form" ng-class="{ wobble: previousInvalid }">
 			<div class="summoner-icon">
-				<img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/profileicon/0.png">
+				<img src="http://placehold.it/120x120">
 				<div class="spinner-container" ng-class="isLoading ? 'fade-in' : 'fade-out'">
 					<div class="spinner"></div>
 				</div>
@@ -16,7 +16,9 @@
 
 			<div class="password-header">Password</div>
 			<input class="password-field" ng-class="{ invalid: previousInvalid }" ng-change="previousInvalid = false" ng-model="password" type="password">
-			
+
+			<uikit-switch placeholder="Number of players"></uikit-switch>
+
 			<div class="login-button" ng-class="{ disabled: !username || !password }" ng-click="login()">Login</div>
 
 			<div class="no-account">No account? <span class="register">Register</span></div>
