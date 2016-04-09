@@ -5,16 +5,19 @@ export default class SelectCtrl {
 
 		$scope.placeholderText = $scope.placeholder;
 
+		let selected;
 		$scope.toggle = () => {
-			$scope.placeholderText = $scope.placeholder;
-			
+			if ($scope.disabled) return;
+
+			$scope.placeholderText = $scope.expanded && selected ? selected.content : $scope.placeholder;
 			$scope.expanded = !$scope.expanded;
 		};
 
 		$scope.select = option => {
+			selected = option;
+
 			$scope.value = option.value;
 			$scope.placeholderText = option.content;
-
 			$scope.expanded = false;
 		};
 	}

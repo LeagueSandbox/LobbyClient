@@ -45,7 +45,7 @@ app.directive('uikitSwitch', () => ({
 	restrict: "E",
 	template: selectTemplate,
 	controller: "selectCtrl",
-	scope: { "value": "=", "placeholder": "@" },
+	scope: { "value": "=", "placeholder": "@", "disabled": "=" },
 	link: selectCtrl.link
 }));
 
