@@ -1,4 +1,4 @@
-import "../../css/login.css";
+import "../../css/login.less";
 
 export default class LoginCtrl {
 	constructor($scope, $timeout) {

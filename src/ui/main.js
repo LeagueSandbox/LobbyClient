@@ -5,9 +5,9 @@
 
 // Import CSS.
 import "font-awesome/css/font-awesome.min.css";
-import "./css/main.css";
-import "./css/animations.css";
-import "./css/ui.css";
+import "./css/main.less";
+import "./css/animations.less";
+import "./css/ui.less";
 
 // Import Angular and dependencies.
 import "angular";
