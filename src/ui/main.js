@@ -37,7 +37,7 @@ app.directive('checkbox', () => ({
 	restrict: "E",
 	template: checkboxTemplate,
 	controller: "checkboxCtrl",
-	scope: { "value": "=", "text": "@" }
+	scope: { "value": "=" }
 }));
 
 app.directive('uikitSwitch', () => ({

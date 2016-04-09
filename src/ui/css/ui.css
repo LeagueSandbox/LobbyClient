@@ -1,15 +1,9 @@
 .ui-kit.checkbox {
-	display: flex;
-	align-items: center;
-}
-
-.ui-kit.checkbox > span {
-	font-family: "Lato";
+	width: 20px;
+	height: 20px;
 }
 
 .ui-kit.checkbox > .checkbox-visual {
-	margin-left: 10px;
-
 	width: 20px;
 	height: 20px;
 
