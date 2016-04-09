@@ -1,0 +1,36 @@
+@transition-duration: 0.2s;
+@transition-mode: ease;
+
+// Adds the provided transitions to the element.
+.transitions(...) {
+	// The following javascript magic is needed to add commas between the different property names.
+	transition: all @transition-duration @transition-mode;
+	transition-property: ~`"@{arguments}".replace(/[\[\]]|\,\sX/g, '')`;
+}
+
+// Indicates that this element wants the full size of the parent.
+.full-size() {
+	width: 100%;
+	height: 100%;
+}
+
+// Aligns the (single) child(ren) of the element, by setting its display to flex and centering the contents.
+.center-children() {
+	display: flex;
+
+	align-items: center;
+	justify-content: center;
+}
+
+// Positions something in the top left of the parent element.
+.top-left() {
+	position: absolute;
+
+	top: 0;
+	left: 0;
+}
+
+// Makes an element round.
+.round() {
+	border-radius: 50%;
+}

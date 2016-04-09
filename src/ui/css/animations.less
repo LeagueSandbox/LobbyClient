@@ -1,36 +1,44 @@
-@keyframes fade-in {
-	from {
-		opacity: 0;
+// Global duration of any animation.
+@animation-duration: 0.3s;
+
+// Mixin for simple animations. Use it like this:
+// .animation(nameOfKeyframes, { color: red; }, { color: green; });
+// (this will transition from red to green in 0.3s)
+.animation(@name; @from; @to) {
+	@keyframes @name {
+		from {
+			@from();
+		}
+
+		to {
+			@to();
+		}
 	}
 
-	to {
-		opacity: 1;
-	}
+	animation-name: @name;
+	animation-duration: @animation-duration;
+	animation-fill-mode: both;
 }
 
+// Simple fade in animation.
 .fade-in {
-	animation-name: fade-in;
-	animation-duration: 0.3s;
-	animation-fill-mode: both;
-}
-
-@keyframes fade-out {
-	from {
-		opacity: 1;
-	}
-
-	to {
-		display: none;
+	.animation(fadeIn; {
 		opacity: 0;
-	}
+	}; {
+		opacity: 1;
+	});
 }
 
+// Simple fade out animation.
 .fade-out {
-	animation-name: fade-out;
-	animation-duration: 0.3s;
-	animation-fill-mode: both;
+	.animation(fadeOut; {
+		opacity: 1;
+	}; {
+		opacity: 0;
+	});
 }
 
+// Wobble animation. Credits go to animate.css, https://github.com/daneden/animate.css
 @keyframes wobble {
 	from {
 		transform: none;
@@ -63,6 +71,6 @@
 
 .wobble {
 	animation-name: wobble;
-	animation-duration: 0.3s;
+	animation-duration: @animation-duration;
 	animation-fill-mode: both;
 }
