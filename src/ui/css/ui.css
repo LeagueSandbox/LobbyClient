@@ -60,8 +60,18 @@ uikit-switch {
 
 .ui-kit.select .placeholder {
 	border-radius: 5px;
-	border: 2px solid rgb(84, 84, 185);
+	border: 1px solid rgb(84, 84, 185);
 	transition: border 0.2s ease;
+}
+
+.ui-kit.select .placeholder:after {
+	content: "\f063";
+	font-family: "FontAwesome";
+
+	position: absolute;
+	right: 5px;
+
+	transition: transform 0.2s ease;
 }
 
 .ui-kit.select .options {
@@ -85,11 +95,34 @@ uikit-switch {
 }
 
 .ui-kit.select.expanded .placeholder {
-	color: black;
-	border-radius: 0px;
-	border-bottom-color: transparent;
+	cursor: default;
+
+	color: white;
+	font-weight: bold;
+
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom: 1px solid rgb(140, 140, 228);
+}
+
+.ui-kit.select.expanded .placeholder:after {
+	transform: rotate(180deg);
 }
 
 .ui-kit.select ul {
 	list-style: none;
+}
+
+.ui-kit.select li:last-of-type > span {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.ui-kit.select.expanded .options span.selected:after {
+	content: "\f00c";
+	font-family: "FontAwesome";
+
+	position: absolute;
+	right: 5px;
+	color: rgb(142, 142, 224);
 }

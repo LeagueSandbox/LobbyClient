@@ -1,11 +1,8 @@
 <div class="ui-kit select" ng-class="{ expanded: expanded }">
-	<span class="placeholder" ng-click="toggle()">{{ placeholder }}</span>
+	<span class="placeholder" ng-click="toggle()">{{ placeholderText }}</span>
 	<ul class="options">
-		<li><span>2</span></li>
-		<li><span>4</span></li>
-		<li><span>6</span></li>
-		<li><span>8</span></li>
-		<li><span>10</span></li>
-		<li><span>12</span></li>
+		<li ng-repeat="option in options" ng-click="select(option)">
+			<span ng-class="{ selected: value === option.value }">{{ option.content }}</span>
+		</li>
 	</ul>
 </div>

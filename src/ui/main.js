@@ -41,10 +41,12 @@ app.directive('checkbox', () => ({
 }));
 
 app.directive('uikitSwitch', () => ({
+	transclude: true,
 	restrict: "E",
 	template: selectTemplate,
 	controller: "selectCtrl",
-	scope: { "value": "=", "placeholder": "@" }
+	scope: { "value": "=", "placeholder": "@" },
+	link: selectCtrl.link
 }));
 
 // Setup routes.
