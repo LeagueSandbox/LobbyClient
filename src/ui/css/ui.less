@@ -118,14 +118,15 @@ uikit-switch {
 	}
 
 	.options {
-		.full-size;
 		.transitions(visibility, opacity);
 
+		width: 100%;
 		position: absolute;
 		overflow: hidden;
 
 		visibility: hidden;
 		opacity: 0;
+		z-index: 10;
 	}
 
 	&.expanded .options {

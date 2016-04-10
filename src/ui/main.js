@@ -45,7 +45,7 @@ app.directive('checkbox', () => ({
 	scope: { "value": "=" }
 }));
 
-app.directive('uikitSwitch', () => ({
+app.directive('uikitSelect', () => ({
 	transclude: true,
 	restrict: "E",
 	template: selectTemplate,
@@ -53,6 +53,13 @@ app.directive('uikitSwitch', () => ({
 	scope: { "value": "=", "placeholder": "@", "disabled": "=" },
 	link: selectCtrl.link
 }));
+
+app.directive('compile', ['$compile', $compile => function(scope, element, attrs) {
+	scope.$watch(scope => scope.$eval(attrs.compile), value => {
+		element.html(value);
+		$compile(element.contents())(scope);
+	});
+}]);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {

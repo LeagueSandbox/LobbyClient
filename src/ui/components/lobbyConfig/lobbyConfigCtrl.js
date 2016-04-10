@@ -5,6 +5,9 @@ export default class LobbyConfigCtrl {
 		$scope.activeTabIndex = 0;
 		$scope.setActive = idx => $scope.activeTabIndex = idx;
 
+		$scope.activeMap = 0;
+		$scope.setActiveMap = idx => $scope.activeMap = idx;
+
 		// We can also directly ng-include the html, instead of using require.
 		// However, if we require we get hot reloading and we only need a single html in the built package.
 		$scope.generalContent = $sce.trustAsHtml(require("./partials/generalView.html"));

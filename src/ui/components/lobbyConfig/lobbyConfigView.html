@@ -22,8 +22,8 @@
 			</div>
 		</div>
 
-		<div class="config-content" ng-show="activeTabIndex === 0" ng-bind-html="generalContent"></div>
-		<div class="config-content" ng-show="activeTabIndex === 1" ng-bind-html="championsContent"></div>
-		<div class="config-content" ng-show="activeTabIndex === 2" ng-bind-html="valuesContent"></div>
+		<div class="config-content" ng-show="activeTabIndex === 0" compile="generalContent"></div>
+		<div class="config-content" ng-show="activeTabIndex === 1" compile="championsContent"></div>
+		<div class="config-content" ng-show="activeTabIndex === 2" compile="valuesContent"></div>
 	</div>
 </div>
