@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"sourceMap": true
+	},
+	"exclude": [
+		"node_modules"
+	],
+	"files": [
+		"src/vendor/angular.d.ts",
+		"src/vendor/jquery.d.ts"
+	]
+}
