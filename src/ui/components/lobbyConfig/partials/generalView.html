@@ -1,57 +1,58 @@
 <div class="config-section">
-	<span class="title">General Settings</span>
+    <span class="title">General Settings</span>
 
-	<hr>
+    <hr>
 
-	<div class="config-setting">
-		<span class="config-name">
+    <div class="config-setting">
+        <span class="config-name">
 			Lobby Name
 			<i class="fa fa-info-circle"></i>
 		</span>
-		<input type="text" placeholder="My Awesome Lobby">
-	</div>
+        <input type="text" placeholder="My Awesome Lobby">
+    </div>
 
-	<div class="config-setting">
-		<span class="config-name">Amount of Players</span>
-		<uikit-select placeholder="..." value="playerCount">
-			<option value="2">2</option>
-			<option value="4">4</option>
-			<option value="6">6</option>
-			<option value="8">8</option>
-			<option value="10">10</option>
-			<option value="12">12</option>
-		</uikit-select>
-	</div>
+    <div class="config-setting">
+        <span class="config-name">Amount of Players</span>
+        <uikit-select placeholder="..." value="playerCount">
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+        </uikit-select>
+    </div>
 
-	<div class="config-setting">
-		<span class="config-name">Allow Spectators</span>
-		<checkbox value="allowSpectators"></checkbox>
-	</div>
+    <div class="config-setting">
+        <span class="config-name">Allow Spectators</span>
+        <checkbox value="allowSpectators"></checkbox>
+    </div>
 
-	<div class="config-setting">
-		<span class="config-name">Map</span>
-		<div class="map-options">
-			<div class="option sr" ng-click="setActiveMap(0)" ng-class="{ active: activeMap === 0 }">
-				<span>Summoners Rift</span>
-			</div>
-			<div class="option ha" ng-click="setActiveMap(1)" ng-class="{ active: activeMap === 1 }">
-				<span>Howling Abyss</span>
-			</div>
-			<div class="option tt" ng-click="setActiveMap(2)" ng-class="{ active: activeMap === 2 }">
-				<span>Twisted Treeline</span>
-			</div>
-			<div class="option cs" ng-click="setActiveMap(3)" ng-class="{ active: activeMap === 3 }">
-				<span>Crystal Scar</span>
-			</div>
-		</div>
-	</div>
+    <div class="config-setting">
+        <span class="config-name">Map</span>
+        <div class="map-options">
+            <div class="option sr" ng-click="setActiveMap(0)" ng-class="{ active: activeMap === 0 }">
+                <span>Summoners Rift</span>
+            </div>
+            <div class="option ha" ng-click="setActiveMap(1)" ng-class="{ active: activeMap === 1 }">
+                <span>Howling Abyss</span>
+            </div>
+            <div class="option tt" ng-click="setActiveMap(2)" ng-class="{ active: activeMap === 2 }">
+                <span>Twisted Treeline</span>
+            </div>
+            <div class="option cs" ng-click="setActiveMap(3)" ng-class="{ active: activeMap === 3 }">
+                <span>Crystal Scar</span>
+            </div>
+        </div>
+    </div>
 
-	<div class="config-setting">
-		<span class="config-name">Champions</span>
-		<div class="champion-options">
-			<div class="option" ng-click="champ.enabled = !champ.enabled" ng-class="{ active: champ.enabled }" background-src="file:///Applications/League%20of%20Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/0.0.0.231/deploy/bin/assets/images/champions/{{ champ.name }}_Splash_Tile_0.jpg" ng-repeat="champ in champions">
-				<span>{{ champ.name }}
+    <div class="config-setting">
+        <span class="config-name">Champions</span>
+        <div class="champion-options">
+            <div class="option" ng-click="champ.enabled = !champ.enabled" ng-class="{ active: champ.enabled }" background-src="file:///Applications/League%20of%20Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/0.0.0.231/deploy/bin/assets/images/champions/{{ champ.name }}_Splash_Tile_0.jpg"
+            ng-repeat="champ in champions">
+                <span>{{ champ.name }}
 			</span>
-		</div>
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
