@@ -1,0 +1,150 @@
+@import "../helpers";
+
+@font: "Lato";
+@header-height: 40px;
+
+.lobby > .left > .settings {
+	.full-size;
+
+	display: flex;
+	flex-direction: column;
+
+	// Header bar.
+	& > .header {
+		.full-size;
+		flex: 0 @header-height;
+
+		display: flex;
+		align-items: center;
+
+		background-color: white;
+		border-bottom: 1px solid #eceeef;
+		box-shadow: 0 2px 0 rgba(236, 238, 239, 0.25);
+	}
+
+	// Back and settings button.
+	.back-button, .settings-button {
+		.center-children;
+		.transitions(color);
+
+		height: @header-height;
+		width: @header-height + 1px; // 1px because of border
+		cursor: pointer;
+
+		border-right: 1px solid #cacaca;
+
+		font-size: @header-height * (4/7);
+		color: #cacaca;
+
+		& > i {
+			cursor: pointer;
+		}
+
+		&:hover {
+			color: darken(#cacaca, 30%);
+		}
+	}
+
+	// Actual header title.
+	& > .header > .title {
+		padding-left: 10px;
+		line-height: @header-height;
+
+		color: #525252;
+
+		font-family: @font;
+		font-size: 18px;
+	}
+
+	& > .settings {
+		flex: 1;
+		overflow-y: scroll;
+		margin-right: 10px;
+
+		&::-webkit-scrollbar {
+    		width: 4px;
+    		background: #afafaf;
+    		border: 1px solid transparent;
+    		background-clip: padding-box;
+		}
+
+		&::-webkit-scrollbar-thumb {
+    		background: rgb(84, 84, 185);
+    		width: 4px;
+    		border-radius: 20px;
+		}
+
+		&::-webkit-scrollbar-corner {
+    		background: #afafaf;
+		}
+	}
+
+	& > .settings > .champion-options {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 10px 0px 10px 10px;
+
+		& > .option {
+			.transitions(transform);
+
+			position: relative;
+			margin: 5px;
+				
+			height: 70px;
+			width: 140px;
+	
+			background-position: center;
+		}
+
+		& > .option:after {
+			.full-size;
+			.transitions(background-color);
+	
+			content: "";
+	
+			position: absolute;
+			left: 0;
+			top: 0;
+	
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+
+		& > .option.active:after, & > .option:hover:after {
+			background-color: transparent;
+		}
+
+		& > .option:hover {
+			z-index: 10; // To prevent it from clipping under others.
+			transform: scale(1.2);
+		}
+
+		& > .option > span {	
+			position: absolute;
+			bottom: 0px;
+					
+			padding-left: 5px;
+			padding-bottom: 5px;
+
+			font-family: @font;
+			font-size: 15px;
+			color: white;
+
+			height: 22px;
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			line-height: 22px;
+		}
+
+		& > .option.active > span:after {
+			content: "\f00c";
+			font-family: "FontAwesome";
+	
+			color: rgb(84, 84, 185);
+	
+			position: absolute;
+			right: 5px;
+			margin-top: 2px;
+		}
+	}
+}

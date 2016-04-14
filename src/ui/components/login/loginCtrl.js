@@ -10,7 +10,7 @@ export default class LoginCtrl {
 			$scope.previousInvalid = false;
 
 			$timeout(() => {
-				$location.path("/lobby/config");
+				$location.path("/lobby");
 			}, 1000);
 		};
 	}

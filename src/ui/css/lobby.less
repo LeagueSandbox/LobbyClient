@@ -1,0 +1,46 @@
+@import "helpers";
+
+@import "lobby/chat";
+@import "lobby/settings";
+@import "lobby/playerList";
+
+.background {
+	.full-size;
+
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: -1;
+
+	background-image: url("http://i.imgur.com/Yt6ViUD.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.lobby {
+	.full-size;
+	display: flex;
+
+	& > .left {
+		.full-size;
+		flex: 1;
+
+		display: flex;
+		flex-direction: column;
+
+		& > .settings {
+			.full-size;
+		}
+
+		& > .chat {
+			.full-size;
+			flex: 0 200px;
+		}
+	}
+
+	& > .right {
+		.full-size;
+
+		flex: 0 250px;
+	}
+}

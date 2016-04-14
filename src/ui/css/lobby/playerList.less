@@ -1,0 +1,32 @@
+.lobby > .right {
+	.full-size;
+	display: flex;
+	flex-direction: column;
+
+	background-color: rgba(0, 0, 0, 0.4);
+
+	// Header bar.
+	& > .header {
+		.full-size;
+		flex: 0 @header-height;
+
+		border-left: 1px solid #cacaca;
+		display: flex;
+		align-items: center;
+
+		background-color: white;
+		border-bottom: 1px solid #eceeef;
+		box-shadow: 0 2px 0 rgba(236, 238, 239, 0.25);
+	}
+
+	// Actual header title.
+	& > .header > .title {
+		padding-left: 10px;
+		line-height: @header-height;
+
+		color: #525252;
+
+		font-family: @font;
+		font-size: 18px;
+	}
+}

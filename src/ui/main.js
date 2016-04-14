@@ -20,6 +20,9 @@ import loginTemplate from "./components/login/loginView.html";
 import lobbyConfigCtrl from "./components/lobbyConfig/lobbyConfigCtrl";
 import lobbyConfigTemplate from "./components/lobbyConfig/lobbyConfigView.html";
 
+import lobbyCtrl from "./components/lobby/lobbyCtrl";
+import lobbyTemplate from "./components/lobby/lobbyView.html";
+
 // Import directives.
 import checkboxCtrl from "./directives/checkbox/checkboxCtrl";
 import checkboxTemplate from "./directives/checkbox/checkboxView.html";
@@ -27,12 +30,15 @@ import checkboxTemplate from "./directives/checkbox/checkboxView.html";
 import selectCtrl from "./directives/uikit-select/selectCtrl";
 import selectTemplate from "./directives/uikit-select/selectView.html";
 
+import backgroundSrc from "./directives/backgroundSrc";
+
 // Setup actual angular application.
 const app = angular.module("app", ["ngRoute"]);
 
 // Setup controllers.
 app.controller("loginCtrl", loginCtrl);
 app.controller("lobbyConfigCtrl", lobbyConfigCtrl);
+app.controller("lobbyCtrl", lobbyCtrl);
 
 app.controller("checkboxCtrl", checkboxCtrl);
 app.controller("selectCtrl", selectCtrl);
@@ -61,6 +67,8 @@ app.directive('compile', ['$compile', $compile => function(scope, element, attrs
 	});
 }]);
 
+app.directive("backgroundSrc", () => backgroundSrc);
+
 // Setup routes.
 app.config(["$routeProvider", prov => {
 	prov.when("/login", {
@@ -69,5 +77,9 @@ app.config(["$routeProvider", prov => {
 	}).when("/lobby/config", {
 		template: lobbyConfigTemplate,
 		controller: "lobbyConfigCtrl"
+	})
+	.when("/lobby", {
+		template: lobbyTemplate,
+		controller: "lobbyCtrl"
 	}).otherwise({ redirectTo: "/login" });
 }]);

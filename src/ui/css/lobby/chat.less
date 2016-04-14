@@ -1,0 +1,57 @@
+@font: "Lato";
+
+.lobby > .left > .chat {
+	.full-size;
+	overflow-y: scroll;
+
+	& > .chat-message-group {
+		padding: 8px 0px 8px 0px;
+		margin: 0px 8px 0px 8px;
+		display: flex;
+		flex-direction: column;
+
+		& > .header {
+			font-family: @font;
+			font-size: 14px;
+
+			padding-bottom: 4px;
+
+			.name {
+				color: rgb(84, 84, 185);
+
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
+			.time {
+				color: darken(lightgray, 20%);
+			}
+		}
+
+		& > ul {
+			font-family: @font;
+			list-style-type: none;
+		}
+	}
+
+	& > .chat-message-group + .chat-message-group {
+		border-top: 1px solid #bfbfbf;
+	}
+
+	&::-webkit-scrollbar {
+    	width: 4px;
+    	background: #afafaf;
+    	border: 1px solid transparent;
+    	background-clip: padding-box;
+	}
+
+	&::-webkit-scrollbar-thumb {
+    	background: rgb(84, 84, 185);
+    	width: 4px;
+    	border-radius: 20px;
+	}
+
+	&::-webkit-scrollbar-corner {
+    	background: #afafaf;
+	}
+}

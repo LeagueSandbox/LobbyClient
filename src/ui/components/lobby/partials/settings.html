@@ -1,0 +1,22 @@
+<!-- Header with navigation and stuff. -->
+<div class="header">
+	<!-- Back button -->
+	<div class="back-button" ng-click="back()">
+		<i class="fa fa-chevron-left"></i>
+	</div>
+
+	<!-- Settings button, if applicable -->
+	<div class="back-button" ng-click="alert('Settings')">
+		<i class="fa fa-cog"></i>
+	</div>
+
+	<span class="title">Lobby | Configure</span>
+</div>
+
+<div class="settings">
+	<div class="champion-options">
+		<div class="option" ng-click="setActiveChamp(champ)" ng-class="{ active: champ.active }" background-src="file:///Applications/League%20of%20Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/0.0.0.231/deploy/bin/assets/images/champions/{{ champ.name }}_Splash_Tile_0.jpg" ng-repeat="champ in champions">
+			<span>{{ champ.name }}
+		</span>
+	</div>
+</div>

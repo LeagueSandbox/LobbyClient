@@ -133,7 +133,7 @@
 			.full-size;
 			flex: 1;
 
-			background-color: lightgray;
+			background-color: white;
 		}
 	}
 }
@@ -161,7 +161,6 @@
 	}
 
 	.config-setting {
-		//width: 50%;
 		display: flex;
 		flex-direction: column;
 
@@ -180,7 +179,7 @@
 			font-size: 12px;
 			text-transform: uppercase;
 		}
-
+		
 		input, checkbox, uikit-select {
 			max-width: 100%;
 			flex: 1;
@@ -209,7 +208,7 @@
 			padding-bottom: 6px;
 		}
 
-		& > .options {
+		& > .map-options {
 			width: 100%;
 			display: flex;
 
@@ -285,6 +284,74 @@
 
 			.cs {
 				background-image: url("http://i.imgur.com/jnJTRkL.jpg");
+			}
+		}
+
+		& > .champion-options {
+			width: 100%;
+			display: flex;
+			flex-wrap: wrap;
+
+			& > .option {
+				position: relative;
+				margin: 5px;
+				border-radius: 3px;
+			
+				height: 80px;
+				width: 170px;
+
+				background-position: center;
+			}
+
+			& > .option:after {
+				.full-size;
+				.transitions(background-color);
+
+				content: "";
+
+				position: absolute;
+				left: 0;
+				top: 0;
+
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+
+			& > .option.active:after {
+				background-color: transparent;
+			}
+
+			& > .option:not(.active):hover:after {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+
+			& > .option > span {
+				border-bottom-left-radius: 3px;
+				border-bottom-right-radius: 3px;
+
+				position: absolute;
+				bottom: 0px;
+				
+				padding-left: 5px;
+				padding-bottom: 5px;
+				
+				width: 100%;
+
+				color: white;
+				font-family: @font;
+
+				z-index: 1;
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+
+			& > .option.active > span:after {
+				content: "\f00c";
+				font-family: "FontAwesome";
+
+				color: rgb(84, 84, 185);
+
+				position: absolute;
+				right: 5px;
+				margin-top: 2px;
 			}
 		}
 	}

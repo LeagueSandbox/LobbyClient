@@ -4,7 +4,10 @@
 	<hr>
 
 	<div class="config-setting">
-		<span class="config-name">Lobby Name</span>
+		<span class="config-name">
+			Lobby Name
+			<i class="fa fa-info-circle"></i>
+		</span>
 		<input type="text" placeholder="My Awesome Lobby">
 	</div>
 
@@ -27,7 +30,7 @@
 
 	<div class="config-setting">
 		<span class="config-name">Map</span>
-		<div class="options">
+		<div class="map-options">
 			<div class="option sr" ng-click="setActiveMap(0)" ng-class="{ active: activeMap === 0 }">
 				<span>Summoners Rift</span>
 			</div>
@@ -40,6 +43,15 @@
 			<div class="option cs" ng-click="setActiveMap(3)" ng-class="{ active: activeMap === 3 }">
 				<span>Crystal Scar</span>
 			</div>
+		</div>
+	</div>
+
+	<div class="config-setting">
+		<span class="config-name">Champions</span>
+		<div class="champion-options">
+			<div class="option" ng-click="champ.enabled = !champ.enabled" ng-class="{ active: champ.enabled }" background-src="file:///Applications/League%20of%20Legends.app/Contents/LoL/RADS/projects/lol_air_client/releases/0.0.0.231/deploy/bin/assets/images/champions/{{ champ.name }}_Splash_Tile_0.jpg" ng-repeat="champ in champions">
+				<span>{{ champ.name }}
+			</span>
 		</div>
 	</div>
 </div>

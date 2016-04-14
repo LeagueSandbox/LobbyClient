@@ -71,19 +71,25 @@ uikit-switch {
 	.placeholder {
 		.transitions(border, background-color);
 
+		color: black;
+		background-color: white;
+		
 		border-radius: @select-border-radius;
 		border: 1px solid rgb(84, 84, 185);
 	}
 
 	// Light up on hover if not disabled or expanded.
 	&:not(.disabled):not(.expanded) .placeholder:hover {
-		background-color: rgb(100, 100, 185);
+		background-color: lighten(rgb(84, 84, 185), 30%);
 	}
 
 	// Make header of list if expanded.
 	&.expanded .placeholder {
 		cursor: default;
 		font-weight: bold;
+
+		color: white;
+		background-color: rgb(84, 84, 185);
 
 		border-bottom-left-radius: 0px;
 		border-bottom-right-radius: 0px;
