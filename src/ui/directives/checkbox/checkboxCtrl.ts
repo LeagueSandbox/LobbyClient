@@ -10,10 +10,10 @@ export class CheckboxCtrl {
     static $inject = ["$scope"];
 
     scope: CheckboxScope;
-    
+
     constructor($scope: ng.IScope) {
         this.scope = $scope as CheckboxScope;
-        
+
         this.scope.toggle = () => {
             this.scope.value = !this.scope.value;
         };
@@ -21,8 +21,8 @@ export class CheckboxCtrl {
 }
 
 export const directive: ng.IDirectiveFactory = () => ({
-	restrict: "E",
-	template: require("./checkboxView.html"),
-	controller: "checkboxCtrl",
-	scope: { "value": "=" }
+    restrict: "E",
+    template: require("./checkboxView.html"),
+    controller: "checkboxCtrl",
+    scope: { "value": "=" }
 });

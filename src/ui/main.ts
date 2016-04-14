@@ -41,14 +41,14 @@ app.directive("backgroundSrc", backgroundSrc);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {
-	prov.when("/login", {
-		template: require("./components/login/loginView.html"),
-		controller: "loginCtrl"
-	}).when("/lobby/config", {
-		template: require("./components/lobbyConfig/lobbyConfigView.html"),
-		controller: "lobbyConfigCtrl"
-	}).when("/lobby", {
-		template: require("./components/lobby/lobbyView.html"),
-		controller: "lobbyCtrl"
-	}).otherwise({ redirectTo: "/login" });
+    prov.when("/login", {
+        template: require("./components/login/loginView.html"),
+        controller: "loginCtrl"
+    }).when("/lobby/config", {
+        template: require("./components/lobbyConfig/lobbyConfigView.html"),
+        controller: "lobbyConfigCtrl"
+    }).when("/lobby", {
+        template: require("./components/lobby/lobbyView.html"),
+        controller: "lobbyCtrl"
+    }).otherwise({ redirectTo: "/login" });
 }]);

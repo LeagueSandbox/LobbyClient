@@ -2,12 +2,12 @@
 'use strict';
 
 function backgroundSrc(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
-	attrs.$observe('backgroundSrc', value => {
-		element.css({
-			'background-image': 'url(' + value +')',
-			'background-size' : 'cover'
-		});
-	});
+    attrs.$observe('backgroundSrc', value => {
+        element.css({
+            'background-image': 'url(' + value + ')',
+            'background-size': 'cover'
+        });
+    });
 }
 
 const directive: ng.IDirectiveFactory = () => backgroundSrc;
