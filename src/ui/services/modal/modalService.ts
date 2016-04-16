@@ -3,29 +3,29 @@
 
 class Modal<T> {
     resolve: (thenableOrResult?: T | PromiseLike<T>) => void;
+    params: any[];
     content: string;
     
-    constructor(res: (thenableOrResult?: T | PromiseLike<T>) => void, content: string) {
+    constructor(res: (thenableOrResult?: T | PromiseLike<T>) => void, content: string, params: any[]) {
         this.resolve = res;
         this.content = content;
+        this.params = params;
     }
 }
 
 export default class ModalService {
     activeModal: Modal<any>;
     pendingModals: Modal<any>[];
-    test: string;
     
     constructor() {
         this.activeModal = null;
         this.pendingModals = [];
-        this.test = "foo";
     }
     
     // Returns a promise that resolves when the view invokes the finish(res) method.
-    present<T>(contents: string): Promise<T> {
+    present<T>(contents: string, ...params: any[]): Promise<T> {
         return new Promise<T>(res => {
-            this.pendingModals.push(new Modal(res, contents));
+            this.pendingModals.push(new Modal(res, contents, params));
             this.presentIfNecessary();
         });
     }

@@ -17,6 +17,7 @@ import "bluebird";
 import loginCtrl from "./components/login/loginCtrl.ts";
 import lobbyConfigCtrl from "./components/lobbyConfig/lobbyConfigCtrl.ts";
 import lobbyCtrl from "./components/lobby/lobbyCtrl.ts";
+import selectChampionCtrl from "./components/selectChampion/selectChampionCtrl.ts";
 
 // Import directives.
 import * as selectCtrl from "./directives/uikit-select/selectCtrl.ts";
@@ -29,6 +30,8 @@ import * as fadeBackground from "./directives/fadeBackground.ts";
 import modalService from "./services/modal/modalService.ts";
 import * as modalDirective from "./services/modal/modalDirective.ts";
 
+import cdnService from "./services/cdnService.ts";
+
 // Create app.
 const app = angular.module("app", ["ngRoute"]);
 
@@ -36,6 +39,7 @@ const app = angular.module("app", ["ngRoute"]);
 app.controller("loginCtrl", loginCtrl);
 app.controller("lobbyConfigCtrl", lobbyConfigCtrl);
 app.controller("lobbyCtrl", lobbyCtrl);
+app.controller("selectChampionCtrl", selectChampionCtrl);
 
 // Register directives and corresponding controllers.
 app.controller("checkboxCtrl", checkboxCtrl.CheckboxCtrl);
@@ -55,6 +59,7 @@ app.directive("modals", modalDirective.directive);
 
 // Register services.
 app.service("modalService", modalService);
+app.service("cdnService", cdnService);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {

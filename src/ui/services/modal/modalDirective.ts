@@ -12,15 +12,23 @@ export class ModalCtrl {
         this.modalService = modalService;
     }
     
+    get params() {
+        return this.modalService.activeModal.params;
+    }
+    
+    get active() {
+        return this.modalService.activeModal;
+    }
+    
     finish<T>(res: T) {
         this.modalService.finish(res);
     }
 }
 
 const TEMPLATE = `
-<div class="modal-container fade-in" ng-show="modal.modalService.activeModal">
+<div class="modal-container fade-in" ng-show="modal.active">
     <div class="modal-backdrop"></div>
-    <div class="modal-content" compile="modal.modalService.activeModal.content"></div>
+    <div class="modal-content" compile="modal.active.content"></div>
 </div>
 `;
 
