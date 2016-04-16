@@ -20,6 +20,7 @@ import * as selectCtrl from "./directives/uikit-select/selectCtrl.ts";
 import * as checkboxCtrl from "./directives/checkbox/checkboxCtrl.ts";
 import backgroundSrc from "./directives/backgroundSrc.ts";
 import compile from "./directives/compile.ts";
+import * as fadeBackground from "./directives/fadeBackground.ts";
 
 // Create app.
 const app = angular.module("app", ["ngRoute"]);
@@ -35,6 +36,9 @@ app.directive('checkbox', checkboxCtrl.directive);
 
 app.controller("selectCtrl", selectCtrl.SelectCtrl);
 app.directive("uikitSelect", selectCtrl.directive);
+
+app.controller("fadeBackgroundCtrl", fadeBackground.FadeBackgroundCtrl);
+app.directive("fadeBackground", fadeBackground.directive);
 
 app.directive('compile', compile);
 app.directive("backgroundSrc", backgroundSrc);

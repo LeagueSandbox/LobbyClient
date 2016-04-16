@@ -7,10 +7,16 @@ interface LobbyScope extends ng.IScope {
     chatContent: string;
     settingsContent: string;
     playerListContent: string;
+    shown: boolean;
 
     back: () => void;
     settings: () => void;
-    champions: { name: string, active: boolean }[];
+    
+    getBackground: () => string;
+    
+    champions: { name: string }[];
+    selectedChampion: { name: string };
+    setActive: (any) => void;
 }
 
 export default class LobbyCtrl {
@@ -42,7 +48,15 @@ export default class LobbyCtrl {
             bg.style.backgroundPositionY = "calc(50% - " + Math.floor(diffY / innerHeight * 30) + "px)";
             oldMouseMove && oldMouseMove(event);  
         };*/
+        
+        $scope.getBackground = () => {
+            if ($scope.selectedChampion) {
+                return "http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/0.0.1.186/files/assets/images/champions/" + $scope.selectedChampion.name + "_Splash_Centered_0.jpg";
+            }
+            return "http://i.imgur.com/Yt6ViUD.png";
+        };
 
-        $scope.champions = Array(...Array(30)).map((a, idx) => ({ name: ["Aatrox", "Annie", "Anivia", "Bard", "Brand", "Zilean", "Alistar"][idx % 7], active: false }));
+        $scope.champions = Array(...Array(30)).map((a, idx) => ({ name: ["Aatrox", "Annie", "Anivia", "Bard", "Brand", "Zilean", "Alistar"][idx % 7] }));
+        $scope.setActive = a => ($scope.selectedChampion = a) && ($scope.shown = false);
     }
 }

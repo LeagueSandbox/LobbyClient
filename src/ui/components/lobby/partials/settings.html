@@ -6,8 +6,9 @@
 </div>
 
 <div class="select">
-    <div class="champion-options">
-        <div class="option" ng-click="setActiveChamp(champ)" ng-class="{ active: champ.active }" background-src="http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/0.0.1.186/files/assets/images/champions/{{ champ.name }}_Splash_Tile_0.jpg"
+    <button ng-hide="shown" ng-click="shown = true">Show</button>
+    <div class="champion-options" ng-init="shown = true" ng-show="shown">
+        <div class="option" ng-click="setActive(champ)" ng-class="{ active: selectedChampion === champ }" background-src="http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/0.0.1.186/files/assets/images/champions/{{ champ.name }}_Splash_Tile_0.jpg"
             ng-repeat="champ in champions">
             <span>{{ champ.name }}</span>
         </div>
