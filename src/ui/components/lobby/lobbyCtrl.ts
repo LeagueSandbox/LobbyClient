@@ -29,7 +29,7 @@ export default class LobbyCtrl {
             $location.path("/lobby/config");
         };
         
-        const oldMouseMove = document.onmousemove;
+        /*const oldMouseMove = document.onmousemove;
         document.onmousemove = (event) => {
             const bg = document.getElementById("lobby-background");
             
@@ -41,7 +41,7 @@ export default class LobbyCtrl {
             bg.style.backgroundPositionX = "calc(50% - " + Math.floor(diffX / innerWidth * 30) + "px)";
             bg.style.backgroundPositionY = "calc(50% - " + Math.floor(diffY / innerHeight * 30) + "px)";
             oldMouseMove && oldMouseMove(event);  
-        };
+        };*/
 
         $scope.champions = Array(...Array(30)).map((a, idx) => ({ name: ["Aatrox", "Annie", "Anivia", "Bard", "Brand", "Zilean", "Alistar"][idx % 7], active: false }));
     }
