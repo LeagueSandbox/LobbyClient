@@ -7,9 +7,10 @@
 /// <reference path="bluebird.d.ts" />
 
 interface FetchOptions {
-	method: string;
-	headers: any;
-	body: any;
+	method?: string;
+	headers?: any;
+	body?: any;
+    mode?: string;
 }
 
 declare enum ResponseType {
