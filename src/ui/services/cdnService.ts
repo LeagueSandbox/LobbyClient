@@ -13,25 +13,21 @@ export default class CDNService {
         this.load();
     }
     
-    load() {
-        console.log("Loading cdn...");
-        
+    load() {        
         // Step 1: Load list of releases.
         window.fetch(CDNService.RELEASELISTING_URL).then(res => res.text()).then(releases => {
             const versions = releases.split("\n");
             const mostRecent = versions[0];
             this.version = mostRecent;
-            console.log("CDN version is " + mostRecent);
             
             // If we have this version cached locally, abort.
             if (localStorage.getItem("cdn-" + mostRecent) !== null) {
                 this.paths = JSON.parse(localStorage.getItem("cdn-" + mostRecent));
-                console.log("Got cached data");
-                console.log("Loaded " + Object.keys(this.paths).length + " files.");
-                return;
+                
+                // We need this hack to break the promise chain.
+                throw new Error("Done.");
             }
             
-            console.log("Loading file list");
             const url = CDNService.PACKAGEMANIFEST_URL.replace("%VER%", mostRecent);
             
             // Step 2: Load packagemanifest.
@@ -47,15 +43,15 @@ export default class CDNService {
                 const parts = line.split(",");
                 const localPath = parts[0].replace(/\/projects\/lol_air_client\/releases\/\d+\.\d+\.\d+\.\d+\/files\//, "");
                 
-                this.paths[localPath] = CDNService.BASE_PATH + parts[0];
+                this.paths[localPath.toLowerCase()] = CDNService.BASE_PATH + parts[0];
             });
             
-            console.log("Loaded " + Object.keys(this.paths).length + " files.");
             localStorage.setItem("cdn-" + this.version, JSON.stringify(this.paths));
-        });
+        }).catch(e => {});
     }
     
     getPath(relative: string) {
-        return this.paths[relative];
+        if (!this.paths) throw new Error("Not loaded.");
+        return this.paths[relative.toLowerCase()];
     }
 }
