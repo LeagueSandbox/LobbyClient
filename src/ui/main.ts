@@ -10,6 +10,9 @@ import "./css/ui.less";
 import "angular";
 import "angular-route";
 
+// Import other dependencies.
+import "bluebird";
+
 // Import controllers.
 import loginCtrl from "./components/login/loginCtrl.ts";
 import lobbyConfigCtrl from "./components/lobbyConfig/lobbyConfigCtrl.ts";
@@ -21,6 +24,10 @@ import * as checkboxCtrl from "./directives/checkbox/checkboxCtrl.ts";
 import backgroundSrc from "./directives/backgroundSrc.ts";
 import compile from "./directives/compile.ts";
 import * as fadeBackground from "./directives/fadeBackground.ts";
+
+// Import services.
+import modalService from "./services/modal/modalService.ts";
+import * as modalDirective from "./services/modal/modalDirective.ts";
 
 // Create app.
 const app = angular.module("app", ["ngRoute"]);
@@ -42,6 +49,12 @@ app.directive("fadeBackground", fadeBackground.directive);
 
 app.directive('compile', compile);
 app.directive("backgroundSrc", backgroundSrc);
+
+app.controller("modalCtrl", modalDirective.ModalCtrl);
+app.directive("modals", modalDirective.directive);
+
+// Register services.
+app.service("modalService", modalService);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {
