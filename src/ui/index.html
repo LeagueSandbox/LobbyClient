@@ -20,10 +20,22 @@
     
     <modals></modals>
 
-    <script src="http://localhost:8080/webpack-dev-server.js"></script>
-    <script src="http://localhost:8080/built/bundle.js"></script>
     <script>
         "use strict";
+        
+        function appendScript(src) {
+            const el = document.createElement("script");
+            el.src = src;
+            el.type = "text/javascript";
+            document.body.appendChild(el);
+        }
+        
+        // If we are in development.
+        if (process.env.LOBBY_CLIENT_DEV && process.env.LOBBY_CLIENT_DEV === "true") {
+            appendScript("http://localhost:8080/built/bundle.js");
+        } else {
+            appendScript("../built/bundle.js");
+        }
 
 		const ipc = require('electron').ipcRenderer;
 		window._close = function() {

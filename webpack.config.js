@@ -1,4 +1,5 @@
 var webpack = require("webpack");
+var publicPath = process.env.LOBBYCLIENT_BUILD ? "../built/" : "http://localhost:8080/built/";
 
 module.exports = {
 	module: {
@@ -32,7 +33,7 @@ module.exports = {
 	output: {
         path: './src/built',
         filename: 'bundle.js',
-        publicPath: 'http://localhost:8080/built/'
+        publicPath: publicPath
     },
 
     // Enable hot module replacement
