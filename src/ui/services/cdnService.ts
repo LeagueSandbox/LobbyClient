@@ -10,6 +10,19 @@ export default class CDNService {
     version: string;
     
     constructor() {
+        this.preLoad();
+    }
+    
+    // If we have a cached most recent version, along with their paths.
+    // Populate the CDN with those values, but load potential new versions
+    // in the background. If anything is newer, we replace the paths.
+    preLoad() {
+        const recent = localStorage.getItem("mostRecent");
+        if (recent !== null && localStorage.getItem("cdn-" + recent) !== null) {
+            this.version = recent;
+            this.paths = JSON.parse(localStorage.getItem("cdn-" + recent));
+        }
+        
         this.load();
     }
     
@@ -18,7 +31,9 @@ export default class CDNService {
         window.fetch(CDNService.RELEASELISTING_URL).then(res => res.text()).then(releases => {
             const versions = releases.split("\n");
             const mostRecent = versions[0];
+            
             this.version = mostRecent;
+            localStorage.setItem("mostRecent", this.version);
             
             // If we have this version cached locally, abort.
             if (localStorage.getItem("cdn-" + mostRecent) !== null) {

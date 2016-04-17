@@ -37,7 +37,7 @@ export class SelectCtrl {
     constructor($scope: ng.IScope) {
         this.scope = $scope as SelectScope;
 
-        this.scope.options = [];
+        this.scope.options = this.scope.options || [];
         this.scope.expanded = false;
         this.scope.placeholderText = this.scope.placeholder;
 
@@ -60,7 +60,9 @@ export class SelectCtrl {
 }
 
 function link(scope: any, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ctrl: any, transclude: ng.ITranscludeFunction) {
-    const children = [].slice.call(transclude()).filter(x => x.nodeName === "OPTION") as HTMLOptionElement[];
+    const els = [].slice.call(transclude());
+    console.dir(els);
+    const children = els.filter(x => x.nodeName === "OPTION") as HTMLOptionElement[];
 
     children.forEach(option => {
         scope.options.push({
@@ -75,6 +77,6 @@ export const directive: ng.IDirectiveFactory = () => ({
     restrict: "E",
     template: require("./selectView.html"),
     controller: "selectCtrl",
-    scope: { "value": "=", "placeholder": "@", "disabled": "=" },
+    scope: { "value": "=", "placeholder": "@", "disabled": "=", "options": "=" },
     link: link
 });
