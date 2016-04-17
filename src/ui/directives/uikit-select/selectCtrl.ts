@@ -60,9 +60,7 @@ export class SelectCtrl {
 }
 
 function link(scope: any, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ctrl: any, transclude: ng.ITranscludeFunction) {
-    const els = [].slice.call(transclude());
-    console.dir(els);
-    const children = els.filter(x => x.nodeName === "OPTION") as HTMLOptionElement[];
+    const children = [].slice.call(transclude()).filter(x => x.nodeName === "OPTION") as HTMLOptionElement[];
 
     children.forEach(option => {
         scope.options.push({
