@@ -12,6 +12,7 @@ import "angular-route";
 
 // Import other dependencies.
 import "bluebird";
+import "angularjs-scroll-glue";
 
 // Import controllers.
 import loginCtrl from "./components/login/loginCtrl.ts";
@@ -33,7 +34,7 @@ import * as modalDirective from "./services/modal/modalDirective.ts";
 import cdnService from "./services/cdnService.ts";
 
 // Create app.
-const app = angular.module("app", ["ngRoute"]);
+const app = angular.module("app", ["ngRoute", "luegg.directives"]);
 
 // Register view controllers.
 app.controller("loginCtrl", loginCtrl);
