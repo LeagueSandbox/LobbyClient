@@ -5,7 +5,43 @@
     <span class="title">Configure</span>
 </div>
 
-<div class="select">
-   Currently selected: {{ selectedChampion.name }}
-   <button ng-click="openChampSelect()">Open</button> 
+<div class="columns">
+    <div class="column champion-settings">
+        <div class="config-setting">
+            <span class="config-name">Champion</span>
+            <div class="champion selected" ng-click="openChampSelect()" background-src="{{ getChampBackground() }}">
+                <span>{{ selectedChampion.name || "None" }}</span>
+            </div>
+        </div>
+        
+        <div class="config-setting">
+            <span class="config-name">Summoner Spells</span>
+            <div class="flex">
+                <div class="summoner" background-src="{{ summonerSpells[0].icon }}" ng-click="openSpellSelect(0)"></div>
+                <div class="summoner" background-src="{{ summonerSpells[1].icon }}" ng-click="openSpellSelect(1)"></div>
+            </div>
+        </div>
+        
+        <div class="config-setting">
+            <span class="config-name">Skin</span>
+            <div class="flex">
+                <div class="champion" ng-class="{ selected: skinId === selectedSkin }" ng-repeat="skinId in [0,1,2,3]" background-src="{{ getChampBackground(skinId) }}">
+                    <span>Skin {{ skinId }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="column custom-settings">
+        <div ng-switch="setting.setting.field" class="config-setting" ng-repeat="setting in settings">
+            <span class="config-name">{{ setting.setting.name }}</span>
+            <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
+            <input ng-switch-when="text" ng-model="setting.value" ng-keypress="setting.validateInput($event)">
+            
+            <!-- We need to wrap the switch case in a span because of multiple transclusion. -->
+            <span ng-switch-when="select">
+                <uikit-select value="setting.value" placeholder="..." options="setting.setting.options"></uikit-select>
+            </span>
+        </div>
+    </div>
 </div>

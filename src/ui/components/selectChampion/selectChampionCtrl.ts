@@ -83,6 +83,9 @@ export default class SelectChampionController {
         };
         
         $scope.getSelectedPortrait = () => {
+            if (!$scope.currentChampion) {
+                return "";
+            }
             return cdn.getPath("assets/images/champions/" + $scope.currentChampion.id + "_Square_0.png");  
         };
     }
