@@ -38,7 +38,8 @@ module.exports = {
 
     // Enable hot module replacement
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        require('webpack-fail-plugin')
     ],
 
     // Target electron so we can use native modules.

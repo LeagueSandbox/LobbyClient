@@ -6,10 +6,11 @@
   "scripts": {
     "start": "LOBBY_CLIENT_DEV=true ./node_modules/.bin/electron .",
     "watch": "./node_modules/.bin/webpack-dev-server --hot --inline",
-    "bundle": "LOBBYCLIENT_BUILD=true ./node_modules/.bin/webpack",
+    "bundle": "LOBBYCLIENT_BUILD=true ./node_modules/.bin/webpack --bail",
     "clean": "rm -r built src/built",
     "package:osx": "./node_modules/.bin/electron-packager . LobbyClient --out=built --platform=darwin --arch=x64 --version=0.37.5 --ignore='(node_modules|src/ui/components|src/ui/directives|src/ui/css|src/ui/services)'",
-    "package:win": "./node_modules/.bin/electron-packager . LobbyClient --out=built --platform=win32 --arch=x64 --version=0.37.5 --ignore='(node_modules|src/ui/components|src/ui/directives|src/ui/css|src/ui/services)'"
+    "package:win": "./node_modules/.bin/electron-packager . LobbyClient --out=built --platform=win32 --arch=x64 --version=0.37.5 --ignore='(node_modules|src/ui/components|src/ui/directives|src/ui/css|src/ui/services)'",
+    "test": "npm run bundle"
   },
   "keywords": [
     "intwars",
@@ -38,7 +39,8 @@
     "typescript": "^1.8.10",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "webpack-fail-plugin": "^1.0.4"
   },
   "dependencies": {
     "angular": "^1.5.3",
