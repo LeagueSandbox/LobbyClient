@@ -100,6 +100,7 @@ export default class LobbyCtrl {
             return r.json();
         }).then(json => {
             champions = Object.keys(json["data"]).map(x => json["data"][x]);
+            $scope.$apply(() => $scope.selectedChampion = champions[1]);
         });
         
         $scope.settings = [

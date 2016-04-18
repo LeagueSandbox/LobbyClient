@@ -1,10 +1,21 @@
 ///<reference path="../_app.ts" />
 'use strict';
 
-function backgroundSrc(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
+interface AugmentedAttributes extends ng.IAttributes {
+    overlayColor?: string;
+}
+
+function backgroundSrc(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: AugmentedAttributes) {
+    let color = "";
+    if (attrs.overlayColor && attrs.overlayColor.indexOf(";") !== -1) {
+        color = "linear-gradient(" + attrs.overlayColor.replace(/;/g, ",") + "), ";
+    } else if (attrs.overlayColor) {
+        color = `linear-gradient(${attrs.overlayColor}, ${attrs.overlayColor}), `;
+    }
+   
     attrs.$observe('backgroundSrc', value => {
         element.css({
-            'background-image': 'url(' + value + ')',
+            'background-image': color + 'url(' + value + ')',
             'background-size': 'cover'
         });
     });
