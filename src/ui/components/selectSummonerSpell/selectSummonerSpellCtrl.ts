@@ -18,7 +18,7 @@ interface SelectSummonerSpellScope extends ng.IScope {
     options: SummonerSpell[];
     selected: SummonerSpell;
     
-    finish: () => void;
+    finish: (spell?: SummonerSpell) => void;
     select: (SummonerSpell) => void;
 }
 
@@ -42,7 +42,15 @@ export default class SelectSummonerSpellController {
         ]
         
         $scope.selected = modal.activeModal.params[0];
-        $scope.finish = () => {
+        
+        const listener = (evnt: KeyboardEvent) => {
+            if (evnt.keyCode !== 27) return;
+            $scope.$apply(() => $scope.finish(modal.activeModal.params[0]));
+        };
+        document.addEventListener("keyup", listener);
+        
+        $scope.finish = (spell = $scope.selected) => {
+            document.removeEventListener("keyup", listener);
             modal.finish($scope.selected);
         };
         

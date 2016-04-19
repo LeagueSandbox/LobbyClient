@@ -23,7 +23,9 @@ interface SelectChampionScope extends ng.IScope {
     isSelected: (champ: dd.Champion) => boolean;
     getSelectedPortrait: () => string;
     select: (champ: dd.Champion) => void;
-    finish: () => void;
+    
+    finish: (champ?: dd.Champion) => void;
+    closeEsc: (event: KeyboardEvent) => void;
 }
 
 export default class SelectChampionController {
@@ -43,8 +45,15 @@ export default class SelectChampionController {
             return $scope.currentChampion === c;
         };
         
-        $scope.finish = () => {
-            modal.finish($scope.currentChampion);  
+        const listener = (evnt: KeyboardEvent) => {
+            if (evnt.keyCode !== 27) return;
+            $scope.$apply(() => $scope.finish(modal.activeModal.params[1]));
+        };
+        document.addEventListener("keyup", listener);
+        
+        $scope.finish = (tgt = $scope.currentChampion) => {
+            document.removeEventListener("keyup", listener);
+            modal.finish(tgt);  
         };
         
         $scope.getPortraitPath = c => {
