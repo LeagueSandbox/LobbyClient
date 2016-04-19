@@ -26,7 +26,7 @@ export class ModalCtrl {
 }
 
 const TEMPLATE = `
-<div class="modal-container fade-in" ng-if="modal.active" style="display: block !important;">
+<div class="modal-container fade-in" ng-class="{ 'fade-out-remove': !modal.active }">
     <div class="modal-backdrop"></div>
     <div class="modal-content" compile="modal.active.content"></div>
 </div>
