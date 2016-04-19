@@ -31,7 +31,7 @@
         }
         
         // If we are in development.
-        if (process.env.LOBBY_CLIENT_DEV && process.env.LOBBY_CLIENT_DEV === "true") {
+        if (process.env.LOBBYCLIENT_DEV && process.env.LOBBYCLIENT_DEV === "true") {
             appendScript("http://localhost:8080/built/bundle.js");
         } else {
             appendScript("../built/bundle.js");

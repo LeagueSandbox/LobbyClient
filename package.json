@@ -4,7 +4,7 @@
   "description": "Lobby client for the League Sandbox project.",
   "main": "src/browser/main.js",
   "scripts": {
-    "start": "LOBBY_CLIENT_DEV=true ./node_modules/.bin/electron .",
+    "start": "./node_modules/.bin/electron . --dev",
     "watch": "./node_modules/.bin/webpack-dev-server --hot --inline",
     "bundle": "./node_modules/.bin/webpack --bail",
     "clean": "rm -r built src/built",
