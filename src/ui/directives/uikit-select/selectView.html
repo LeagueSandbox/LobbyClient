@@ -1,8 +1,8 @@
 <div class="ui-kit select" ng-class="{ expanded: expanded, disabled: disabled }">
-	<span class="placeholder" ng-click="toggle()">{{ placeholderText }}</span>
-	<ul class="options">
-		<li ng-repeat="option in options" ng-click="select(option)">
-			<span ng-class="{ selected: value === option.value }">{{ option.content }}</span>
-		</li>
-	</ul>
+    <span class="placeholder" ng-click="toggle()">{{ placeholderText }}</span>
+    <ul class="options">
+        <li ng-repeat="option in options" ng-click="select(option)">
+            <span ng-class="{ selected: value === option.value }">{{ option.content }}</span>
+        </li>
+    </ul>
 </div>

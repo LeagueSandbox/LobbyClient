@@ -4,3 +4,4 @@ node_modules
 *.codekit
 *.sublime-*
 src/built
+built

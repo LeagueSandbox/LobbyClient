@@ -67,3 +67,32 @@ body {
 		margin-right: 5px;
 	}
 }
+
+.modal-container {
+	.center-children;
+	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	width: 100vw;
+	height: 100vh;
+	
+	z-index: 100;
+	
+	& > .modal-backdrop {
+		.full-size;
+		
+		top: 0px;
+		left: 0px;
+		z-index: -1;
+		
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.8);
+	}
+	
+	& > .modal-content {
+		.full-size;
+		.center-children;
+	}
+}

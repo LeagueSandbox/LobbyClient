@@ -1,0 +1,24 @@
+init:
+  - git config --global core.autocrlf true
+
+environment:
+  LOBBYCLIENT_BUILD: "true"
+  nodejs_version: "4.1"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g npm
+  - npm install
+
+test_script:
+  - node --version && npm --version
+  - ps: "npm test # PowerShell"
+  - cmd: npm test
+
+build: off
+
+matrix:
+  fast_finish: true
+
+cache:
+  - node_modules -> package.json

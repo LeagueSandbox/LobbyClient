@@ -1,0 +1,27 @@
+<div class="select-champion" ng-controller="selectChampionCtrl">
+    <div class="header">
+        <div class="filters">
+            <div class="top" ng-init="top = true" ng-click="top = !top" ng-class="{ active: top }"></div>
+            <div class="jungle" ng-init="jungle = true" ng-click="jungle = !jungle" ng-class="{ active: jungle }"></div>
+            <div class="mid" ng-init="mid = true" ng-click="mid = !mid" ng-class="{ active: mid }"></div>
+            <div class="bot" ng-init="bot = true" ng-click="bot = !bot" ng-class="{ active: bot }"></div>
+            <div class="support" ng-init="support = true" ng-click="support = !support" ng-class="{ active: support }"></div>
+        </div>
+        <input class="search" ng-model="searchTerm">
+    </div>
+    
+    <div class="options">
+        <div class="option"
+            ng-click="select(champ)"
+            ng-class="{ active: isSelected(champ) }"
+            background-src="{{ getPortraitPath(champ) }}"
+            ng-repeat="champ in getOptions()">
+            <span>{{ champ.name }}</span>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <fade-background background="{{ getSelectedPortrait() }}"></fade-background>
+        <div class="button" ng-click="finish()">Select</div>
+    </div>    
+</div>

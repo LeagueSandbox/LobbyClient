@@ -1,4 +1,5 @@
 var webpack = require("webpack");
+var publicPath = process.env.LOBBYCLIENT_BUILD ? "../built/" : "http://localhost:8080/built/";
 
 module.exports = {
 	module: {
@@ -8,6 +9,9 @@ module.exports = {
 
 			// Javascript.
 			{ test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/, query: { presets: ['es2015'] } },
+
+            // TypeScript
+            { test: /\.ts$/, loader: 'ts-loader?silent=true' },
 
 			// CSS, Less
 			{ test: /\.css$/, loader: 'style-loader!css-loader' },
@@ -29,12 +33,13 @@ module.exports = {
 	output: {
         path: './src/built',
         filename: 'bundle.js',
-        publicPath: 'http://localhost:8080/built/'
+        publicPath: publicPath
     },
 
     // Enable hot module replacement
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        require('webpack-fail-plugin')
     ],
 
     // Target electron so we can use native modules.
@@ -43,6 +48,6 @@ module.exports = {
     devtool: 'cheap-source-map',
     entry: [
         'webpack/hot/dev-server',
-        './src/ui/main.js'
+        './src/ui/main.ts'
     ]
 };

@@ -133,7 +133,226 @@
 			.full-size;
 			flex: 1;
 
-			background-color: lightgray;
+			background-color: white;
+		}
+	}
+}
+
+.config-section {
+	width: 100%;
+
+	.title {
+		display: block;
+
+		font-family: @font;
+		font-size: 20px;
+		text-transform: uppercase;
+
+		color: rgb(84, 84, 185);
+
+		padding: 10px;
+	}
+
+	hr {
+		border: 0;
+		height: 2px;
+
+		background-color: darken(rgb(84, 84, 185), 20%);
+	}
+
+	.config-setting {
+		display: flex;
+		flex-direction: column;
+
+		padding-top: 5px;
+		padding-left: 10px;
+		padding-right: 5px;
+
+		.config-name {
+			padding: 10px 0px 2px 0px;
+			align-self: flex-start;
+
+			color: #5D5D9C;
+			font-weight: bold;
+
+			font-family: @font;
+			font-size: 12px;
+			text-transform: uppercase;
+		}
+		
+		input, checkbox, uikit-select {
+			max-width: 100%;
+			flex: 1;
+		}
+
+		input {
+			width: 100%;
+			height: 32px;
+			cursor: text;
+
+			font-family: @font;
+			font-size: 14px;
+
+			background-color: transparent;
+			border: none;
+			outline: none;
+			border-bottom: 1px solid #afafaf;
+		}
+
+		input:focus {
+			border-bottom: 2px solid rgb(84, 84, 185);
+		}
+
+		checkbox {
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		& > .map-options {
+			width: 100%;
+			display: flex;
+
+			& > .option {
+				position: relative;
+				margin-right: 5px;
+				border-radius: 3px;
+			
+				flex: 1;
+				height: 150px;
+
+				background-size: cover;
+			}
+
+			& > .option:after {
+				.full-size;
+				.transitions(background-color);
+
+				content: "";
+
+				position: absolute;
+				left: 0;
+				top: 0;
+
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+
+			& > .option.active:after, .option:hover:after {
+				background-color: transparent;
+			}
+
+			& > .option > span {
+				border-bottom-left-radius: 3px;
+				border-bottom-right-radius: 3px;
+
+				position: absolute;
+				bottom: 0px;
+				
+				padding-left: 5px;
+				padding-bottom: 5px;
+				
+				width: 100%;
+
+				color: white;
+				font-family: @font;
+
+				z-index: 1;
+				background-color: rgba(0, 0, 0, 0.8);
+			}
+
+			& > .option.active > span:after {
+				content: "\f00c";
+				font-family: "FontAwesome";
+
+				color: rgb(84, 84, 185);
+
+				position: absolute;
+				right: 5px;
+				margin-top: 2px;
+			}
+
+			.sr {
+				background-image: url("http://i.imgur.com/b10oWHv.jpg");
+			}
+
+			.ha {
+				background-image: url("http://i.imgur.com/qvT3TI1.jpg");
+			}
+
+			.tt {
+				background-image: url("http://i.imgur.com/MXua547.jpg");
+			}
+
+			.cs {
+				background-image: url("http://i.imgur.com/jnJTRkL.jpg");
+			}
+		}
+
+		& > .champion-options {
+			width: 100%;
+			display: flex;
+			flex-wrap: wrap;
+
+			& > .option {
+				position: relative;
+				margin: 5px;
+				border-radius: 3px;
+			
+				height: 80px;
+				width: 170px;
+
+				background-position: center;
+			}
+
+			& > .option:after {
+				.full-size;
+				.transitions(background-color);
+
+				content: "";
+
+				position: absolute;
+				left: 0;
+				top: 0;
+
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+
+			& > .option.active:after {
+				background-color: transparent;
+			}
+
+			& > .option:not(.active):hover:after {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+
+			& > .option > span {
+				border-bottom-left-radius: 3px;
+				border-bottom-right-radius: 3px;
+
+				position: absolute;
+				bottom: 0px;
+				
+				padding-left: 5px;
+				padding-bottom: 5px;
+				
+				width: 100%;
+
+				color: white;
+				font-family: @font;
+
+				z-index: 1;
+				background-color: rgba(0, 0, 0, 0.4);
+			}
+
+			& > .option.active > span:after {
+				content: "\f00c";
+				font-family: "FontAwesome";
+
+				color: rgb(84, 84, 185);
+
+				position: absolute;
+				right: 5px;
+				margin-top: 2px;
+			}
 		}
 	}
 }

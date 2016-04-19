@@ -1,0 +1,187 @@
+@import "../helpers";
+
+@font: "Lato";
+@header-height: 50px;
+
+.lobby > .left > .settings {
+	.full-size;
+
+	display: flex;
+	flex-direction: column;
+	
+	& > .header {
+		flex: 0 @header-height;
+		
+		display: flex;
+		align-items: center;
+		
+		margin: 10px 20px 10px 20px;
+		padding-left: 10px;
+		padding-bottom: 5px;
+		
+		border-width: 0px;
+		border-bottom-width: 3px;
+        border-image: radial-gradient(ellipse at center, #BBBBBB 70%, rgba(0, 0, 0, 0));
+       	border-image-slice: 1;
+		
+		& > .title {
+			font-family: @font;
+			font-size: 30px;
+			line-height: @header-height;
+			background: linear-gradient(#676767, #9A9A9A, #CCCCCC, #9A9A9A, #676767);
+			
+			-webkit-background-clip: text;
+  			-webkit-text-fill-color: transparent;
+		}
+		
+		& > .divider {
+			width: 2px;
+			background: linear-gradient(transparent 10%, #676767, #9A9A9A, #CCCCCC, #9A9A9A, #676767, transparent 90%);
+			height: @header-height;
+			
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+	
+	& > .columns {
+		.full-size;
+		flex: 1;
+		display: flex;
+		
+		& > .column {
+			flex: 0 50%;
+		}
+		
+		& > .champion-settings {
+			// Add divider in between settings.
+			margin-right: 1px;
+			border-width: 0px;
+			border-right-width: 2px;
+			border-image: radial-gradient(ellipse at center, #BBBBBB 70%, rgba(0, 0, 0, 0));
+       		border-image-slice: 1;
+		}
+	}
+	
+	.config-setting {
+		display: flex;
+		flex-direction: column;
+
+		padding-top: 5px;
+		padding-left: 10px;
+		padding-right: 5px;
+
+		& > .config-name {
+			padding: 10px 0px 2px 0px;
+			align-self: flex-start;
+
+			color: lightgray;
+			font-weight: bold;
+
+			font-family: @font;
+			font-size: 12px;
+			text-transform: uppercase;
+		}
+		
+		& > input, checkbox, uikit-select {
+			max-width: 100%;
+			flex: 1;
+		}
+		
+		& > input {
+			width: 100%;
+			height: 32px;
+			cursor: text;
+
+			font-family: @font;
+			font-size: 14px;
+			color: white;
+
+			background-color: transparent;
+			border: none;
+			outline: none;
+			border-bottom: 1px solid #afafaf;
+		}
+
+		& > input:focus {
+			border-bottom: 2px solid rgb(84, 84, 185);
+		}
+
+		// Make checkbox 32px in height by padding.
+		& > checkbox {
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+		
+		.champion {
+            .transitions(transform, background-image);
+            
+            position: relative;
+            margin: 5px;
+			margin-left: 0px;
+			
+            height: 70px;
+            width: 140px;
+            
+            background-position: center;
+			
+			&:hover {
+				z-index: 10;
+				transform: scale(1.1);
+			}
+			
+			// Black overlay.
+			&:after {
+				.full-size;
+				.transitions(background-color);
+	
+				content: "";
+	
+				position: absolute;
+				left: 0;
+				top: 0;
+	
+				background-color: rgba(0, 0, 0, 0.5);
+			}
+			
+			// Hide overlay if hovered or active.
+			&:hover:after, &.selected:after {
+				background-color: transparent;
+			}
+			
+			& > span {
+				position: absolute;
+				bottom: 0px;
+					
+				padding-left: 5px;
+				padding-bottom: 5px;
+
+				font-family: @font;
+				font-size: 15px;
+				color: white;
+
+				height: 22px;
+				line-height: 22px;
+				width: 100%;
+				
+				background-color: rgba(0, 0, 0, 0.6);
+			}
+		}
+		
+		& > .flex {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		
+		& > .flex > .summoner {
+			width: 64px;
+			height: 64px;
+				
+			margin: 5px;
+		}
+			
+		& > .flex > .summoner:first-of-type {
+			margin-left: 0px;
+		}
+	}
+}
