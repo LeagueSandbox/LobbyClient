@@ -1,21 +1,44 @@
 namespace lobby {    
-    /** TODO */
-    class Champion {
-        // Name, id, title, portrait, splash, list of skins
+    /** Represents a champion a player can pick. */
+    interface Champion {
+        /** Name of the champion, as shown in the client. */
+        name: string;
+        /** Unique id for this champion, used for identification. */
+        id: number;
+        /** Link to a 64x64 (or bigger) square champion head icon. */
+        portraitIconURL: string;
+        /** A list of all skins this champion has. */
+        skins: Skin[];
     }
         
-    /** TODO */
-    class Skin {
+    /** Represents a skin owned by a champion, */
+    interface Skin {
         // Name, owning champion, splash
+        /** Name of this skin. _Should_ include champion name, e.g. "Challenger Ahri" */
+        name: string;
+        /** The champion that owns this skin. */
+        champion: Champion;
+        /** Link to a 380x380 (or bigger) square cutout of the splash that displays the champions face. */
+        /** Example: http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/0.0.1.186/files/assets/images/champions/Ahri_Splash_Tile_0.jpg. */
+        splashCutoutURL: string;
     }
     
-    /** TODO */
-    class SummonerSpell {
-        // Name, id, description, icon, picture
+    /** Represents a SummonerSpell that one can pick. */
+    interface SummonerSpell {
+        /** Unique id used to identify the spell. */
+        id: number;
+        /** The name of this summoner spell. */
+        name: string;
+        /** A short text describing the spell. */
+        description: string;
+        /** A square (64x64 or bigger) image of the summoner icon. */
+        icon: string;
+        /** A bigger image (around 450x280) showing the summoner spell in use. */
+        image: string;
     }
     
     /** Represents a gamemode. */
-    class Gamemode {
+    interface Gamemode {
         /** Simple name of this gamemode. Dev for example. */ 
         simpleName: string;
         
@@ -24,23 +47,25 @@ namespace lobby {
     }
     
     /** Represents a player in a lobby. */
-    class Player {
+    interface Player {
         /** The name of the player. */
         name: string;
         /** The unique id for this player. */
         id: number;
-        
-        /* TODO
+        /** The currently selected champion. null if not applicable. */
         selectedChampion: Champion;
-        selectedSkin: Skin OR skinIndex: number;
+        /** The currently selected skin. null if no champion is selected, non-null otherwise. */
+        selectedSkin: Skin;
+        /** First selected summoner spell. Never null. */
         spellOne: SummonerSpell;
-        spellTwo: SummonerSpell;*/
+        /** Second selected summoner spell. Never null. */
+        spellTwo: SummonerSpell;
     }
     
     /**
      * Represents a lobby item in the list of lobbies.
      */
-    class LobbyListItem {
+    interface LobbyListItem {
         /** Unique lobby id. */
         id: number;
         
@@ -63,9 +88,16 @@ namespace lobby {
         port: number;
     }
     
-    /** TODO. */
-    class Team {
-        // name, color, max amount of players, list of players. 
+    /** Represents a singular team in the lobby. */
+    interface Team {
+        /** The name of this team. */
+        name: string; 
+        /** Display color used in the lobby interface. Needs to be valid css. */
+        color: string;
+        /** The maximum amount of players on this team. */
+        maxPlayers: number;
+        /** The current players on this team. */
+        players: Player[];
     }
     
     type LobbySettingFieldType =
@@ -84,7 +116,7 @@ namespace lobby {
         | "boolean" );    
     
     /** Represents a lobby setting. */
-    class LobbySetting {
+    interface LobbySetting {
         /** Name of the setting. */
         name: string;
         /** Short help about what the setting does. */
@@ -104,7 +136,7 @@ namespace lobby {
     /**
      * Represents an actual lobby.
      */
-    class Lobby {
+    interface Lobby {
         /** Unique lobby id. */
         id: number;
         
