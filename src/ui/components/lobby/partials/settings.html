@@ -25,8 +25,11 @@
         <div class="config-setting">
             <span class="config-name">Skin</span>
             <div class="flex">
-                <div class="champion" ng-class="{ selected: skinId === selectedSkin }" ng-repeat="skinId in [0,1,2,3]" background-src="{{ getChampBackground(skinId) }}">
-                    <span>Skin {{ skinId }}</span>
+                <div class="champion"
+                    ng-class="{ selected: selectedSkin === skin }"
+                    ng-repeat="skin in selectedChampion.skins"
+                    background-src="{{ skin.splashCutoutURL }}">
+                    <span>{{ skin.name }}</span>
                 </div>
             </div>
         </div>

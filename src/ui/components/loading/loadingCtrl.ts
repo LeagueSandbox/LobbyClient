@@ -15,7 +15,7 @@ export default class LoadingCtrl {
             .then(() => stat.populate())
             .then(() => {
                 $timeout(() => {
-                    $location.path("/login");
+                    $location.path("/lobby");
                 });
             });
     }

@@ -6,11 +6,9 @@ import ModalService from "../../services/modal/modalService.ts";
 import CDNService from "../../services/cdnService.ts";
 
 interface SelectChampionScope extends ng.IScope {
-    options: dd.Champion[];
-    currentChampion: dd.Champion;
-    
-    getPortraitPath: (champ: dd.Champion) => string;
-    getOptions: () => dd.Champion[];
+    options: lobby.Champion[];
+    currentChampion: lobby.Champion;
+    getOptions: () => lobby.Champion[];
     
     top: boolean;
     jungle: boolean;
@@ -20,11 +18,11 @@ interface SelectChampionScope extends ng.IScope {
     
     searchTerm: string;
     
-    isSelected: (champ: dd.Champion) => boolean;
+    isSelected: (champ: lobby.Champion) => boolean;
     getSelectedPortrait: () => string;
-    select: (champ: dd.Champion) => void;
+    select: (champ: lobby.Champion) => void;
     
-    finish: (champ?: dd.Champion) => void;
+    finish: (champ?: lobby.Champion) => void;
     closeEsc: (event: KeyboardEvent) => void;
 }
 
@@ -56,46 +54,13 @@ export default class SelectChampionController {
             modal.finish(tgt);  
         };
         
-        $scope.getPortraitPath = c => {
-            return cdn.getPath("assets/images/champions/" + c.id + "_Splash_Tile_0.jpg");
-        };
-        
-        // FIXME
+        // FIXME: Role filtering.
         $scope.getOptions = () => {
             if ($scope.searchTerm) {
                 return $scope.options.filter(opt => opt.name.toLowerCase().match(new RegExp($scope.searchTerm)) !== null);
             }
             
-            return $scope.options.filter(opt => {
-                if ($scope.top && (opt.tags.indexOf("Tank") !== -1 || opt.tags.indexOf("Fighter") !== -1)) {
-                    return true;
-                }
-                
-                if ($scope.jungle && (opt.tags.indexOf("Tank") !== -1 || opt.tags.indexOf("Fighter") !== -1)) {
-                    return true;
-                }
-                
-                if ($scope.mid && (opt.tags.indexOf("Mage") !== -1 || opt.tags.indexOf("Assassin") !== -1)) {
-                    return true;
-                }
-                
-                if ($scope.bot && opt.tags.indexOf("Marksman") !== -1) {
-                    return true;
-                }
-                
-                if ($scope.support && opt.tags.indexOf("Support") !== -1) {
-                    return true;
-                }
-                
-                return false;
-            });
-        };
-        
-        $scope.getSelectedPortrait = () => {
-            if (!$scope.currentChampion) {
-                return "";
-            }
-            return cdn.getPath("assets/images/champions/" + $scope.currentChampion.id + "_Square_0.png");  
+            return $scope.options;
         };
     }
 }

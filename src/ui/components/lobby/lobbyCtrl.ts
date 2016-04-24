@@ -4,7 +4,7 @@
 import "../../css/lobby.less";
 import ModalService from "../../services/modal/modalService.ts";
 import CDNService from "../../services/cdnService.ts";
-import { SummonerSpell } from "../selectSummonerSpell/selectSummonerSpellCtrl.ts";
+import StaticService from "../../services/staticService.ts";
 
 interface LobbyScope extends ng.IScope {
     chatContent: string;
@@ -13,14 +13,14 @@ interface LobbyScope extends ng.IScope {
     shown: boolean;
 
     getBackground: () => string;
-    getChampBackground: (skin: number) => string;
+    getChampBackground: () => string;
     
     openChampSelect: () => void;
     openSpellSelect: (number) => void;
     
-    selectedChampion: dd.Champion;
-    selectedSkin: number;
-    summonerSpells: SummonerSpell[];
+    selectedChampion: lobby.Champion;
+    selectedSkin: lobby.Skin;
+    summonerSpells: lobby.SummonerSpell[];
     
     settings: LocalSetting[];    
 }
@@ -81,27 +81,21 @@ class LocalSetting {
 }
 
 export default class LobbyCtrl {
-    static $inject = ["$scope", "$location", "modalService", "cdnService"];
+    static $inject = ["$scope", "$location", "modalService", "cdnService", "staticService"];
 
-    constructor($scope: LobbyScope, $location: ng.ILocationService, modal: ModalService, cdn: CDNService) {
+    constructor($scope: LobbyScope, $location: ng.ILocationService, modal: ModalService, cdn: CDNService, stat: StaticService) {
+        if (!stat.champions) {
+            $location.path("/loading");
+            return;
+        }
+        
         $scope.chatContent = require("./partials/chat.html");
         $scope.settingsContent = require("./partials/settings.html");
         $scope.playerListContent = require("./partials/playerList.html");
         
-        $scope.selectedSkin = 0;
-        $scope.summonerSpells = [
-            { name: "Heal", image: "http://imgur.com/Mxvky5Z.png", description: "Heals. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png" },
-            { name: "Flash", image: "http://imgur.com/oUKm1In.png", description: "Flashes. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png" }
-        ];
-        
-        // FIXME: Move this somewhere else.
-        let champions: dd.Champion[];
-        window.fetch("http://ddragon.leagueoflegends.com/cdn/4.20.1/data/en_GB/champion.json").then(r => {
-            return r.json();
-        }).then(json => {
-            champions = Object.keys(json["data"]).map(x => json["data"][x]);
-            $scope.$apply(() => $scope.selectedChampion = champions[1]);
-        });
+        $scope.selectedChampion = null;
+        $scope.selectedSkin = null;
+        $scope.summonerSpells = [stat.defaultSpell1, stat.defaultSpell2];
         
         $scope.settings = [
             new LocalSetting({ name: "Test", help: "", field: "checkbox", type: "boolean", default: "true" }),
@@ -112,29 +106,29 @@ export default class LobbyCtrl {
             ] })
         ];
         
-        $scope.getBackground = () => {
-            return "http://i.imgur.com/Yt6ViUD.png";
-        };
-        
-        $scope.getChampBackground = (skin = 0) => {
+        $scope.getChampBackground = () => {
             if (!$scope.selectedChampion) {
-                // FIXME: Black square or questionmark or something.
                 return cdn.getPath("assets/storeImages/layout/g-background_generic.jpg");
             }
-            return cdn.getPath("assets/images/champions/" + $scope.selectedChampion.id + "_Splash_Tile_" + skin + ".jpg");
+            return $scope.selectedSkin.splashCutoutURL;
         };
         
         $scope.openChampSelect = () => {
-            modal.present<dd.Champion>(require("../selectChampion/selectChampionView.html"), champions, $scope.selectedChampion).then(c => {
+            modal.present<lobby.Champion>(require("../selectChampion/selectChampionView.html"), stat.champions, $scope.selectedChampion).then(c => {
                 $scope.$apply(() => {
                     $scope.selectedChampion = c;
-                    $scope.selectedSkin = 0;
+                    $scope.selectedSkin = c.skins[0];
                 });
             });  
         };
         
         $scope.openSpellSelect = (idx) => {
-            modal.present<SummonerSpell>(require("../selectSummonerSpell/selectSummonerSpellView.html"), $scope.summonerSpells[idx]).then(c => {
+            modal.present<lobby.SummonerSpell>(
+                require("../selectSummonerSpell/selectSummonerSpellView.html"),
+                stat.summonerSpells,
+                $scope.summonerSpells[idx],
+                $scope.summonerSpells[idx === 0 ? 1 : 0]
+                ).then(c => {
                 $scope.$apply(() => {
                     $scope.summonerSpells[idx] = c;
                 });

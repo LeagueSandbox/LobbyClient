@@ -14,14 +14,14 @@
         <div class="option"
             ng-click="select(champ)"
             ng-class="{ active: isSelected(champ) }"
-            background-src="{{ getPortraitPath(champ) }}"
+            background-src="{{ champ.skins[0].splashCutoutURL }}"
             ng-repeat="champ in getOptions()">
             <span>{{ champ.name }}</span>
         </div>
     </div>
     
     <div class="footer">
-        <fade-background background="{{ getSelectedPortrait() }}"></fade-background>
+        <fade-background background="{{ currentChampion.portraitIconURL || '' }}"></fade-background>
         <div class="button" ng-click="finish()">Select</div>
     </div>    
 </div>

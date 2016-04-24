@@ -46,7 +46,11 @@
                 background-color: rgba(0, 0, 0, 0.4);
             }
             
-            & > div:hover:after, & > div.selected:after {
+            & > div.disabled {
+                -webkit-filter: grayscale();
+            }
+            
+            & > div:not(.disabled):hover:after, & > div.selected:after {
                 background-color: transparent;
             }
         }

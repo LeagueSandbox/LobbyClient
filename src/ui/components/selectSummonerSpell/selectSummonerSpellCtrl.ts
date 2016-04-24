@@ -5,20 +5,12 @@ import "../../css/selectSummonerSpell.less";
 import ModalService from "../../services/modal/modalService.ts";
 import CDNService from "../../services/cdnService.ts";
 
-// TODO: Move over to protocol.
-export interface SummonerSpell {
-    name: string;
-    description: string;
-    
-    icon: string;
-    image: string;
-}
-
 interface SelectSummonerSpellScope extends ng.IScope {
-    options: SummonerSpell[];
-    selected: SummonerSpell;
+    options: lobby.SummonerSpell[];
+    selected: lobby.SummonerSpell;
+    other: lobby.SummonerSpell;
     
-    finish: (spell?: SummonerSpell) => void;
+    finish: (spell?: lobby.SummonerSpell) => void;
     select: (SummonerSpell) => void;
 }
 
@@ -28,24 +20,13 @@ export default class SelectSummonerSpellController {
     constructor($scope: SelectSummonerSpellScope, modal: ModalService, cdn: CDNService) {
         if (!modal.activeModal) return;
         
-        $scope.options = [
-            { name: "Flash", image: "http://imgur.com/oUKm1In.png", description: "Flashes. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png" },
-            { name: "Barrier", image: "http://imgur.com/QAb85Zw.png", description: "Barriers. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerBarrier.png" },
-            { name: "Ignite", image: "http://imgur.com/g3nEJlU.png", description: "Ignites. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerDot.png" },
-            { name: "Teleport", image: "http://imgur.com/Fo14rr9.png", description: "Teleports. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerTeleport.png" },
-            { name: "Smite", image: "http://imgur.com/zbcZd4W.png", description: "Smites. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerSmite.png" },
-            { name: "Heal", image: "http://imgur.com/Mxvky5Z.png", description: "Heals. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png" },
-            { name: "Exhaust", image: "http://imgur.com/RSkI9Oq.png", description: "Exhausts. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerExhaust.png" },
-            { name: "Clairvoyance", image: "http://imgur.com/C7nw61A.png", description: "Clairvoyances. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerClairvoyance.png" },
-            { name: "Clarity", image: "http://imgur.com/UIj98zK.png", description: "Clarities. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerMana.png" },
-            { name: "Ghost", image: "http://imgur.com/XT9wS4u.png", description: "Ghosts. Rest of description here....", icon: "http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHaste.png" }
-        ]
-        
-        $scope.selected = modal.activeModal.params[0];
+        $scope.options = modal.activeModal.params[0];
+        $scope.selected = modal.activeModal.params[1];
+        $scope.other = modal.activeModal.params[2];
         
         const listener = (evnt: KeyboardEvent) => {
             if (evnt.keyCode !== 27) return;
-            $scope.$apply(() => $scope.finish(modal.activeModal.params[0]));
+            $scope.$apply(() => $scope.finish(modal.activeModal.params[1]));
         };
         document.addEventListener("keyup", listener);
         
@@ -55,6 +36,7 @@ export default class SelectSummonerSpellController {
         };
         
         $scope.select = opt => {
+            if (opt === $scope.other) return;
             $scope.selected = opt;
         };
     }
