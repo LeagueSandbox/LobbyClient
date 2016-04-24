@@ -17,6 +17,7 @@ import "socket.io-client";
 
 // Import controllers.
 import loginCtrl from "./components/login/loginCtrl.ts";
+import loadingCtrl from "./components/loading/loadingCtrl.ts";
 import lobbyCtrl from "./components/lobby/lobbyCtrl.ts";
 import selectChampionCtrl from "./components/selectChampion/selectChampionCtrl.ts";
 import selectSummonerSpellCtrl from "./components/selectSummonerSpell/selectSummonerSpellCtrl.ts";
@@ -39,6 +40,7 @@ const app = angular.module("app", ["ngRoute", "luegg.directives"]);
 
 // Register view controllers.
 app.controller("loginCtrl", loginCtrl);
+app.controller("loadingCtrl", loadingCtrl);
 app.controller("lobbyCtrl", lobbyCtrl);
 app.controller("selectChampionCtrl", selectChampionCtrl);
 app.controller("selectSummonerSpellCtrl", selectSummonerSpellCtrl);
@@ -65,11 +67,14 @@ app.service("cdnService", cdnService);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {
-    prov.when("/login", {
+    prov.when("/loading", {
+        template: require("./components/loading/loadingView.html"),
+        controller: "loadingCtrl"       
+    }).when("/login", {
         template: require("./components/login/loginView.html"),
         controller: "loginCtrl"
     }).when("/lobby", {
         template: require("./components/lobby/lobbyView.html"),
         controller: "lobbyCtrl"
-    }).otherwise({ redirectTo: "/login" });
+    }).otherwise({ redirectTo: "/loading" });
 }]);

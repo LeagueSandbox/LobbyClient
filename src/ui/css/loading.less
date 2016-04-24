@@ -1,0 +1,49 @@
+@import "helpers";
+
+@keyframes cubeAnimation {
+    0% {
+        transform: scale3D(1, 1, 1) rotate(0deg);
+    }
+    25% {
+        transform: scale3D(0, 0, 1) rotate(90deg);
+    } 
+    50%, 100% {
+        transform: scale3D(1, 1, 1) rotate(180deg);
+    }
+}
+
+.loading {
+    .full-size;
+    .center-children;
+
+    flex-direction: column;
+    background-color: rgb(84, 84, 185);
+
+    & > .title {
+        font-size: 40px;
+        color: white;
+        font-family: "Lobster";
+        font-weight: bold;
+    }
+
+    & > .cubes {
+        margin-top: 40px;
+        width: 90px;
+        height: 90px;
+
+        display: inline-block;
+
+        // Removes space between cubes for some reason.
+        font-size: 0px;
+
+        & > .cube {
+            width: 30px;
+            height: 30px;
+
+            display: inline-block;
+            background-color: white;
+            
+            animation: cubeAnimation 2s infinite ease-in-out;
+        }
+    }
+}
