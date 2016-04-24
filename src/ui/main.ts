@@ -13,6 +13,7 @@ import "angular-route";
 // Import other dependencies.
 import "bluebird";
 import "angularjs-scroll-glue";
+import "socket.io-client";
 
 // Import controllers.
 import loginCtrl from "./components/login/loginCtrl.ts";

@@ -4,3 +4,5 @@
 ///<reference path="../vendor/bluebird.d.ts" />
 ///<reference path="../vendor/fetch.d.ts" />
 ///<reference path="../vendor/ddragon.d.ts" />
+///<reference path="../vendor/socket.io-client.d.ts" />
+///<reference path="../vendor/protocol.d.ts" />

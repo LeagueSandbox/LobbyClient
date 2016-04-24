@@ -1,4 +1,4 @@
-namespace lobby {    
+declare namespace lobby {    
     /** Represents a champion a player can pick. */
     interface Champion {
         /** Name of the champion, as shown in the client. */
