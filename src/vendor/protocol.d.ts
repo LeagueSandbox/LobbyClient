@@ -13,11 +13,8 @@ declare namespace lobby {
         
     /** Represents a skin owned by a champion, */
     interface Skin {
-        // Name, owning champion, splash
         /** Name of this skin. _Should_ include champion name, e.g. "Challenger Ahri" */
         name: string;
-        /** The champion that owns this skin. */
-        champion: Champion;
         /** Link to a 380x380 (or bigger) square cutout of the splash that displays the champions face. */
         /** Example: http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/0.0.1.186/files/assets/images/champions/Ahri_Splash_Tile_0.jpg. */
         splashCutoutURL: string;
