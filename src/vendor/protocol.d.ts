@@ -49,10 +49,12 @@ declare namespace lobby {
         name: string;
         /** The unique id for this player. */
         id: number;
+        /** The unique id for the team this player is on. */
+        team: Team;
         /** The currently selected champion. null if not applicable. */
-        selectedChampion: Champion;
+        champion: Champion;
         /** The currently selected skin. null if no champion is selected, non-null otherwise. */
-        selectedSkin: Skin;
+        skin: Skin;
         /** First selected summoner spell. Never null. */
         spellOne: SummonerSpell;
         /** Second selected summoner spell. Never null. */
@@ -87,14 +89,14 @@ declare namespace lobby {
     
     /** Represents a singular team in the lobby. */
     interface Team {
+        /** Unique id of this team. */
+        id: number;
         /** The name of this team. */
         name: string; 
         /** Display color used in the lobby interface. Needs to be valid css. */
         color: string;
         /** The maximum amount of players on this team. */
-        maxPlayers: number;
-        /** The current players on this team. */
-        players: Player[];
+        playerLimit: number;
     }
     
     type LobbySettingFieldType =
@@ -133,18 +135,17 @@ declare namespace lobby {
     /**
      * Represents an actual lobby.
      */
-    interface Lobby {
-        /** Unique lobby id. */
-        id: number;
-        
+    interface Lobby {        
         /** Name of the lobby. */
         name: string;
         /** Creator of the lobby. */
-        creator: Player;
+        creator: string;
         /** The gamemode in this lobby. */
-        gamemode: Gamemode;
+        gamemodeName: string;
         /** List of teams in this lobby. */
         teams: Team[];
+        /** List of players in this lobby. */
+        players: Player[];
         
         /** Administrator settings. */
         adminSettings: LobbySetting[];

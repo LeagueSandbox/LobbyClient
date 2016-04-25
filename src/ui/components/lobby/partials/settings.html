@@ -9,7 +9,7 @@
     <div class="column champion-settings">
         <div class="config-setting">
             <span class="config-name">Champion</span>
-            <div class="champion selected" ng-click="openChampSelect()" background-src="{{ getChampBackground() }}">
+            <div class="champion selected" ng-click="openChampSelect()" background-src="{{ getOrNone(selectedChampion.skins[0].splashCutoutURL) }}">
                 <span>{{ selectedChampion.name || "None" }}</span>
             </div>
         </div>

@@ -21,7 +21,14 @@ export default class LobbyListCtrl {
         
         $scope.networkService = network;
         $scope.join = lobby => {
-            alert("Joining " + lobby.name);  
+            console.log("Joining " + lobby.name);
+            network.joinLobby(lobby).then(ok => {
+                console.log("Joined " + lobby.name);
+                $timeout(() => $location.path("/lobby"));
+            }, err => {
+                console.log("Failed to join " + lobby.name);
+                console.log(err.stack);
+            });
         };
         
         // Update view on network updates.
