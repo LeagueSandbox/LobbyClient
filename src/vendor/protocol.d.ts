@@ -75,7 +75,7 @@ declare namespace lobby {
         /** The current amount of players. */
         playerCount: number;
         /** The gamemode of this lobby. */
-        gamemode: Gamemode;
+        gamemodeName: string;
         /** If this lobby has a password. */
         hasPassword: boolean;
         

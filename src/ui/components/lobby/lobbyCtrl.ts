@@ -12,72 +12,15 @@ interface LobbyScope extends ng.IScope {
     playerListContent: string;
     shown: boolean;
 
-    getBackground: () => string;
-    getChampBackground: () => string;
+    getChampBackground: (skin?: number) => string;
     
+    selectSkin: (s: lobby.Skin) => void;
     openChampSelect: () => void;
     openSpellSelect: (number) => void;
     
     selectedChampion: lobby.Champion;
     selectedSkin: lobby.Skin;
-    summonerSpells: lobby.SummonerSpell[];
-    
-    settings: LocalSetting[];    
-}
-
-// Based on https://github.com/LeagueSandbox/LobbyServer/blob/master/README.md, might change later.
-interface ConfigSetting {
-    name: string;
-    help: string;
-    field: string;
-    type: string;
-    default: string;
-    
-    // Only when type == "select"
-    options?: { value: string, content: string }[];
-    binding?: string;
-}
-
-const CHARCODE_0 = "0".charCodeAt(0);
-const CHARCODE_9 = "9".charCodeAt(0);
-const CHARCODE_DOT = ".".charCodeAt(0);
-const CHARCODE_MIN = "-".charCodeAt(0);
-
-class LocalSetting {
-    id: string;
-    setting: ConfigSetting;
-    value: any;
-    
-    constructor(setting: ConfigSetting) {
-        this.setting = setting;
-        this.value = setting.default;
-        
-        if (setting.binding) {
-            this.id = setting.binding;
-        } else {
-            console.warn("Setting has no id.");
-            this.id = "setting-" + Math.floor(Math.random() * 100000);
-        }
-    }
-    
-    validateInput(event: KeyboardEvent) {
-        if (this.setting.type === "float") {
-            if (event.charCode >= CHARCODE_0 && event.charCode <= CHARCODE_9) return;
-            if (event.charCode === CHARCODE_DOT) return;
-            if (event.charCode === CHARCODE_MIN) return;
-            
-            // Cancel invalid input.
-            event.preventDefault();
-        } else if (this.setting.type === "integer") {
-            if (event.charCode >= CHARCODE_0 && event.charCode <= CHARCODE_9) return;
-            if (event.charCode === CHARCODE_MIN) return;
-            
-            // Cancel invalid input.
-            event.preventDefault();
-        }
-        
-        return false;
-    }
+    summonerSpells: lobby.SummonerSpell[];    
 }
 
 export default class LobbyCtrl {
@@ -97,20 +40,11 @@ export default class LobbyCtrl {
         $scope.selectedSkin = null;
         $scope.summonerSpells = [stat.defaultSpell1, stat.defaultSpell2];
         
-        $scope.settings = [
-            new LocalSetting({ name: "Test", help: "", field: "checkbox", type: "boolean", default: "true" }),
-            new LocalSetting({ name: "Test", help: "", field: "text", type: "float", default: "10" }),
-            new LocalSetting({ name: "Test", help: "", field: "select", type: "integer", default: "true", options: [
-                { value: "foo", content: "Foo" },
-                { value: "bar", content: "Bar" }
-            ] })
-        ];
-        
-        $scope.getChampBackground = () => {
+        $scope.getChampBackground = (s: number = 0) => {
             if (!$scope.selectedChampion) {
                 return cdn.getPath("assets/storeImages/layout/g-background_generic.jpg");
             }
-            return $scope.selectedSkin.splashCutoutURL;
+            return $scope.selectedChampion.skins[s].splashCutoutURL;
         };
         
         $scope.openChampSelect = () => {
@@ -133,6 +67,10 @@ export default class LobbyCtrl {
                     $scope.summonerSpells[idx] = c;
                 });
             });
+        };
+        
+        $scope.selectSkin = s => {
+            $scope.selectedSkin = s;
         };
     }
 }

@@ -1,7 +1,7 @@
 ///<reference path="../../_app.ts" />
 'use strict';
 
-import "../../css/selectSummonerSpell.less";
+import "../../css/select-summonerspell.less";
 import ModalService from "../../services/modal/modalService.ts";
 import CDNService from "../../services/cdnService.ts";
 

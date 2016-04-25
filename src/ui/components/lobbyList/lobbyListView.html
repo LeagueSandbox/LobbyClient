@@ -1,0 +1,7 @@
+<div class="lobby-list">
+    <div ng-repeat="lobby in networkService.lobbies" ng-click="join(lobby)">
+        {{ lobby.name }} - {{ lobby.creator }}<br>
+        {{ lobby.playerCount }}/{{ lobby.playerLimit }}<br>
+        {{ lobby.address }}:{{ lobby.port }}
+    </div>
+</div>

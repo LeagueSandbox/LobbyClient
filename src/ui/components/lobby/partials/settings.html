@@ -28,7 +28,8 @@
                 <div class="champion"
                     ng-class="{ selected: selectedSkin === skin }"
                     ng-repeat="skin in selectedChampion.skins"
-                    background-src="{{ skin.splashCutoutURL }}">
+                    background-src="{{ skin.splashCutoutURL }}"
+                    ng-click="selectSkin(skin)">
                     <span>{{ skin.name }}</span>
                 </div>
             </div>

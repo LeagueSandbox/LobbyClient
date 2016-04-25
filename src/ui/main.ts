@@ -21,6 +21,7 @@ import loadingCtrl from "./components/loading/loadingCtrl.ts";
 import lobbyCtrl from "./components/lobby/lobbyCtrl.ts";
 import selectChampionCtrl from "./components/selectChampion/selectChampionCtrl.ts";
 import selectSummonerSpellCtrl from "./components/selectSummonerSpell/selectSummonerSpellCtrl.ts";
+import lobbyListCtrl from "./components/lobbyList/lobbyListCtrl.ts";
 
 // Import directives.
 import * as selectCtrl from "./directives/uikit-select/selectCtrl.ts";
@@ -35,6 +36,7 @@ import * as modalDirective from "./services/modal/modalDirective.ts";
 
 import cdnService from "./services/cdnService.ts";
 import staticService from "./services/staticService.ts";
+import networkService from "./services/networkService.ts";
 
 // Create app.
 const app = angular.module("app", ["ngRoute", "luegg.directives"]);
@@ -45,6 +47,7 @@ app.controller("loadingCtrl", loadingCtrl);
 app.controller("lobbyCtrl", lobbyCtrl);
 app.controller("selectChampionCtrl", selectChampionCtrl);
 app.controller("selectSummonerSpellCtrl", selectSummonerSpellCtrl);
+app.controller("lobbyListCtrl", lobbyListCtrl);
 
 // Register directives and corresponding controllers.
 app.controller("checkboxCtrl", checkboxCtrl.CheckboxCtrl);
@@ -66,6 +69,7 @@ app.directive("modals", modalDirective.directive);
 app.service("modalService", modalService);
 app.service("cdnService", cdnService);
 app.service("staticService", staticService);
+app.service("networkService", networkService);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {
@@ -75,6 +79,9 @@ app.config(["$routeProvider", prov => {
     }).when("/login", {
         template: require("./components/login/loginView.html"),
         controller: "loginCtrl"
+    }).when("/lobbies", {
+        template: require("./components/lobbyList/lobbyListView.html"),
+        controller: "lobbyListCtrl"
     }).when("/lobby", {
         template: require("./components/lobby/lobbyView.html"),
         controller: "lobbyCtrl"
