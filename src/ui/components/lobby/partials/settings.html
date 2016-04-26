@@ -5,23 +5,9 @@
     <span class="title">Configure</span>
 </div>
 
-<div class="columns">
+<div class="columns" ng-controller="lobbySettingsCtrl as settings">
     <div class="column champion-settings">
-        <div class="config-setting">
-            <span class="config-name">Champion</span>
-            <div class="champion selected" ng-click="openChampSelect()" background-src="{{ getOrNone(selectedChampion.skins[0].splashCutoutURL) }}">
-                <span>{{ selectedChampion.name || "None" }}</span>
-            </div>
-        </div>
-        
-        <div class="config-setting">
-            <span class="config-name">Summoner Spells</span>
-            <div class="flex">
-                <div class="summoner" background-src="{{ summonerSpells[0].icon }}" ng-click="openSpellSelect(0)"></div>
-                <div class="summoner" background-src="{{ summonerSpells[1].icon }}" ng-click="openSpellSelect(1)"></div>
-            </div>
-        </div>
-        
+        <!--
         <div class="config-setting">
             <span class="config-name">Skin</span>
             <div class="flex">
@@ -33,19 +19,43 @@
                     <span>{{ skin.name }}</span>
                 </div>
             </div>
+        </div>-->
+        <div ng-switch="setting.field" class="config-setting" ng-repeat="(binding, setting) in settings.playerSettings">
+            <span class="config-name">{{ setting.name }}</span>
+            
+            <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
+            <input ng-switch-when="text" ng-model="setting.value">
+            
+            <span ng-switch-when="select">
+                <uikit-select value="setting.value" placeholder="..." options="setting._options"></uikit-select>
+            </span>
+            
+            <div ng-click="settings.openChampionPicker(setting)" ng-switch-when="championSelect" class="champion selected" background-src="{{ getOrNone(settings.championById(setting.value).skins[0].splashCutoutURL) }}">
+                <span>{{ settings.championById(setting.value).name || "None" }}</span>
+            </div>
+            
+            <div ng-switch-when="summonerSpellSelect" class="flex">
+                <div ng-click="settings.openSpellPicker(setting, 0)" class="summoner" background-src="{{ settings.spellById(setting.value[0]).icon }}" ng-click="openSpellSelect(0)"></div>
+                <div ng-click="settings.openSpellPicker(setting, 1)" class="summoner" background-src="{{ settings.spellById(setting.value[1]).icon }}" ng-click="openSpellSelect(1)"></div>
+            </div>
+            
+            <div ng-switch-when="mapSelect" class="map-options">
+                <div ng-click="setting.value = map.id" ng-class="{ active: setting.value === map.id }" class="option" ng-repeat="map in settings.statics.maps" background-src="{{ map.image }}">
+                    <span>{{ map.name }}</span>
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="column custom-settings">
-        <div ng-switch="setting.setting.field" class="config-setting" ng-repeat="setting in settings">
+        <!--<div ng-switch="setting.setting.field" class="config-setting" ng-repeat="setting in settings">
             <span class="config-name">{{ setting.setting.name }}</span>
             <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
             <input ng-switch-when="text" ng-model="setting.value" ng-keypress="setting.validateInput($event)">
             
-            <!-- We need to wrap the switch case in a span because of multiple transclusion. -->
             <span ng-switch-when="select">
                 <uikit-select value="setting.value" placeholder="..." options="setting.setting.options"></uikit-select>
             </span>
-        </div>
+        </div>-->
     </div>
 </div>

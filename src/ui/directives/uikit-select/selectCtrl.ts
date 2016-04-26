@@ -40,6 +40,10 @@ export class SelectCtrl {
         this.scope.options = this.scope.options || [];
         this.scope.expanded = false;
         this.scope.placeholderText = this.scope.placeholder;
+        
+        if (this.scope.value) {
+            this.scope.placeholderText = this.scope.options.filter(x => x.value === this.scope.value)[0].content;
+        }
 
         let selected: SelectOption;
         this.scope.toggle = () => {

@@ -43,6 +43,16 @@ declare namespace lobby {
         path: string;
     }
     
+    /** Represents a map. */
+    interface Map {
+        /** Unique id for this map. */
+        id: number;
+        /** Simple name for this map. */
+        name: string;
+        /** Image for this map. Used in selecting GUI. */
+        image: string;
+    }
+    
     /** Represents a player in a lobby. */
     interface Player {
         /** The name of the player. */
@@ -102,7 +112,7 @@ declare namespace lobby {
     type LobbySettingFieldType =
         ( "summonerSpellSelect"
         | "championSelect"
-        | "spellSelectMulti"
+        | "summonerSpellSelectMulti"
         | "championSelectMulti"
         | "mapSelect"
         | "select"
@@ -125,11 +135,15 @@ declare namespace lobby {
         /** Value type of the field. */
         type: LobbySettingType;
         /** Default value for this setting. */
-        default: any;
+        default?: any;
         /** Binding. Basically unique id for setting which can be referenced later. */
         binding: string;
         /** If applicable: Options. Either an object of options if `select`, otherwise a string. */
-        options: (string | { [display: string]: string });
+        options?: (string | { [display: string]: string });
+        /** If applicable: Value set by the server. */
+        value?: any;
+        /** If this is a setting only for the host. */
+        host: boolean;
     }
     
     /**
@@ -147,9 +161,7 @@ declare namespace lobby {
         /** List of players in this lobby. */
         players: Player[];
         
-        /** Administrator settings. */
-        adminSettings: LobbySetting[];
-        /** Player settings. */
-        playerSettings: LobbySetting[];
+        /** Settings. */
+        settings: LobbySetting[];
     }
 }

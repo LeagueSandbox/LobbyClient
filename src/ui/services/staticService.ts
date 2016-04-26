@@ -10,9 +10,7 @@ export default class StaticService {
 
     champions: lobby.Champion[];
     summonerSpells: lobby.SummonerSpell[];
-
-    defaultSpell1: lobby.SummonerSpell;
-    defaultSpell2: lobby.SummonerSpell;
+    maps: lobby.Map[];
 
     constructor(cdnService: CDNService) {
         this.cdn = cdnService;
@@ -1195,7 +1193,12 @@ export default class StaticService {
             { id: 12, name: "Teleport", description: "After channeling for 3.5 seconds, teleports your champion to target allied structure, minion, or ward. Can target destroyed turrets.", icon: "http://ddragon.leagueoflegends.com/cdn/4.20.1/img/spell/SummonerTeleport.png", image: "http://i.imgur.com/Fo14rr9.png" }
         ];
         
-        this.defaultSpell1 = this.summonerSpells[7];
-        this.defaultSpell2 = this.summonerSpells[5];
+        this.maps = [
+            { id: 1, name: "Summoners' Rift (Old)", image: "http://i.imgur.com/b10oWHv.jpg" },
+            { id: 11, name: "Summoners' Rift (New)", image: "http://i.imgur.com/b10oWHv.jpg" },
+            { id: 12, name: "Howling Abyss", image: "http://i.imgur.com/qvT3TI1.jpg" },
+            { id: 10, name: "Twisted Treeline", image: "http://i.imgur.com/MXua547.jpg" },
+            { id: 8, name: "Crystal Scar", image: "http://i.imgur.com/jnJTRkL.jpg" }
+        ];
     }
 }

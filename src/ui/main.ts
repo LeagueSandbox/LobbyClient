@@ -22,6 +22,7 @@ import lobbyCtrl from "./components/lobby/lobbyCtrl.ts";
 import selectChampionCtrl from "./components/selectChampion/selectChampionCtrl.ts";
 import selectSummonerSpellCtrl from "./components/selectSummonerSpell/selectSummonerSpellCtrl.ts";
 import lobbyListCtrl from "./components/lobbyList/lobbyListCtrl.ts";
+import lobbySettingsCtrl from "./components/lobby/lobbySettingsCtrl.ts";
 
 // Import directives.
 import * as selectCtrl from "./directives/uikit-select/selectCtrl.ts";
@@ -48,6 +49,7 @@ app.controller("lobbyCtrl", lobbyCtrl);
 app.controller("selectChampionCtrl", selectChampionCtrl);
 app.controller("selectSummonerSpellCtrl", selectSummonerSpellCtrl);
 app.controller("lobbyListCtrl", lobbyListCtrl);
+app.controller("lobbySettingsCtrl", lobbySettingsCtrl);
 
 // Register directives and corresponding controllers.
 app.controller("checkboxCtrl", checkboxCtrl.CheckboxCtrl);

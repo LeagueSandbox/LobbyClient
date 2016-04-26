@@ -73,7 +73,6 @@ export default class NetworkService extends EventEmitter {
             });
 
             this.currentLobbyConnection.on("lobby-connect", (c) => this.handleLobbyConnect(c, resolve, reject));
-            this.currentLobbyConnection.on("lobby-settings", this.handleLobbySettings.bind(this));
         });
     }
     /*
@@ -89,8 +88,7 @@ export default class NetworkService extends EventEmitter {
                 gamemodeName: contents.gameMode,
                 teams: [],
                 players: [],
-                adminSettings: [],
-                playerSettings: []
+                settings: []
             };
 
             const [teamlistAdd, teamlistUpdate, teamlistRemove] = this.buildListUpdater("teamlist", this.currentLobby.teams, {
@@ -117,6 +115,10 @@ export default class NetworkService extends EventEmitter {
             this.currentLobbyConnection.on("playerlist-add", playerlistAdd);
             this.currentLobbyConnection.on("playerlist-update", playerlistUpdate);
             this.currentLobbyConnection.on("playerlist-remove", playerlistRemove);
+            
+            this.currentLobbyConnection.on("settinglist-add", this.handleSettingAdd.bind(this));
+            this.currentLobbyConnection.on("settinglist-update", this.handleSettingUpdate.bind(this));
+            this.currentLobbyConnection.on("settinglist-remove", this.handleSettingRemove.bind(this));
             
             resolve(contents);
         } else {
@@ -181,10 +183,36 @@ export default class NetworkService extends EventEmitter {
             this.emit(evntName + "-remove", item);
         }];
     }
+    
+    private handleSettingAdd(contents: any) {
+        if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length > 0) {
+            throw new Error("Duplicate setting " + contents.binding);
+        }
 
-    private handleLobbySettings(contents: any) {
-        this.currentLobby.gamemodeName = contents.gameMode;
-        this.currentLobby.playerSettings = contents.playerSettings;
-        this.currentLobby.adminSettings = contents.hostSettings;
+        const setting: lobby.LobbySetting = contents;
+        this.currentLobby.settings.push(setting);
+        this.emit("setting-add", setting);
+    }
+    
+    private handleSettingUpdate(contents: any) {
+        if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length) {
+            const item = this.currentLobby.settings.filter(x => x.binding === contents.binding)[0];
+            (<any>Object).assign(item, contents);
+            this.emit("setting-update", item);
+            return;
+        }
+
+        throw new Error("Unknown setting " + contents.binding);
+    }
+    
+    private handleSettingRemove(contents: any) {
+        if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length) {
+            const item = this.currentLobby.settings.filter(x => x.binding === contents.binding)[0];
+            this.currentLobby.settings.splice(this.currentLobby.settings.indexOf(item), 1);
+            this.emit("setting-remove", item);
+            return;
+        }
+        
+        throw new Error("Unknown setting " + contents.binding);
     }
 }
