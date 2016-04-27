@@ -185,6 +185,32 @@
 			margin-left: 0px;
 		}
 		
+		& > .multi {
+			& > .option {
+				margin: 5px;
+				width: 64px;
+				height: 64px;
+				display: inline-block;
+				position: relative;
+			}
+			
+			& > .option:after {
+				.transitions(background-color);
+				
+				content: "";
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.7);
+			}
+			
+			& > .option.active:after, .option:hover:after {
+				background-color: transparent;
+			}
+		}
+		
 		& > .map-options {
 			width: 100%;
 			display: flex;

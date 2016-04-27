@@ -80,6 +80,17 @@ export default class NetworkService extends EventEmitter {
      * =============== Lobby ================
      * ======================================
      */
+    public setSetting(setting: lobby.LobbySetting, value: any) {
+        if (!this.currentLobby || !this.currentLobbyConnection) {
+            throw new Error("Not connected to lobby.");
+        }
+        
+        this.currentLobbyConnection.emit("lobby-setting", { 
+            "setting-binding": setting.binding,
+            "value": value 
+        });
+    }
+    
     private handleLobbyConnect(contents: any, resolve: any, reject: any) {
         if (contents.ok) {
             this.currentLobby = {

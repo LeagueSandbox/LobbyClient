@@ -30,7 +30,7 @@
                 <uikit-select value="setting.value" placeholder="..." options="setting._options"></uikit-select>
             </span>
             
-            <div ng-click="settings.openChampionPicker(setting)" ng-switch-when="championSelect" class="champion selected" background-src="{{ getOrNone(settings.championById(setting.value).skins[0].splashCutoutURL) }}">
+            <div ng-switch-when="championSelect" ng-click="settings.openChampionPicker(setting)" class="champion selected" background-src="{{ getOrNone(settings.championById(setting.value).skins[0].splashCutoutURL) }}">
                 <span>{{ settings.championById(setting.value).name || "None" }}</span>
             </div>
             
@@ -44,18 +44,19 @@
                     <span>{{ map.name }}</span>
                 </div>
             </div>
+            
+            <div ng-switch-when="championSelectMulti" class="multi">
+                <div class="option" ng-click="setting.value[id] = !enabled; setting.notifyChange()" ng-repeat="(id, enabled) in setting.value" ng-class="{ active: enabled }" background-src="{{ settings.championById(+id).portraitIconURL }}">
+                </div>
+            </div>
+            
+            <div ng-switch-when="summonerSpellSelectMulti" class="multi">
+                <div class="option" ng-click="setting.value[id] = !enabled; setting.notifyChange()" ng-repeat="(id, enabled) in setting.value" ng-class="{ active: enabled }" background-src="{{ settings.spellById(+id).icon }}">
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="column custom-settings">
-        <!--<div ng-switch="setting.setting.field" class="config-setting" ng-repeat="setting in settings">
-            <span class="config-name">{{ setting.setting.name }}</span>
-            <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
-            <input ng-switch-when="text" ng-model="setting.value" ng-keypress="setting.validateInput($event)">
-            
-            <span ng-switch-when="select">
-                <uikit-select value="setting.value" placeholder="..." options="setting.setting.options"></uikit-select>
-            </span>
-        </div>-->
     </div>
 </div>

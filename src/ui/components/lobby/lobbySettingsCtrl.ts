@@ -8,6 +8,7 @@ import ModalService from "../../services/modal/modalService.ts";
 class SettingManager {
     settings: { [binding: string]: SettingWrapper };
     statics: StaticService;
+    network: NetworkService;
 
     private redraw: () => void;
 
@@ -15,6 +16,7 @@ class SettingManager {
         this.settings = {};
         this.statics = statics;
         this.redraw = redraw;
+        this.network = network;
 
         network.on("setting-add", this.handleSettingAdd.bind(this));
         network.on("setting-update", this.handleSettingUpdate.bind(this));
@@ -31,8 +33,8 @@ class SettingManager {
             this.settings[setting.binding]._value = setting.value;
             delete setting.value;
         }
-
-        this.settings[setting.binding].validateValue();
+        
+        Object.keys(this.settings).forEach(sk => this.settings[sk].validateValue());
         this.redraw();
     }
 
@@ -99,7 +101,11 @@ class SettingWrapper {
         this.statics = statics;
 
         this._options = this.computeOptions();
-        this._value = this.computeDefault();
+        this._value = setting.value || this.computeDefault();
+        
+        if (setting.value) {
+            delete setting.value;
+        }
     }
 
     // This invalidates the current value if
@@ -117,7 +123,7 @@ class SettingWrapper {
                 this._value = [opts[this._value[1] === opts[0] ? 1 : 0], this._value[1]];
             }
 
-            if (!opts.has(this._value[1])) {
+            if (opts.indexOf(this._value[1]) === -1) {
                 this._value = [this._value[0], opts[this._value[0] === opts[0] ? 1 : 0]];
             }
         } else if (this.setting.field === "championSelect") {
@@ -169,14 +175,14 @@ class SettingWrapper {
             }
 
             const options = this.manager.settings[<string>this.setting.options]._value;
-            return Object.keys(options).filter(x => options[x]);
+            return Object.keys(options).filter(x => options[x]).map(x => +x);
         } else if (this.setting.field === "championSelect") {
             if (this.setting.options === "*") {
                 return this.statics.champions.map(x => x.id);
             }
 
             const options = this.manager.settings[<string>this.setting.options]._value;
-            return Object.keys(options).filter(x => options[x]);
+            return Object.keys(options).filter(x => options[x]).map(x => +x);
         } else if (this.setting.field === "summonerSpellSelectMulti") {
             // Every summoner spell is an option.
             return this.statics.summonerSpells;
@@ -188,7 +194,6 @@ class SettingWrapper {
             return this.statics.maps;
         }
 
-        console.log(this.setting.field);
         return this.setting.options;
     }
 
@@ -197,9 +202,15 @@ class SettingWrapper {
     }
 
     set value(newValue: any) {
-        // TODO: Notify server.
-        console.log(this.setting.binding + " changed to " + newValue);
         this._value = newValue;
+        this.notifyChange();
+    }
+    
+    // This is for when our value changed, but we didn't catch it.
+    // For example changing this.value[KEY] = value does not trigger
+    // the above code, so we do it manually.
+    notifyChange() {
+        this.manager.network.setSetting(this.setting, this._value);
     }
 
     get field() {
@@ -236,8 +247,7 @@ export default class LobbySettingsCtrl {
     // Especially because we do exactly the reverse at the top.
     // Makes sending the value to the server a lot easier though. Hmm.
     openChampionPicker(setting: SettingWrapper) {
-        const allowed = Object.keys(setting._options).filter(x => setting._options[x]).map(x => +x);
-        const champs = this.statics.champions.filter(x => allowed.indexOf(x.id) !== -1);
+        const champs = this.statics.champions.filter(x => setting._options.indexOf(x.id) !== -1);
         const current = this.statics.champions.filter(x => x.id === setting.value)[0];
 
         this.modal.present<lobby.Champion>(require("../selectChampion/selectChampionView.html"), champs, current).then(c => {
@@ -249,8 +259,7 @@ export default class LobbySettingsCtrl {
 
     // TODO(molenzwiebel): Note about champions is valid here as well.
     openSpellPicker(setting: SettingWrapper, index: number) {
-        const allowed = Object.keys(setting._options).filter(x => setting._options[x]).map(x => +x);
-        const spells = this.statics.summonerSpells.filter(x => allowed.indexOf(x.id) !== -1);
+        const spells = this.statics.summonerSpells.filter(x => setting._options.indexOf(x.id) !== -1);
 
         const current = this.statics.summonerSpells.filter(x => x.id === setting.value[index])[0];
         const other = this.statics.summonerSpells.filter(x => x.id === setting.value[(index + 1) % 2])[0];
