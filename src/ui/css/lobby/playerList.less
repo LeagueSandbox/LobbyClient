@@ -6,6 +6,14 @@
 	.full-size;
 	display: flex;
 	flex-direction: column;
+	
+	overflow-x: hidden;
+	overflow-y: scroll;
+	
+	// Hide scrollbar.
+	&::-webkit-scrollbar { 
+    	display: none; 
+	}
 
 	background-color: rgba(0, 0, 0, 0.4);
 	
