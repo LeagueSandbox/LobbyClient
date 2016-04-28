@@ -64,7 +64,7 @@ declare namespace lobby {
         /** The currently selected champion. null if not applicable. */
         champion: Champion;
         /** The currently selected skin. null if no champion is selected, non-null otherwise. */
-        skin: Skin;
+        skinIndex: number;
         /** First selected summoner spell. Never null. */
         spellOne: SummonerSpell;
         /** Second selected summoner spell. Never null. */

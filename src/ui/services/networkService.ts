@@ -91,6 +91,28 @@ export default class NetworkService extends EventEmitter {
         });
     }
     
+    /** Sends a chat message. */
+    public sendMessage(msg: string) {
+        if (!this.currentLobby || !this.currentLobbyConnection) {
+            throw new Error("Not connected to lobby.");
+        }
+        
+        this.currentLobbyConnection.emit("chat-message", { 
+            message: msg
+        });
+    }
+    
+    /** Joins the specified team. */
+    public joinTeam(team: lobby.Team) {
+        if (!this.currentLobby || !this.currentLobbyConnection) {
+            throw new Error("Not connected to lobby.");
+        }
+        
+        this.currentLobbyConnection.emit("join-team", { 
+            team: team.id
+        });
+    }
+    
     private handleLobbyConnect(contents: any, resolve: any, reject: any) {
         if (contents.ok) {
             this.currentLobby = {
@@ -115,7 +137,7 @@ export default class NetworkService extends EventEmitter {
                 name: "name",
                 team: ["teamId", id => this.currentLobby.teams.filter(x => x.id === id)[0]],
                 champion: ["championId", id => this.static.champions.filter(x => x.id === id)[0]],
-                skin: ["skinIndex", (idx, thiz) => thiz.champion ? thiz.champion.skins[idx] : null],
+                skinIndex: "skinIndex",
                 spellOne: ["spell1id", id => this.static.summonerSpells.filter(x => x.id === id)[0]],
                 spellTwo: ["spell2id", id => this.static.summonerSpells.filter(x => x.id === id)[0]]
             });
@@ -131,6 +153,20 @@ export default class NetworkService extends EventEmitter {
             this.currentLobbyConnection.on("settinglist-add", this.handleSettingAdd.bind(this));
             this.currentLobbyConnection.on("settinglist-update", this.handleSettingUpdate.bind(this));
             this.currentLobbyConnection.on("settinglist-remove", this.handleSettingRemove.bind(this));
+            
+            this.currentLobbyConnection.on("chat-message", data => {
+                const d = new Date(0);
+                d.setUTCMilliseconds(data.timestamp);
+                this.emit("chat", d, data.sender, data.message); 
+            });
+            
+            this.currentLobbyConnection.on("chat-message-batch", data => {
+                data.messages.forEach(m => {
+                    const d = new Date(0);
+                    d.setMilliseconds(m.timestamp);
+                    this.emit("chat", d, m.sender, m.message);
+                });
+            });
             
             resolve(contents);
         } else {

@@ -1,3 +1,5 @@
+<input ng-model="username" style="width: 100%; padding: 5px;" placeholder="Username">
+
 <div class="lobby-list">
     <div ng-repeat="lobby in networkService.lobbies" ng-click="join(lobby)">
         {{ lobby.name }} - {{ lobby.creator }}<br>

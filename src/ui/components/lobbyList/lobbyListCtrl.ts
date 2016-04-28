@@ -6,6 +6,7 @@ import NetworkService from "../../services/networkService.ts";
 
 interface LobbyListScope extends ng.IScope {
     networkService: NetworkService;
+    username: string;
     
     join: (l: lobby.LobbyListItem) => void;
 }
@@ -21,8 +22,7 @@ export default class LobbyListCtrl {
         
         $scope.networkService = network;
         $scope.join = lobby => {
-            console.log("Joining " + lobby.name);
-            network.joinLobby(lobby).then(ok => {
+            network.joinLobby(lobby, $scope.username).then(ok => {
                 console.log("Joined " + lobby.name);
                 $timeout(() => $location.path("/lobby"));
             }, err => {

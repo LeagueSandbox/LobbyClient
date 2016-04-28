@@ -49,5 +49,24 @@
 				margin-left: 5px;
 			}
 		}
+		
+		& > .join-button {
+			.center-children;
+			.transitions(background-color);
+			
+			margin: 4px;
+			height: 40px;
+			background-color: rgba(0, 0, 0, 0.4);
+			cursor: pointer;
+			
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.6);
+			}
+			
+			& > span {
+				cursor: pointer;
+				font-size: 22px;
+			}
+		}
 	}
 }

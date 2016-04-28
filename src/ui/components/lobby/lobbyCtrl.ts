@@ -7,13 +7,23 @@ import CDNService from "../../services/cdnService.ts";
 import StaticService from "../../services/staticService.ts";
 import NetworkService from "../../services/networkService.ts";
 
+interface ChatMessages {
+    timestamp: Date;
+    sender: string;
+    messages: string[];
+}
+
 interface LobbyScope extends ng.IScope {
     chatContent: string;
     settingsContent: string;
     playerListContent: string;
 
     getOrNone: (x?: string) => string;    
-    network: NetworkService;  
+    submit: (evnt: KeyboardEvent) => void;
+    network: NetworkService;
+    
+    message: string;
+    messages: ChatMessages[];
 }
 
 export default class LobbyCtrl {
@@ -42,5 +52,23 @@ export default class LobbyCtrl {
         $scope.playerListContent = require("./partials/playerList.html");
                
         $scope.getOrNone = (x: string = cdn.getPath("assets/storeImages/layout/g-background_generic.jpg")) => x;
+        $scope.submit = e => {
+            if (e.keyCode === 13 && $scope.message && $scope.message.length) { // Enter.
+                network.sendMessage($scope.message);
+                $scope.message = "";
+            }
+        };
+        
+        $scope.messages = [];
+        
+        network.on("chat", (timestamp, sender, message) => {
+            if ($scope.messages.length && $scope.messages[$scope.messages.length - 1].sender === sender) {
+                $scope.messages[$scope.messages.length - 1].messages.push(message);
+            } else {
+                $scope.messages.push({ timestamp, sender, messages: [message] });
+            }
+            
+            update();
+        });
     }
 }

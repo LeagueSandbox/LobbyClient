@@ -1,9 +1,13 @@
 <div class="team" ng-repeat="team in network.currentLobby.teams">
     <span class="team-name">{{ team.name }}</span>
     
-    <div ng-repeat="player in network.currentLobby.players | filter: { team: team }" background-src="{{ getOrNone(player.skin.splashCutoutURL) }}" overlay-color="to left; transparent; black">
+    <div ng-repeat="player in network.currentLobby.players | filter: { team: team }" background-src="{{ getOrNone(player.champion.skins[player.skinIndex].splashCutoutURL) }}" overlay-color="to left; transparent; black">
         <span>{{ player.name }}</span>
         <img ng-src="{{ player.spellOne.icon }}">
         <img ng-src="{{ player.spellTwo.icon }}">
+    </div>
+    
+    <div class="join-button" ng-click="network.joinTeam(team)">
+        <span>JOIN</span>
     </div>
 </div>
