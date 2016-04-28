@@ -38,6 +38,7 @@ import * as modalDirective from "./services/modal/modalDirective.ts";
 import cdnService from "./services/cdnService.ts";
 import staticService from "./services/staticService.ts";
 import networkService from "./services/networkService.ts";
+import settingService from "./services/settingService.ts";
 
 // Create app.
 const app = angular.module("app", ["ngRoute", "luegg.directives"]);
@@ -72,6 +73,7 @@ app.service("modalService", modalService);
 app.service("cdnService", cdnService);
 app.service("staticService", staticService);
 app.service("networkService", networkService);
+app.service("settingService", settingService);
 
 // Setup routes.
 app.config(["$routeProvider", prov => {

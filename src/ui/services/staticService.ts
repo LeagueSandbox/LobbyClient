@@ -1201,4 +1201,16 @@ export default class StaticService {
             { id: 8, name: "Crystal Scar", image: "http://i.imgur.com/jnJTRkL.jpg" }
         ];
     }
+    
+    championById(id: number): lobby.Champion {
+        return this.champions.filter(x => x.id === id)[0];
+    }
+    
+    spellById(id: number): lobby.SummonerSpell {
+        return this.summonerSpells.filter(x => x.id === id)[0];
+    }
+    
+    mapById(id: number): lobby.Map {
+        return this.maps.filter(x => x.id === id)[0];
+    }
 }

@@ -101,6 +101,7 @@ export default class NetworkService extends EventEmitter {
                 players: [],
                 settings: []
             };
+            this.emit("lobby-connect");
 
             const [teamlistAdd, teamlistUpdate, teamlistRemove] = this.buildListUpdater("teamlist", this.currentLobby.teams, {
                 id: "id",
