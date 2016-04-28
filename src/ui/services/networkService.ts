@@ -17,6 +17,8 @@ export default class NetworkService extends EventEmitter {
     currentLobby: lobby.Lobby;
     /** Current Socket.IO connection to lobby. May be null. */
     currentLobbyConnection: SocketIOClient.Socket;
+    /** Current username within the current lobby. */
+    currentUsername: string;
 
     /** List of all available lobbies. */
     lobbies: lobby.LobbyListItem[];
@@ -65,7 +67,8 @@ export default class NetworkService extends EventEmitter {
         if (this.currentLobby || this.currentLobbyConnection) {
             throw new Error("Already connected to lobby.");
         }
-
+        
+        this.currentUsername = username;
         return new Promise((resolve, reject) => {
             this.currentLobbyConnection = io.connect(item.address + ":" + item.port, { reconnection: false });
             this.currentLobbyConnection.on("connect", () => {
