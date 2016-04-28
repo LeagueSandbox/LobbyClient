@@ -54,6 +54,16 @@
                 <div class="option" ng-click="settings.toggleMembership(setting.value, spell); setting.notifyChange()" ng-repeat="spell in setting.options" ng-class="{ active: setting.value.indexOf(spell) !== -1 }" background-src="{{ spell.icon }}">
                 </div>
             </div>
+            
+            <div ng-switch-when="skinSelect" class="flex">
+                <div class="champion"
+                    ng-class="{ selected: setting.value == $index }"
+                    ng-repeat="skin in setting.options"
+                    background-src="{{ skin.splashCutoutURL }}"
+                    ng-click="setting.value = $index">
+                    <span>{{ skin.name }}</span>
+                </div>
+            </div>
         </div>
     </div>
     

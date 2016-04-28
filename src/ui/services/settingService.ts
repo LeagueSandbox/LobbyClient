@@ -238,6 +238,25 @@ export class CheckboxSetting extends Setting<boolean, boolean> {
     }
 }
 
+export class SkinSelectSetting extends Setting<number, number> {
+    protected computeDefault() {
+        return 0;
+    }
+    
+    protected computeOptions() {
+        const champ = this.manager.settings[<string>this.setting.options].value;
+        return champ ? champ.skins : [];
+    }
+    
+    protected deserialize(value: number) {
+        return value;
+    }
+    
+    protected serialize(value: number) {
+        return value;
+    }
+}
+
 function createSetting(setting: lobby.LobbySetting, man: SettingManager): Setting<any, any> {
     if (setting.field === "summonerSpellSelect") return new SummonerSpellSelectSetting(man, setting);
     if (setting.field === "championSelect") return new ChampionSelectSetting(man, setting);
@@ -247,6 +266,7 @@ function createSetting(setting: lobby.LobbySetting, man: SettingManager): Settin
     if (setting.field === "select") return new SelectSetting(man, setting);
     if (setting.field === "text") return new TextSetting(man, setting);
     if (setting.field === "checkbox") return new CheckboxSetting(man, setting);
+    if (setting.field === "skinSelect") return new SkinSelectSetting(man, setting);
     
     throw new Error("Unknown setting type " + setting.field);
 }
