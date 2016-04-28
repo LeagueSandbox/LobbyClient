@@ -36,7 +36,7 @@ export default class LobbySettingsCtrl {
 
         this.modal.present<lobby.Champion>(require("../selectChampion/selectChampionView.html"), champs, current).then(c => {
             this.$scope.$apply(() => {
-                setting.value = c;
+                if (c) setting.value = c;
             });
         });
     }
