@@ -176,10 +176,19 @@
 		}
 		
 		& > .flex > .summoner {
+			.transitions(-webkit-filter);
+			
 			width: 64px;
 			height: 64px;
 				
 			margin: 5px;
+			cursor: pointer;
+			-webkit-filter: brightness(80%);
+			
+			&:hover {
+				z-index: 10;
+				-webkit-filter: brightness(100%);
+			}
 		}
 			
 		& > .flex > .summoner:first-of-type {
@@ -193,6 +202,8 @@
 				height: 64px;
 				display: inline-block;
 				position: relative;
+				
+				cursor: pointer;
 			}
 			
 			& > .option:after {
@@ -207,7 +218,11 @@
 				background-color: rgba(0, 0, 0, 0.7);
 			}
 			
-			& > .option.active:after, .option:hover:after {
+			& > .option:hover:not(.active):after {
+				background-color: rgba(0, 0, 0, 0.3);
+			}
+			
+			& > .option.active:after {
 				background-color: transparent;
 			}
 		}

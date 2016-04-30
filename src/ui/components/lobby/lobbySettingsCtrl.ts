@@ -27,9 +27,6 @@ export default class LobbySettingsCtrl {
         this.settings.on("update", redraw);
     }
 
-    // TODO(molenzwiebel): This is quite ugly because we convert id -> champ.
-    // Especially because we do exactly the reverse at the top.
-    // Makes sending the value to the server a lot easier though. Hmm.
     openChampionPicker(setting: ChampionSelectSetting) {
         const champs = setting.options;
         const current = setting.value;
@@ -41,7 +38,6 @@ export default class LobbySettingsCtrl {
         });
     }
 
-    // TODO(molenzwiebel): Note about champions is valid here as well.
     openSpellPicker(setting: SummonerSpellSelectSetting, index: number) {
         this.modal.present<lobby.SummonerSpell>(
             require("../selectSummonerSpell/selectSummonerSpellView.html"),
