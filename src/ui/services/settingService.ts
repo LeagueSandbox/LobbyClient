@@ -130,7 +130,7 @@ export class ChampionSelectSetting extends Setting<lobby.Champion, number> {
 
 export class SummonerSpellSelectMultiSetting extends Setting<lobby.SummonerSpell[], number[]> {
     protected computeDefault(): lobby.SummonerSpell[] {
-        return this.manager.statics.summonerSpells;
+        return this.manager.statics.summonerSpells.slice();
     }
     
     protected computeOptions() {
@@ -148,7 +148,7 @@ export class SummonerSpellSelectMultiSetting extends Setting<lobby.SummonerSpell
 
 export class ChampionSelectMultiSetting extends Setting<lobby.Champion[], number[]> {
     protected computeDefault() {
-        return this.manager.statics.champions;
+        return this.manager.statics.champions.slice();
     }
     
     protected computeOptions() {
