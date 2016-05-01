@@ -9,6 +9,7 @@ import "./css/ui.less";
 // Import Angular and dependencies.
 import "angular";
 import "angular-route";
+import "angular-animate";
 
 // Import other dependencies.
 import "bluebird";
@@ -41,7 +42,7 @@ import networkService from "./services/networkService.ts";
 import settingService from "./services/settingService.ts";
 
 // Create app.
-const app = angular.module("app", ["ngRoute", "luegg.directives"]);
+const app = angular.module("app", ["ngRoute", "ngAnimate", "luegg.directives"]);
 
 // Register view controllers.
 app.controller("loginCtrl", loginCtrl);
@@ -62,7 +63,7 @@ app.directive("uikitSelect", selectCtrl.directive);
 app.controller("fadeBackgroundCtrl", fadeBackground.FadeBackgroundCtrl);
 app.directive("fadeBackground", fadeBackground.directive);
 
-app.directive('compile', compile);
+app.directive("compile", compile);
 app.directive("backgroundSrc", backgroundSrc);
 
 app.controller("modalCtrl", modalDirective.ModalCtrl);
@@ -90,4 +91,7 @@ app.config(["$routeProvider", prov => {
         template: require("./components/lobby/lobbyView.html"),
         controller: "lobbyCtrl"
     }).otherwise({ redirectTo: "/loading" });
+}]).config(["$animateProvider", prov => {
+    // Only enable ngAnimate for elements who want it.
+    prov.classNameFilter(/ng-animate-enabled/);
 }]);
