@@ -113,51 +113,51 @@
         // Overlay
         & > .option:after {
             .full-size;
-			.transitions(background-color);
-	
-			content: "";
-	
-			position: absolute;
-			left: 0;
-			top: 0;
-	
-			background-color: rgba(0, 0, 0, 0.5);
+            .transitions(background-color);
+    
+            content: "";
+    
+            position: absolute;
+            left: 0;
+            top: 0;
+    
+            background-color: rgba(0, 0, 0, 0.5);
         }
         
         // Remove overlay if selected or hovering.
         & > .option.active:after, & > .option:hover:after {
-			background-color: transparent;
-		}
+            background-color: transparent;
+        }
         
         // Expand on hover.
         & > .option:hover {
-			z-index: 10; // To prevent it from clipping under others.
-			transform: scale(1.2);
+            z-index: 10; // To prevent it from clipping under others.
+            transform: scale(1.2);
             cursor: pointer;
-		}
+        }
         
         // Format name.
-        & > .option > span {	
-			position: absolute;
-			bottom: 0px;
-					
-			padding-left: 5px;
-			padding-bottom: 5px;
+        & > .option > span {    
+            position: absolute;
+            bottom: 0px;
+                    
+            padding-left: 5px;
+            padding-bottom: 5px;
 
-			font-family: @font;
-			font-size: 15px;
-			color: white;
+            font-family: @font;
+            font-size: 15px;
+            color: white;
 
-			height: 22px;
-			width: 100%;
-			background-color: rgba(0, 0, 0, 0.6);
-			line-height: 22px;
-		}
+            height: 22px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            line-height: 22px;
+        }
         
         // Selection marker.
         & > .option.active {
-			border: 1px solid rgb(84, 84, 185);
-		}
+            border: 1px solid rgb(84, 84, 185);
+        }
         
         & > .option.active > span {
             background-color: rgba(0, 0, 0, 0.2);

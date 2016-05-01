@@ -5,81 +5,81 @@
 // .animation(nameOfKeyframes, { color: red; }, { color: green; });
 // (this will transition from red to green in 0.3s)
 .animation(@name; @from; @to) {
-	@keyframes @name {
-		from {
-			@from();
-		}
+    @keyframes @name {
+        from {
+            @from();
+        }
 
-		to {
-			@to();
-		}
-	}
+        to {
+            @to();
+        }
+    }
 
-	animation-name: @name;
-	animation-duration: @animation-duration;
-	animation-fill-mode: both;
+    animation-name: @name;
+    animation-duration: @animation-duration;
+    animation-fill-mode: both;
 }
 
 // Simple fade in animation.
 .fade-in {
-	.animation(fadeIn; {
-		opacity: 0;
-	}; {
-		opacity: 1;
-	});
+    .animation(fadeIn; {
+        opacity: 0;
+    }; {
+        opacity: 1;
+    });
 }
 
 // Simple fade out animation.
 .fade-out {
-	.animation(fadeOut; {
-		opacity: 1;
-	}; {
-		opacity: 0;
-	});
+    .animation(fadeOut; {
+        opacity: 1;
+    }; {
+        opacity: 0;
+    });
 }
 
 .fade-out-remove {
-	.animation(fadeOutRemove; {
-		opacity: 1;
-	}; {
-		opacity: 0;
-		visibility: hidden;
-	});	
+    .animation(fadeOutRemove; {
+        opacity: 1;
+    }; {
+        opacity: 0;
+        visibility: hidden;
+    });    
 }
 
 // Wobble animation. Credits go to animate.css, https://github.com/daneden/animate.css
 @keyframes wobble {
-	from {
-		transform: none;
-	}
+    from {
+        transform: none;
+    }
 
-	15% {
-		transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
-	}
-	
-	30% {
-		transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
-	}
+    15% {
+        transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+    }
+    
+    30% {
+        transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+    }
 
-	45% {
-		transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
-	}
+    45% {
+        transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+    }
 
-  	60% {
-		transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
-	}
+      60% {
+        transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+    }
 
-	75% {
-		transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
-	}
+    75% {
+        transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+    }
 
-	to {
-		transform: none;
-	}
+    to {
+        transform: none;
+    }
 }
 
 .wobble {
-	animation-name: wobble;
-	animation-duration: @animation-duration;
-	animation-fill-mode: both;
+    animation-name: wobble;
+    animation-duration: @animation-duration;
+    animation-fill-mode: both;
 }
