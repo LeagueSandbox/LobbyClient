@@ -108,6 +108,44 @@
             width: 140px;
             
             background-position: center;
+            
+            @keyframes animateRemoveOut {
+                0% {
+                    opacity: 1;    
+                }
+                
+                100% {
+                    opacity: 0;
+                    width: 0;
+                    margin: 0;
+                }
+            }
+            
+            @keyframes animateAddIn {
+                100% {
+                    opacity: 1;    
+                    width: 140px;
+                    margin: 5px;
+                }
+                
+                0% {
+                    opacity: 0;
+                    width: 0;
+                    margin: 0;
+                }
+            }
+            
+            &.ng-leave {
+                animation-name: animateRemoveOut;
+                animation-duration: 0.3s;
+                animation-fill-mode: both;
+            }
+            
+            &.ng-enter {
+                animation-name: animateAddIn;
+                animation-duration: 0.3s;
+                animation-fill-mode: both;
+            }
         }
         
         // Overlay
