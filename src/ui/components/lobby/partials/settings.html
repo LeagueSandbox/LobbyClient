@@ -5,43 +5,100 @@
     <span class="title">Configure</span>
 </div>
 
-<div class="columns">
+<div class="columns" ng-controller="lobbySettingsCtrl as settings">
     <div class="column champion-settings">
-        <div class="config-setting">
-            <span class="config-name">Champion</span>
-            <div class="champion selected" ng-click="openChampSelect()" background-src="{{ getChampBackground() }}">
-                <span>{{ selectedChampion.name || "None" }}</span>
+        <div ng-switch="setting.field" class="config-setting" ng-repeat="(binding, setting) in settings.settings.playerSettings">
+            <span class="config-name">{{ setting.name }}</span>
+            
+            <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
+            <input ng-switch-when="text" ng-model="setting.value">
+            
+            <span ng-switch-when="select">
+                <uikit-select value="setting.value" placeholder="..." options="setting.options"></uikit-select>
+            </span>
+            
+            <div ng-switch-when="championSelect" ng-click="settings.openChampionPicker(setting)" class="champion selected" background-src="{{ getOrNone(setting.value.skins[0].splashCutoutURL) }}">
+                <span>{{ setting.value.name || "None" }}</span>
             </div>
-        </div>
-        
-        <div class="config-setting">
-            <span class="config-name">Summoner Spells</span>
-            <div class="flex">
-                <div class="summoner" background-src="{{ summonerSpells[0].icon }}" ng-click="openSpellSelect(0)"></div>
-                <div class="summoner" background-src="{{ summonerSpells[1].icon }}" ng-click="openSpellSelect(1)"></div>
+            
+            <div ng-switch-when="summonerSpellSelect" class="flex">
+                <div ng-click="settings.openSpellPicker(setting, 0)" class="summoner" background-src="{{ setting.value[0].icon }}"></div>
+                <div ng-click="settings.openSpellPicker(setting, 1)" class="summoner" background-src="{{ setting.value[1].icon }}"></div>
             </div>
-        </div>
-        
-        <div class="config-setting">
-            <span class="config-name">Skin</span>
-            <div class="flex">
-                <div class="champion" ng-class="{ selected: skinId === selectedSkin }" ng-repeat="skinId in [0,1,2,3]" background-src="{{ getChampBackground(skinId) }}">
-                    <span>Skin {{ skinId }}</span>
+            
+            <div ng-switch-when="mapSelect" class="map-options">
+                <div ng-click="setting.value = map" ng-class="{ active: setting.value === map }" class="option" ng-repeat="map in setting.options" background-src="{{ map.image }}">
+                    <span>{{ map.name }}</span>
+                </div>
+            </div>
+            
+            <div ng-switch-when="championSelectMulti" class="multi">
+                <div class="option" ng-click="settings.toggleMembership(setting.value, champion); setting.notifyChange()" ng-repeat="champion in setting.options" ng-class="{ active: setting.value.indexOf(champion) !== -1 }" background-src="{{ champion.portraitIconURL }}">
+                </div>
+            </div>
+            
+            <div ng-switch-when="summonerSpellSelectMulti" class="multi">
+                <div class="option" ng-click="settings.toggleMembership(setting.value, spell); setting.notifyChange()" ng-repeat="spell in setting.options" ng-class="{ active: setting.value.indexOf(spell) !== -1 }" background-src="{{ spell.icon }}">
+                </div>
+            </div>
+            
+            <div ng-switch-when="skinSelect" class="flex">
+                <div class="champion"
+                    ng-class="{ selected: setting.value == $index }"
+                    ng-repeat="skin in setting.options"
+                    background-src="{{ skin.splashCutoutURL }}"
+                    ng-click="setting.value = $index">
+                    <span>{{ skin.name }}</span>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="column custom-settings">
-        <div ng-switch="setting.setting.field" class="config-setting" ng-repeat="setting in settings">
-            <span class="config-name">{{ setting.setting.name }}</span>
-            <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
-            <input ng-switch-when="text" ng-model="setting.value" ng-keypress="setting.validateInput($event)">
+        <div ng-switch="setting.field" ng-if="network.currentUsername === network.currentLobby.creator" class="config-setting" ng-repeat="(binding, setting) in settings.settings.hostSettings">
+            <span class="config-name">{{ setting.name }}</span>
             
-            <!-- We need to wrap the switch case in a span because of multiple transclusion. -->
+            <checkbox ng-switch-when="checkbox" value="setting.value"></checkbox>
+            <input ng-switch-when="text" ng-model="setting.value">
+            
             <span ng-switch-when="select">
-                <uikit-select value="setting.value" placeholder="..." options="setting.setting.options"></uikit-select>
+                <uikit-select value="setting.value" placeholder="..." options="setting.options"></uikit-select>
             </span>
+            
+            <div ng-switch-when="championSelect" ng-click="settings.openChampionPicker(setting)" class="champion selected" background-src="{{ getOrNone(setting.value.skins[0].splashCutoutURL) }}">
+                <span>{{ setting.value.name || "None" }}</span>
+            </div>
+            
+            <div ng-switch-when="summonerSpellSelect" class="flex">
+                <div ng-click="settings.openSpellPicker(setting, 0)" class="summoner" background-src="{{ setting.value[0].icon }}"></div>
+                <div ng-click="settings.openSpellPicker(setting, 1)" class="summoner" background-src="{{ setting.value[1].icon }}"></div>
+            </div>
+            
+            <div ng-switch-when="mapSelect" class="map-options">
+                <div ng-click="setting.value = map" ng-class="{ active: setting.value === map }" class="option" ng-repeat="map in setting.options" background-src="{{ map.image }}">
+                    <span>{{ map.name }}</span>
+                </div>
+            </div>
+            
+            <div ng-switch-when="championSelectMulti" class="multi">
+                <div class="option" ng-click="settings.toggleMembership(setting.value, champion); setting.notifyChange()" ng-repeat="champion in setting.options" ng-class="{ active: setting.value.indexOf(champion) !== -1 }" background-src="{{ champion.portraitIconURL }}">
+                </div>
+            </div>
+            
+            <div ng-switch-when="summonerSpellSelectMulti" class="multi">
+                <div class="option" ng-click="settings.toggleMembership(setting.value, spell); setting.notifyChange()" ng-repeat="spell in setting.options" ng-class="{ active: setting.value.indexOf(spell) !== -1 }" background-src="{{ spell.icon }}">
+                </div>
+            </div>
+            
+            <div ng-switch-when="skinSelect" class="flex">
+                <div class="champion"
+                    ng-class="{ selected: setting.value == $index }"
+                    ng-repeat="skin in setting.options"
+                    background-src="{{ skin.splashCutoutURL }}"
+                    ng-click="setting.value = $index">
+                    <span>{{ skin.name }}</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

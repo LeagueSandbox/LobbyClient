@@ -11,6 +11,8 @@
 	background-color: rgba(0, 0, 0, 0.4);
 	
 	& > .messages {
+		.scrollable;
+		
 		flex: 1;
 		overflow-y: scroll;
 		
@@ -21,6 +23,11 @@
 		& > .message-group {
 			padding: 5px;
 			display: flex;
+			
+			&, & * {
+				-webkit-user-select: initial;
+				cursor: text;
+			}
 			
 			& > .timestamp {
 				margin-left: 10px;

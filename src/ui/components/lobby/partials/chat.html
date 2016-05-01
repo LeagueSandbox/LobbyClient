@@ -1,55 +1,13 @@
 <div class="messages" scroll-glue>
-    <div class="message-group">
-        <span class="timestamp">21:21</span>
-        <span class="sender">molenzwiebel</span>
+    <div class="message-group" ng-repeat="group in messages track by $index">
+        <span class="timestamp">{{ group.timestamp.getHours() }}:{{ group.timestamp.getMinutes() }}</span>
+        <span class="sender">{{ group.sender }}</span>
         <div class="messages">
-            <span>A</span>
-            <span>B</span>
-            <span>C</span>
-        </div>
-    </div>
-    
-    <div class="message-group">
-        <span class="timestamp">21:21</span>
-        <span class="sender">molenzwiebel</span>
-        <div class="messages">
-            <span>A</span>
-            <span>B</span>
-            <span>C</span>
-        </div>
-    </div>
-    
-    <div class="message-group">
-        <span class="timestamp">21:21</span>
-        <span class="sender">molenzwiebel</span>
-        <div class="messages">
-            <span>A</span>
-            <span>B</span>
-            <span>C</span>
-        </div>
-    </div>
-    
-    <div class="message-group">
-        <span class="timestamp">21:21</span>
-        <span class="sender">molenzwiebel</span>
-        <div class="messages">
-            <span>A</span>
-            <span>B</span>
-            <span>C</span>
-        </div>
-    </div>
-    
-    <div class="message-group">
-        <span class="timestamp">21:21</span>
-        <span class="sender">molenzwiebel</span>
-        <div class="messages">
-            <span>A</span>
-            <span>B</span>
-            <span>C</span>
+            <span ng-repeat="message in group.messages track by $index">{{ message }}</span>
         </div>
     </div>
 </div>
 
 <div class="input">
-    <input class="send-message" placeholder="Your message...">
+    <input ng-model="message" class="send-message" placeholder="Your message..." ng-keyup="submit($event)">
 </div>

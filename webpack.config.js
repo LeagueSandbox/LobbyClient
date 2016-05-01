@@ -26,7 +26,8 @@ module.exports = {
             // Images, SVG.
             { test: /\.(png)|(jpg)$/, loader: "url-loader?limit=10000" },
             { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" }
-		]
+		],
+        noParse: ['ws']
 	},
 
 	// Write to src/built as bundle.js
@@ -49,5 +50,7 @@ module.exports = {
     entry: [
         'webpack/hot/dev-server',
         './src/ui/main.ts'
-    ]
+    ],
+
+    externals: ['ws']
 };

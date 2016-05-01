@@ -48,6 +48,7 @@
     "angularjs-scroll-glue": "^2.0.4",
     "babel-polyfill": "^6.7.4",
     "bluebird": "^3.3.4",
-    "font-awesome": "^4.5.0"
+    "font-awesome": "^4.5.0",
+    "socket.io-client": "^1.4.5"
   }
 }

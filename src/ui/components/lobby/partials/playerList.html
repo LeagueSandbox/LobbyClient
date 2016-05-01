@@ -1,37 +1,13 @@
-<div class="team">
-    <span class="team-name">Order</span>
-    <div background-src="{{ getChampBackground() }}" overlay-color="to left; transparent; black">
-        <span>Player 1</span>
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png">
+<div class="team" ng-repeat="team in network.currentLobby.teams">
+    <span class="team-name">{{ team.name }}</span>
+    
+    <div ng-repeat="player in network.currentLobby.players | filter: { team: team }" background-src="{{ getOrNone(player.champion.skins[player.skinIndex].splashCutoutURL) }}" overlay-color="to left; transparent; black">
+        <span>{{ player.name }}</span>
+        <img ng-src="{{ player.spellOne.icon }}">
+        <img ng-src="{{ player.spellTwo.icon }}">
     </div>
-    <div background-src="{{ getChampBackground(1) }}" overlay-color="to left; transparent; black">
-        <span>Player 2</span>
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png">
-    </div>
-    <div background-src="{{ getChampBackground(2) }}" overlay-color="to left; transparent; black">
-        <span>Player 3</span>
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png">
-    </div>
-</div>
-
-<div class="team">
-    <span class="team-name">Chaos</span>
-    <div background-src="{{ getChampBackground(3) }}" overlay-color="to left; transparent; black">
-        <span>Player 4</span>
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png">
-    </div>
-    <div background-src="{{ getChampBackground(4) }}" overlay-color="to left; transparent; black">
-        <span>Player 5</span>
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png">
-    </div>
-    <div background-src="{{ getChampBackground(5) }}" overlay-color="to left; transparent; black">
-        <span>Player 6</span>
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerHeal.png">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.21.1/img/spell/SummonerFlash.png">
+    
+    <div class="join-button" ng-click="network.joinTeam(team)">
+        <span>JOIN</span>
     </div>
 </div>
