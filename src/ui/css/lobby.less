@@ -5,53 +5,53 @@
 @import "lobby/playerList";
 
 .background {
-	.full-size;
+    .full-size;
 
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: -1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
 
-	&.backdrop {
-		background-color: black;
-	}
-	
-	&.image1, &.image2 {
-		// Make the animation duration longer than the default.
-		animation-duration: 0.5s;
-	}
-	
-	&.ng-hide {
-		// The hiding animation will hide the image.
-		// No need to hide it before the animation.
-		display: block !important;
-	}
+    &.backdrop {
+        background-color: black;
+    }
+    
+    &.image1, &.image2 {
+        // Make the animation duration longer than the default.
+        animation-duration: 0.5s;
+    }
+    
+    &.ng-hide {
+        // The hiding animation will hide the image.
+        // No need to hide it before the animation.
+        display: block !important;
+    }
 }
 
 .lobby {
-	.full-size;
-	display: flex;
+    .full-size;
+    display: flex;
 
-	& > .left {
-		.full-size;
-		flex: 1;
-		
-		display: flex;
-		flex-direction: column;
+    & > .left {
+        .full-size;
+        flex: 1;
+        
+        display: flex;
+        flex-direction: column;
 
-		& > .settings {
-			.full-size;
-		}
+        & > .settings {
+            .full-size;
+        }
 
-		& > .chat {
-			.full-size;
-			flex: 0 280px;
-		}
-	}
+        & > .chat {
+            .full-size;
+            flex: 0 280px;
+        }
+    }
 
-	& > .right {
-		.full-size;
+    & > .right {
+        .full-size;
 
-		flex: 0 250px;
-	}
+        flex: 0 250px;
+    }
 }

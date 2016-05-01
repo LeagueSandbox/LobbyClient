@@ -3,69 +3,69 @@
 
 // Adds the provided transitions to the element.
 .transitions(...) {
-	// The following javascript magic is needed to add commas between the different property names.
-	transition: all @transition-duration @transition-mode;
-	transition-property: ~`"@{arguments}".replace(/[\[\]]|\, \sX/g, '')`;
+    // The following javascript magic is needed to add commas between the different property names.
+    transition: all @transition-duration @transition-mode;
+    transition-property: ~`"@{arguments}".replace(/[\[\]]|\, \sX/g, '')`;
 }
 
 // Indicates that this element wants the full size of the parent.
 .full-size() {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 // Aligns the (single) child(ren) of the element, by setting its display to flex and centering the contents.
 .center-children() {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 // Positions something in the top left of the parent element.
 .top-left() {
-	position: absolute;
-	top: 0;
-	left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 // Makes an element round.
 .round() {
-	border-radius: 50%;
+    border-radius: 50%;
 }
 
 // Makes element have custom scroll bars.
 .scrollable() {
-	padding-right: 8px;
-	
-	&:hover {
-		padding-right: 0px;
-	}
-	
-	&::-webkit-scrollbar {
-		display: none;
-		width: 8px;
-		background-color: transparent;
-		border-radius: 100px;
-		-webkit-appearance: none;
-	}
-	
-	&:hover::-webkit-scrollbar {
-		display: block;
-	}
-	
-	&::-webkit-scrollbar:hover {
-		background-color: rgba(0, 0, 0, 0.09);
-	}
-	
-	&::-webkit-scrollbar-thumb:vertical {
-		background: rgba(0, 0, 0, 0.5);
-		border-radius: 100px;
-		background-clip: padding-box;
-		border: 2px solid rgba(0, 0, 0, 0);
-	}
-	
-	&::-webkit-scrollbar-thumb:vertical:active {
-		background: rgba(0, 0, 0, 0.61);
-		border-radius: 100px;
-	}
+    padding-right: 8px;
+    
+    &:hover {
+        padding-right: 0px;
+    }
+    
+    &::-webkit-scrollbar {
+        display: none;
+        width: 8px;
+        background-color: transparent;
+        border-radius: 100px;
+        -webkit-appearance: none;
+    }
+    
+    &:hover::-webkit-scrollbar {
+        display: block;
+    }
+    
+    &::-webkit-scrollbar:hover {
+        background-color: rgba(0, 0, 0, 0.09);
+    }
+    
+    &::-webkit-scrollbar-thumb:vertical {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 100px;
+        background-clip: padding-box;
+        border: 2px solid rgba(0, 0, 0, 0);
+    }
+    
+    &::-webkit-scrollbar-thumb:vertical:active {
+        background: rgba(0, 0, 0, 0.61);
+        border-radius: 100px;
+    }
 }

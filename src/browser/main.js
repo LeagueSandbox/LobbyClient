@@ -26,10 +26,10 @@ app.on("ready", () => {
     });
 
     ipc.on("close", () => {
-    	mainWindow && mainWindow.close();
+        mainWindow && mainWindow.close();
     });
 
     ipc.on("minimize", () => {
-    	mainWindow && mainWindow.minimize();
+        mainWindow && mainWindow.minimize();
     });
 });

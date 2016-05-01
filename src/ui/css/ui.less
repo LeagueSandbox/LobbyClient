@@ -9,148 +9,148 @@
 @select-border-radius: 5px;
 
 .ui-kit.checkbox {
-	width: @checkbox-width;
-	height: @checkbox-height;
+    width: @checkbox-width;
+    height: @checkbox-height;
 
-	& > .checkbox-visual {
-		.full-size;
-		.round;
-		.center-children;
+    & > .checkbox-visual {
+        .full-size;
+        .round;
+        .center-children;
 
-		cursor: pointer;
-		border: 4px solid rgb(84, 84, 185);
-	}
+        cursor: pointer;
+        border: 4px solid rgb(84, 84, 185);
+    }
 
-	& > .checkbox-visual > .dot {
-		.round;
-		.transitions(transform);
+    & > .checkbox-visual > .dot {
+        .round;
+        .transitions(transform);
 
-		cursor: pointer;
-		width: @checkbox-width / 2;
-		height: @checkbox-height / 2;
+        cursor: pointer;
+        width: @checkbox-width / 2;
+        height: @checkbox-height / 2;
 
-		background-color: rgba(84, 84, 185, 0.75);
-		transform: scale(0);
-	}
+        background-color: rgba(84, 84, 185, 0.75);
+        transform: scale(0);
+    }
 
-	&.checked > .checkbox-visual > .dot {
-		transform: scale(1);
-	}
+    &.checked > .checkbox-visual > .dot {
+        transform: scale(1);
+    }
 }
 
 // This is because css does not transform the size to the .ui-kit.select element created within the uikit-switch directive.
 uikit-switch {
-	width: 100%;
-	height: @select-height;
+    width: 100%;
+    height: @select-height;
 }
 
 .ui-kit.select {
-	.full-size;
-	position: relative;
+    .full-size;
+    position: relative;
 
-	span {
-		.transitions(background-color);
-		display: block;
+    span {
+        .transitions(background-color);
+        display: block;
 
-		line-height: @select-height;
-		font-family: @font;
+        line-height: @select-height;
+        font-family: @font;
 
-		color: white;
-		background-color: rgb(84, 84, 185);
+        color: white;
+        background-color: rgb(84, 84, 185);
 
-		cursor: pointer;
-		padding-left: 5px;
-	}
+        cursor: pointer;
+        padding-left: 5px;
+    }
 
-	// Make lighter if disabled.
-	&.disabled span {
-		cursor: not-allowed;
-		background-color: rgba(116, 116, 177, 0.75);
-	}
+    // Make lighter if disabled.
+    &.disabled span {
+        cursor: not-allowed;
+        background-color: rgba(116, 116, 177, 0.75);
+    }
 
-	.placeholder {
-		.transitions(border, background-color);
+    .placeholder {
+        .transitions(border, background-color);
 
-		color: black;
-		background-color: white;
-		
-		border-radius: @select-border-radius;
-		border: 1px solid rgb(84, 84, 185);
-	}
+        color: black;
+        background-color: white;
+        
+        border-radius: @select-border-radius;
+        border: 1px solid rgb(84, 84, 185);
+    }
 
-	// Light up on hover if not disabled or expanded.
-	&:not(.disabled):not(.expanded) .placeholder:hover {
-		background-color: lighten(rgb(84, 84, 185), 30%);
-	}
+    // Light up on hover if not disabled or expanded.
+    &:not(.disabled):not(.expanded) .placeholder:hover {
+        background-color: lighten(rgb(84, 84, 185), 30%);
+    }
 
-	// Make header of list if expanded.
-	&.expanded .placeholder {
-		cursor: default;
-		font-weight: bold;
+    // Make header of list if expanded.
+    &.expanded .placeholder {
+        cursor: default;
+        font-weight: bold;
 
-		color: white;
-		background-color: rgb(84, 84, 185);
+        color: white;
+        background-color: rgb(84, 84, 185);
 
-		border-bottom-left-radius: 0px;
-		border-bottom-right-radius: 0px;
-		border-bottom: 1px solid rgb(140, 140, 228);
-	}
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom: 1px solid rgb(140, 140, 228);
+    }
 
-	// Arrow after the placeholder.
-	&:not(.disabled) .placeholder:after {
-		.transitions(transform);
+    // Arrow after the placeholder.
+    &:not(.disabled) .placeholder:after {
+        .transitions(transform);
 
-		content: "\f063";
-		font-family: "FontAwesome";
+        content: "\f063";
+        font-family: "FontAwesome";
 
-		position: absolute;
-		right: 5px;
-	}
+        position: absolute;
+        right: 5px;
+    }
 
-	// Rotate our little arrow if we are expanded.
-	&.expanded .placeholder:after {
-		transform: rotate(180deg);
-	}
+    // Rotate our little arrow if we are expanded.
+    &.expanded .placeholder:after {
+        transform: rotate(180deg);
+    }
 
-	// Remove default list styles.
-	ul {
-		list-style: none;
-	}
+    // Remove default list styles.
+    ul {
+        list-style: none;
+    }
 
-	// Round corners of last option.
-	li:last-of-type > span {
-		border-bottom-left-radius: @select-border-radius;
-		border-bottom-right-radius: @select-border-radius;
-	}
+    // Round corners of last option.
+    li:last-of-type > span {
+        border-bottom-left-radius: @select-border-radius;
+        border-bottom-right-radius: @select-border-radius;
+    }
 
-	.options {
-		.transitions(visibility, opacity);
+    .options {
+        .transitions(visibility, opacity);
 
-		width: 100%;
-		position: absolute;
-		overflow: hidden;
+        width: 100%;
+        position: absolute;
+        overflow: hidden;
 
-		visibility: hidden;
-		opacity: 0;
-		z-index: 10;
-	}
+        visibility: hidden;
+        opacity: 0;
+        z-index: 10;
+    }
 
-	&.expanded .options {
-		visibility: visible;
-		opacity: 1;
+    &.expanded .options {
+        visibility: visible;
+        opacity: 1;
 
-		span:hover {
-			background-color: rgb(100, 100, 185);
-		}
+        span:hover {
+            background-color: rgb(100, 100, 185);
+        }
 
-		span.selected:after {
-			// Checkmark
-			content: "\f00c";
-			font-family: "FontAwesome";
+        span.selected:after {
+            // Checkmark
+            content: "\f00c";
+            font-family: "FontAwesome";
 
-			position: absolute;
-			right: 5px;
-			color: rgb(142, 142, 224);
-		}
-	}
+            position: absolute;
+            right: 5px;
+            color: rgb(142, 142, 224);
+        }
+    }
 }

@@ -2,97 +2,97 @@
 
 /* Reset some dumb styles. */
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 
-	cursor: default;
-	-webkit-user-select: none;
+    cursor: default;
+    -webkit-user-select: none;
 }
 
 body {
-	overflow: hidden;
+    overflow: hidden;
 
-	height: 100vh;
-	width: 100vw;
+    height: 100vh;
+    width: 100vw;
 
-	border-radius: 4px;
+    border-radius: 4px;
 }
 
 .content {
-	.full-size;
+    .full-size;
 }
 
 .draggable {
-	position: absolute;
-	left: 0;
-	top: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
 
-	width: 100vw;
-	height: 2vh;
-	-webkit-app-region: drag;
+    width: 100vw;
+    height: 2vh;
+    -webkit-app-region: drag;
 
-	z-index: -100;
+    z-index: -100;
 }
 
 .app-controls {
-	.transitions(color);
+    .transitions(color);
 
-	width: 50px;
-	height: 25px;
+    width: 50px;
+    height: 25px;
 
-	position: absolute;
-	right: 0;
-	top: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 
-	border-bottom-left-radius: 8px;
-	color: darken(white, 40%);
+    border-bottom-left-radius: 8px;
+    color: darken(white, 40%);
 
-	background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
 
-	.fa:hover {
-		color: white;
-	}
+    .fa:hover {
+        color: white;
+    }
 
-	.fa-minus {
-		margin-top: 7px;
-		margin-right: 10px;
-	}
+    .fa-minus {
+        margin-top: 7px;
+        margin-right: 10px;
+    }
 
-	.fa-times {
-		margin-right: 5px;
-	}
+    .fa-times {
+        margin-right: 5px;
+    }
 }
 
 .modal-container {
-	.center-children;
-	
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	
-	width: 100vw;
-	height: 100vh;
-	
-	z-index: 100;
-	
-	& > .modal-backdrop {
-		.full-size;
-		
-		top: 0px;
-		left: 0px;
-		z-index: -1;
-		
-		position: absolute;
-		background-color: rgba(0, 0, 0, 0.8);
-	}
-	
-	& > .modal-content {
-		.full-size;
-		.center-children;
-	}
+    .center-children;
+    
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    width: 100vw;
+    height: 100vh;
+    
+    z-index: 100;
+    
+    & > .modal-backdrop {
+        .full-size;
+        
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+        
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    & > .modal-content {
+        .full-size;
+        .center-children;
+    }
 }
