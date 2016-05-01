@@ -48,10 +48,12 @@
             
             & > div.disabled {
                 -webkit-filter: grayscale();
+                cursor: not-allowed;
             }
             
             & > div:not(.disabled):hover:after, & > div.selected:after {
                 background-color: transparent;
+                cursor: pointer;
             }
         }
         
@@ -62,6 +64,11 @@
             
             font-family: @font;
             color: white;
+            
+            & * {
+                -webkit-user-select: initial;
+                cursor: text;
+            }
             
             & > .title {
                 font-size: 22px;
@@ -111,6 +118,7 @@
         
         &:hover {
             background-color: darken(rgb(84, 84, 185), 10%);
+            cursor: pointer;
         }
     }
 }

@@ -36,6 +36,7 @@
             
             & > *:hover {
                 -webkit-filter: brightness(0.7);
+                cursor: pointer;
             }
             
             & > *.active {
@@ -132,6 +133,7 @@
         & > .option:hover {
 			z-index: 10; // To prevent it from clipping under others.
 			transform: scale(1.2);
+            cursor: pointer;
 		}
         
         // Format name.
@@ -198,6 +200,11 @@
         
             background-color: rgb(84, 84, 185);
             border-radius: 4px;
+            
+            &:hover {
+                background-color: darken(rgb(84, 84, 185), 10%);
+                cursor: pointer;
+            }
         }
     }
 }
