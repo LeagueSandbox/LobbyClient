@@ -48,7 +48,7 @@ module.exports = {
 
     devtool: 'cheap-source-map',
     entry: [
-        'webpack/hot/dev-server',
+        'webpack/hot/only-dev-server',
         './src/ui/main.ts'
     ],
 
