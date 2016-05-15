@@ -13,7 +13,7 @@ class Modal<T> {
     }
 }
 
-export default class ModalService {
+class ModalService {
     activeModal: Modal<any>;
     pendingModals: Modal<any>[];
     
@@ -46,3 +46,6 @@ export default class ModalService {
         }
     }
 }
+
+const instance = new ModalService();
+export default instance;

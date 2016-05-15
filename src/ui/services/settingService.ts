@@ -65,7 +65,7 @@ export abstract class Setting<Deserialized, Serialized> {
     /** not the actual value itself. E.g. this.value[foo] = bar. The value */
     /** does not update, but we still need to notify the server. */
     notifyChange() {
-        this.manager.network.setSetting(this.setting, this.serialize(this._value));
+        NetworkService.setSetting(this.setting, this.serialize(this._value));
     }
     
     /** Returns the type of the field. */
@@ -91,14 +91,14 @@ export class SummonerSpellSelectSetting extends Setting<[lobby.SummonerSpell, lo
     
     protected computeOptions() {
         if (this.setting.options === "*") {
-            return this.manager.statics.summonerSpells;
+            return StaticService.summonerSpells;
         }
         
         return this.manager.settings[<string>this.setting.options].value;
     }
     
     protected deserialize(value: [number, number]): [lobby.SummonerSpell, lobby.SummonerSpell] {
-        return [this.manager.statics.spellById(value[0]), this.manager.statics.spellById(value[1])];
+        return [StaticService.spellById(value[0]), StaticService.spellById(value[1])];
     }
     
     protected serialize(value: [lobby.SummonerSpell, lobby.SummonerSpell]): [number, number] {
@@ -113,14 +113,14 @@ export class ChampionSelectSetting extends Setting<lobby.Champion, number> {
     
     protected computeOptions() {
         if (this.setting.options === "*") {
-            return this.manager.statics.champions;
+            return StaticService.champions;
         }
         
         return this.manager.settings[<string>this.setting.options].value;
     }
     
     protected deserialize(value: number) {
-        return this.manager.statics.championById(value);
+        return StaticService.championById(value);
     }
     
     protected serialize(value: lobby.Champion) {
@@ -130,15 +130,15 @@ export class ChampionSelectSetting extends Setting<lobby.Champion, number> {
 
 export class SummonerSpellSelectMultiSetting extends Setting<lobby.SummonerSpell[], number[]> {
     protected computeDefault(): lobby.SummonerSpell[] {
-        return this.manager.statics.summonerSpells.slice();
+        return StaticService.summonerSpells.slice();
     }
     
     protected computeOptions() {
-        return this.manager.statics.summonerSpells;
+        return StaticService.summonerSpells;
     }
     
     protected deserialize(value: number[]) {
-        return value.map(x => this.manager.statics.spellById(x));
+        return value.map(x => StaticService.spellById(x));
     }
     
     protected serialize(value: lobby.SummonerSpell[]) {
@@ -148,15 +148,15 @@ export class SummonerSpellSelectMultiSetting extends Setting<lobby.SummonerSpell
 
 export class ChampionSelectMultiSetting extends Setting<lobby.Champion[], number[]> {
     protected computeDefault() {
-        return this.manager.statics.champions.slice();
+        return StaticService.champions.slice();
     }
     
     protected computeOptions() {
-        return this.manager.statics.champions;
+        return StaticService.champions;
     }
     
     protected deserialize(value: number[]) {
-        return value.map(x => this.manager.statics.championById(x));
+        return value.map(x => StaticService.championById(x));
     }
     
     protected serialize(value: lobby.Champion[]) {
@@ -170,11 +170,11 @@ export class MapSelectSetting extends Setting<lobby.Map, number> {
     }
     
     protected computeOptions() {
-        return this.manager.statics.maps;
+        return StaticService.maps;
     }
     
     protected deserialize(value: number) {
-        return this.manager.statics.mapById(value);
+        return StaticService.mapById(value);
     }
     
     protected serialize(value: lobby.Map) {
@@ -273,20 +273,16 @@ function createSetting(setting: lobby.LobbySetting, man: SettingManager): Settin
 
 class SettingManager {
     settings: { [binding: string]: Setting<any, any> };
-    statics: StaticService;
-    network: NetworkService;
 
     private redraw: () => void;
 
-    constructor(network: NetworkService, statics: StaticService, redraw: () => void) {
+    constructor(redraw: () => void) {
         this.settings = {};
-        this.statics = statics;
         this.redraw = redraw;
-        this.network = network;
 
-        network.on("setting-add", this.handleSettingAdd.bind(this));
-        network.on("setting-update", this.handleSettingUpdate.bind(this));
-        network.on("setting-remove", this.handleSettingRemove.bind(this));
+        NetworkService.on("setting-add", this.handleSettingAdd.bind(this));
+        NetworkService.on("setting-update", this.handleSettingUpdate.bind(this));
+        NetworkService.on("setting-remove", this.handleSettingRemove.bind(this));
     }
 
     handleSettingAdd(setting: lobby.LobbySetting) {
@@ -310,25 +306,18 @@ class SettingManager {
     }
 }
 
-export default class SettingService extends EventEmitter {
-    static $inject = ["networkService", "staticService"];
-    
-    network: NetworkService;
-    statics: StaticService;
+export default class SettingService extends EventEmitter {    
     settings: SettingManager;
     
-    constructor(net: NetworkService, stat: StaticService) {
+    constructor() {
         super();
         
-        this.network = net;
-        this.statics = stat;
-        
-        this.network.on("lobby-connect", () => this.setupSettings());
+        NetworkService.on("lobby-connect", () => this.setupSettings());
     }
     
     private setupSettings() {
-        this.settings = new SettingManager(this.network, this.statics, () => this.emit("update"));
-        this.network.currentLobby.settings.forEach(s => this.settings.handleSettingAdd(s));
+        this.settings = new SettingManager(() => this.emit("update"));
+        NetworkService.currentLobby.settings.forEach(s => this.settings.handleSettingAdd(s));
     }
     
     get playerSettings() {
