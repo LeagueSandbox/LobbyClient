@@ -15,6 +15,7 @@ Vue.use(VueRouter);
 import LoadingComponent from "./components/loading/loadingComponent.ts";
 import LobbyListComponent from "./components/lobbyList/lobbyListComponent.ts";
 import LoginComponent from "./components/login/loginComponent.ts";
+import ModalComponent from "./components/modal/modalComponent.ts";
 
 const NYI = Vue.extend({
     template: `<strong>Route not yet implemented.</strong>`
