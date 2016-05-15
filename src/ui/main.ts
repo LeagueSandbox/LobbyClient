@@ -17,6 +17,15 @@ import LobbyListComponent from "./components/lobbyList/lobbyListComponent.ts";
 import LoginComponent from "./components/login/loginComponent.ts";
 import ModalComponent from "./components/modal/modalComponent.ts";
 
+import SelectOptionComponent from "./components/selectOption/selectOptionComponent.ts";
+Vue.component("select-option", SelectOptionComponent);
+
+import CheckboxComponent from "./components/checkbox/checkboxComponent.ts";
+Vue.component("checkbox", CheckboxComponent);
+
+import backgroundSrc from "./directives/backgroundSrc.ts";
+Vue.directive("background-src", backgroundSrc);
+
 const NYI = Vue.extend({
     template: `<strong>Route not yet implemented.</strong>`
 });
