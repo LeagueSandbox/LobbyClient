@@ -12,6 +12,8 @@ const Vue = <vuejs.VueStatic>require("vue");
 const VueRouter = <vuejs.RouterStatic>require("vue-router");
 Vue.use(VueRouter);
 
+import LoadingComponent from "./components/loading/loadingComponent.ts";
+
 const NYI = Vue.extend({
     template: `<strong>Route not yet implemented.</strong>`
 });
@@ -22,7 +24,7 @@ const router = new VueRouter();
 // Map available routes.
 router.map({
     '/loading': {
-        component: NYI
+        component: LoadingComponent
     },
     '/login': {
         component: NYI
