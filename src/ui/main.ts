@@ -14,6 +14,7 @@ Vue.use(VueRouter);
 
 import LoadingComponent from "./components/loading/loadingComponent.ts";
 import LobbyListComponent from "./components/lobbyList/lobbyListComponent.ts";
+import LoginComponent from "./components/login/loginComponent.ts";
 
 const NYI = Vue.extend({
     template: `<strong>Route not yet implemented.</strong>`
@@ -28,7 +29,7 @@ router.map({
         component: LoadingComponent
     },
     '/login': {
-        component: NYI
+        component: LoginComponent
     },
     '/lobbies': {
         component: LobbyListComponent

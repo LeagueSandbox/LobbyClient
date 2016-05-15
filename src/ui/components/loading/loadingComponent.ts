@@ -32,7 +32,7 @@ export default class LoadingComponent extends Vue {
             return NetworkService.connectToCentral("http://localhost:8082");
         }).then(() => {
             this.state = "Done!"; 
-            this.$router.go("/lobbies");
+            this.$router.go("/login");
         });
     }
 }
