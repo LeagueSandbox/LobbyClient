@@ -3,7 +3,7 @@
         <div class="options">
             <div
                 v-for="opt in options"
-                @click="selected = opt"
+                @click="other !== opt && selected = opt"
                 :class="{ selected: selected === opt, disabled: other === opt }"
                 v-background-src="opt.icon"></div>
         </div>
