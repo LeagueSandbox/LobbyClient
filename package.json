@@ -45,10 +45,6 @@
     "webpack-fail-plugin": "^1.0.4"
   },
   "dependencies": {
-    "angular": "^1.5.3",
-    "angular-animate": "^1.5.5",
-    "angular-route": "^1.5.3",
-    "angularjs-scroll-glue": "^2.0.4",
     "babel-polyfill": "^6.7.4",
     "bluebird": "^3.3.4",
     "font-awesome": "^4.5.0",
