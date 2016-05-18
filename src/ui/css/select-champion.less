@@ -208,20 +208,14 @@
         flex: 0 60px;
         padding: 10px;
         
-        & > fade-background {
+        & > img.background {
+            .transitions(src);
+            
             width: 40px;
             height: 40px;
             
             margin-right: 10px;
             position: relative;
-            
-            & > * {
-                .full-size;
-                
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
         }
         
         & > .button {

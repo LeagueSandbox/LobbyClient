@@ -1,7 +1,7 @@
 ///<reference path="../_app.ts" />
 'use strict';
 
-export default class CDNService {
+class CDNService {
     static RELEASELISTING_URL = "http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/releaselisting_EUW";
     static PACKAGEMANIFEST_URL = "http://l3cdn.riotgames.com/releases/live/projects/lol_air_client/releases/%VER%/packages/files/packagemanifest";
     static BASE_PATH = "http://l3cdn.riotgames.com/releases/live";
@@ -57,3 +57,6 @@ export default class CDNService {
         return this.paths[relative.toLowerCase()];
     }
 }
+
+const instance = new CDNService();
+export default instance;

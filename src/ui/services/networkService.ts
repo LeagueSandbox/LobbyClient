@@ -4,15 +4,9 @@
 import { EventEmitter } from "events";
 import StaticService from "./staticService.ts";
 
-const io: SocketIOClientStatic = require("socket.io-client");
+const io = <SocketIOClientStatic>require("socket.io-client");
 
-interface KeyTransformMap {
-    [key: string]: (string | ([string, (any, thiz?: any) => any]));
-}
-
-export default class NetworkService extends EventEmitter {
-    static $inject = ["staticService"];
-
+export class NetworkService extends EventEmitter {
     /**  Current lobby. May be null. */
     currentLobby: lobby.Lobby;
     /** Current Socket.IO connection to lobby. May be null. */
@@ -25,14 +19,10 @@ export default class NetworkService extends EventEmitter {
     /** Current Socket.IO connection to central server. */
     currentConnection: SocketIOClient.Socket;
 
-    /** StaticService instance. */
-    static: StaticService;
-
-    constructor(stat: StaticService) {
+    constructor() {
         super();
 
         this.lobbies = [];
-        this.static = stat;
     }
 
     connectToCentral(url: string): Promise<void> {
@@ -139,10 +129,10 @@ export default class NetworkService extends EventEmitter {
                 id: "id",
                 name: "name",
                 team: ["teamId", id => this.currentLobby.teams.filter(x => x.id === id)[0]],
-                champion: ["championId", id => this.static.champions.filter(x => x.id === id)[0]],
+                champion: ["championId", id => StaticService.champions.filter(x => x.id === id)[0]],
                 skinIndex: "skinIndex",
-                spellOne: ["spell1id", id => this.static.summonerSpells.filter(x => x.id === id)[0]],
-                spellTwo: ["spell2id", id => this.static.summonerSpells.filter(x => x.id === id)[0]]
+                spellOne: ["spell1id", id => StaticService.summonerSpells.filter(x => x.id === id)[0]],
+                spellTwo: ["spell2id", id => StaticService.summonerSpells.filter(x => x.id === id)[0]]
             });
 
             this.currentLobbyConnection.on("teamlist-add", teamlistAdd);
@@ -266,4 +256,11 @@ export default class NetworkService extends EventEmitter {
         
         throw new Error("Unknown setting " + contents.binding);
     }
+}
+
+const instance = new NetworkService();
+export default instance;
+
+interface KeyTransformMap {
+    [key: string]: (string | ([string, (any, thiz?: any) => any]));
 }

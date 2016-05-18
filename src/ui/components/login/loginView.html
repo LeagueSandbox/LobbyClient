@@ -1,10 +1,10 @@
 <div class="login-component">
     <div class="background"></div>
     <div class="login-container">
-        <div class="login-form" ng-class="{ wobble: previousInvalid }">
+        <div class="login-form" :class="{ wobble: previousInvalid }">
             <div class="summoner-icon">
                 <img src="http://placehold.it/120x120">
-                <div class="spinner-container" ng-class="isLoading ? 'fade-in' : 'fade-out'">
+                <div class="spinner-container" :class="isLoading ? 'fade-in' : 'fade-out'">
                     <div class="spinner"></div>
                 </div>
             </div>
@@ -12,14 +12,14 @@
             <div class="title">Welcome</div>
 
             <div class="username-header">Username</div>
-            <input class="username-field" ng-class="{ invalid: previousInvalid }" ng-change="previousInvalid = false" ng-model="username"
+            <input class="username-field" :class="{ invalid: previousInvalid }" @change="previousInvalid = false" v-model="username"
             type="text">
 
             <div class="password-header">Password</div>
-            <input class="password-field" ng-class="{ invalid: previousInvalid }" ng-change="previousInvalid = false" ng-model="password"
+            <input class="password-field" :class="{ invalid: previousInvalid }" @change="previousInvalid = false" v-model="password"
             type="password">
 
-            <div class="login-button" ng-class="{ disabled: !username || !password }" ng-click="login()">Login</div>
+            <div class="login-button" :class="{ disabled: !username || !password }" @click="login">Login</div>
 
             <div class="no-account">No account? <span class="register">Register</span></div>
         </div>

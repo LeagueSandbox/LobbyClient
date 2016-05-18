@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"sourceMap": true
+		"sourceMap": true,
+		"experimentalDecorators": true
 	},
 	"exclude": [
 		"node_modules"
 	],
 	"files": [
-		"src/vendor/angular.d.ts",
-		"src/vendor/jquery.d.ts"
+		"src/ui/main.ts"
 	]
 }

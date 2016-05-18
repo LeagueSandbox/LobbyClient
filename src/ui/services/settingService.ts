@@ -8,10 +8,13 @@ import StaticService from "./staticService.ts";
 export abstract class Setting<Deserialized, Serialized> {
     protected manager: SettingManager;
     
+    /** Binding (id) for this setting. */
+    public binding: string;
+    
     /** Internal variable that keeps track of the local value of this setting. */
     private _value: Deserialized;
-    /** Internal variable that keeps track of the potential options for this settiing. */
-    private _options: any;
+    /** Variable that keeps track of the potential options for this settiing. */
+    public options: any;
     /** LobbySetting that this setting represents. */
     protected setting: lobby.LobbySetting;
     
@@ -27,8 +30,10 @@ export abstract class Setting<Deserialized, Serialized> {
     constructor(manager: SettingManager, setting: lobby.LobbySetting) {
         this.manager = manager;
         this.setting = setting;
+        this.binding = setting.binding;
         
         this._value = setting.value ? this.deserialize(setting.value) : this.computeDefault();
+        this.tryComputeOptions();
         
         if (setting.value) {
             delete setting.value;
@@ -41,12 +46,8 @@ export abstract class Setting<Deserialized, Serialized> {
             this._value = this.deserialize(val);
         }
         
-        this._options = this.computeOptions();
-    }
-    
-    /** Returns available options. */
-    get options() {
-        return this._options || (this._options = this.computeOptions());
+        // Recompute options.
+        this.tryComputeOptions();
     }
     
     /** Returns the current value. */
@@ -65,7 +66,7 @@ export abstract class Setting<Deserialized, Serialized> {
     /** not the actual value itself. E.g. this.value[foo] = bar. The value */
     /** does not update, but we still need to notify the server. */
     notifyChange() {
-        this.manager.network.setSetting(this.setting, this.serialize(this._value));
+        NetworkService.setSetting(this.setting, this.serialize(this._value));
     }
     
     /** Returns the type of the field. */
@@ -82,6 +83,18 @@ export abstract class Setting<Deserialized, Serialized> {
     get host() {
         return this.setting.host;
     }
+    
+    // We try to compute the options here.
+    // If we fail (some setting has not yet arrived for example)
+    // we bail to the default value of [] and assume a future
+    // update() call will fix the issue.
+    private tryComputeOptions() {
+        try {
+            this.options = this.computeOptions();
+        } catch (ex) {
+            this.options = [];
+        }
+    }
 }
 
 export class SummonerSpellSelectSetting extends Setting<[lobby.SummonerSpell, lobby.SummonerSpell], [number, number]> {
@@ -91,14 +104,14 @@ export class SummonerSpellSelectSetting extends Setting<[lobby.SummonerSpell, lo
     
     protected computeOptions() {
         if (this.setting.options === "*") {
-            return this.manager.statics.summonerSpells;
+            return StaticService.summonerSpells;
         }
         
-        return this.manager.settings[<string>this.setting.options].value;
+        return this.manager.getSetting(this.setting.options).value;
     }
     
     protected deserialize(value: [number, number]): [lobby.SummonerSpell, lobby.SummonerSpell] {
-        return [this.manager.statics.spellById(value[0]), this.manager.statics.spellById(value[1])];
+        return [StaticService.spellById(value[0]), StaticService.spellById(value[1])];
     }
     
     protected serialize(value: [lobby.SummonerSpell, lobby.SummonerSpell]): [number, number] {
@@ -113,14 +126,14 @@ export class ChampionSelectSetting extends Setting<lobby.Champion, number> {
     
     protected computeOptions() {
         if (this.setting.options === "*") {
-            return this.manager.statics.champions;
+            return StaticService.champions;
         }
         
-        return this.manager.settings[<string>this.setting.options].value;
+        return this.manager.getSetting(this.setting.options).value;
     }
     
     protected deserialize(value: number) {
-        return this.manager.statics.championById(value);
+        return StaticService.championById(value);
     }
     
     protected serialize(value: lobby.Champion) {
@@ -130,15 +143,15 @@ export class ChampionSelectSetting extends Setting<lobby.Champion, number> {
 
 export class SummonerSpellSelectMultiSetting extends Setting<lobby.SummonerSpell[], number[]> {
     protected computeDefault(): lobby.SummonerSpell[] {
-        return this.manager.statics.summonerSpells.slice();
+        return StaticService.summonerSpells.slice();
     }
     
     protected computeOptions() {
-        return this.manager.statics.summonerSpells;
+        return StaticService.summonerSpells;
     }
     
     protected deserialize(value: number[]) {
-        return value.map(x => this.manager.statics.spellById(x));
+        return value.map(x => StaticService.spellById(x));
     }
     
     protected serialize(value: lobby.SummonerSpell[]) {
@@ -148,15 +161,15 @@ export class SummonerSpellSelectMultiSetting extends Setting<lobby.SummonerSpell
 
 export class ChampionSelectMultiSetting extends Setting<lobby.Champion[], number[]> {
     protected computeDefault() {
-        return this.manager.statics.champions.slice();
+        return StaticService.champions.slice();
     }
     
     protected computeOptions() {
-        return this.manager.statics.champions;
+        return StaticService.champions;
     }
     
     protected deserialize(value: number[]) {
-        return value.map(x => this.manager.statics.championById(x));
+        return value.map(x => StaticService.championById(x));
     }
     
     protected serialize(value: lobby.Champion[]) {
@@ -170,11 +183,11 @@ export class MapSelectSetting extends Setting<lobby.Map, number> {
     }
     
     protected computeOptions() {
-        return this.manager.statics.maps;
+        return StaticService.maps;
     }
     
     protected deserialize(value: number) {
-        return this.manager.statics.mapById(value);
+        return StaticService.mapById(value);
     }
     
     protected serialize(value: lobby.Map) {
@@ -244,7 +257,7 @@ export class SkinSelectSetting extends Setting<number, number> {
     }
     
     protected computeOptions() {
-        const champ = this.manager.settings[<string>this.setting.options].value;
+        const champ = this.manager.getSetting(this.setting.options).value;
         return champ ? champ.skins : [];
     }
     
@@ -272,70 +285,59 @@ function createSetting(setting: lobby.LobbySetting, man: SettingManager): Settin
 }
 
 class SettingManager {
-    settings: { [binding: string]: Setting<any, any> };
-    statics: StaticService;
-    network: NetworkService;
+    settings: Setting<any, any>[];
 
-    private redraw: () => void;
+    constructor() {
+        this.settings = [];
 
-    constructor(network: NetworkService, statics: StaticService, redraw: () => void) {
-        this.settings = {};
-        this.statics = statics;
-        this.redraw = redraw;
-        this.network = network;
-
-        network.on("setting-add", this.handleSettingAdd.bind(this));
-        network.on("setting-update", this.handleSettingUpdate.bind(this));
-        network.on("setting-remove", this.handleSettingRemove.bind(this));
+        NetworkService.on("setting-add", this.handleSettingAdd.bind(this));
+        NetworkService.on("setting-update", this.handleSettingUpdate.bind(this));
+        NetworkService.on("setting-remove", this.handleSettingRemove.bind(this));
     }
 
     handleSettingAdd(setting: lobby.LobbySetting) {
-        this.settings[setting.binding] = createSetting(setting, this);
-        this.redraw();
+        this.settings.push(createSetting(setting, this));
+        this.settings.forEach(sk => sk.update());
     }
 
     private handleSettingUpdate(setting: lobby.LobbySetting) {
         if (setting.value) {
-            this.settings[setting.binding].update(setting.value);
+            this.getSetting(setting.binding).update(setting.value);
             delete setting.value;
         }
         
-        Object.keys(this.settings).forEach(sk => this.settings[sk].update());
-        this.redraw();
+        this.settings.forEach(sk => sk.update());
     }
 
     private handleSettingRemove(setting: lobby.LobbySetting) {
-        delete this.settings[setting.binding];
-        this.redraw();
+        this.settings.$remove(this.getSetting(setting.binding));
+    }
+    
+    public getSetting(binding): Setting<any, any> {
+        return this.settings.filter(x => x.binding === binding)[0];
     }
 }
 
-export default class SettingService extends EventEmitter {
-    static $inject = ["networkService", "staticService"];
+export class SettingService {    
+    settingManager: SettingManager;
     
-    network: NetworkService;
-    statics: StaticService;
-    settings: SettingManager;
-    
-    constructor(net: NetworkService, stat: StaticService) {
-        super();
-        
-        this.network = net;
-        this.statics = stat;
-        
-        this.network.on("lobby-connect", () => this.setupSettings());
+    constructor() {        
+        NetworkService.on("lobby-connect", () => this.setupSettings());
     }
     
     private setupSettings() {
-        this.settings = new SettingManager(this.network, this.statics, () => this.emit("update"));
-        this.network.currentLobby.settings.forEach(s => this.settings.handleSettingAdd(s));
+        this.settingManager = new SettingManager();
+        NetworkService.currentLobby.settings.forEach(s => this.settingManager.handleSettingAdd(s));
     }
     
     get playerSettings() {
-        return Object.keys(this.settings.settings).map(x => this.settings.settings[x]).filter(x => !x.host);
+        return this.settingManager.settings.filter(x => !x.host);
     }
 
     get hostSettings() {
-        return Object.keys(this.settings.settings).map(x => this.settings.settings[x]).filter(x => x.host);
+        return this.settingManager.settings.filter(x => x.host);
     }
 }
+
+const instance = new SettingService();
+export default instance;

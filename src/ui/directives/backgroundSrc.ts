@@ -1,25 +1,17 @@
 ///<reference path="../_app.ts" />
 'use strict';
 
-interface AugmentedAttributes extends ng.IAttributes {
-    overlayColor?: string;
-}
-
-function backgroundSrc(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: AugmentedAttributes) {
-    let color = "";
-    if (attrs.overlayColor && attrs.overlayColor.indexOf(";") !== -1) {
-        color = "linear-gradient(" + attrs.overlayColor.replace(/;/g, ",") + "), ";
-    } else if (attrs.overlayColor) {
-        color = `linear-gradient(${attrs.overlayColor}, ${attrs.overlayColor}), `;
+export default {
+    params: ["overlayColor"],
+    update(newValue, oldValue) {
+        let color = "";
+        if (this.params.overlayColor && this.params.overlayColor.indexOf(";") !== -1) {
+            color = "linear-gradient(" + this.params.overlayColor.replace(/;/g, ",") + "), ";
+        } else if (this.params.overlayColor) {
+            color = `linear-gradient(${this.params.overlayColor}, ${this.params.overlayColor}), `;
+        }
+        
+        this.el.style.backgroundImage = color + "url(" + newValue + ")";
+        this.el.style.backgroundSize = "cover";
     }
-   
-    attrs.$observe('backgroundSrc', value => {
-        element.css({
-            'background-image': color + 'url(' + value + ')',
-            'background-size': 'cover'
-        });
-    });
 }
-
-const directive: ng.IDirectiveFactory = () => backgroundSrc;
-export default directive;

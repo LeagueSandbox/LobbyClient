@@ -1,12 +1,10 @@
-<fade-background
-    clazz="background"
-    background="http://i.imgur.com/Yt6ViUD.png"></fade-background>
+<div class="background"></div>
 
 <div class="lobby">
     <div class="left">
-        <div class="settings" compile="settingsContent"></div>
-        <div class="chat" compile="chatContent"></div>
+        <div class="settings"><partial name="lobby-settings"></partial></div>
+        <div class="chat"><partial name="lobby-chat"></partial></div>
     </div>
 
-    <div class="right" compile="playerListContent"></div>
+    <div class="right"><partial name="lobby-player-list"></partial></div>
 </div>

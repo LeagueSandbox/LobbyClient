@@ -1,13 +1,13 @@
-<div class="messages" scroll-glue>
-    <div class="message-group" ng-repeat="group in messages track by $index">
-        <span class="timestamp">{{ group.timestamp.getHours() }}:{{ group.timestamp.getMinutes() }}</span>
+<div class="messages" id="chat-container">
+    <div class="message-group" v-for="group in messages">
+        <span class="timestamp">{{ group.timestamp | formatTime }}</span>
         <span class="sender">{{ group.sender }}</span>
         <div class="messages">
-            <span ng-repeat="message in group.messages track by $index">{{ message }}</span>
+            <span v-for="message in group.messages" track-by="$index">{{ message }}</span>
         </div>
     </div>
 </div>
 
 <div class="input">
-    <input ng-model="message" class="send-message" placeholder="Your message..." ng-keyup="submit($event)">
+    <input v-model="message" class="send-message" placeholder="Your message..." @keyup.enter="sendChat">
 </div>

@@ -11,7 +11,9 @@
 </head>
 
 <body>
-    <div class="content" ng-view></div>
+    <div class="content" id="content">
+        <router-view></router-view>
+    </div>
     <div class="draggable"></div>
 
     <div class="app-controls">
@@ -19,7 +21,7 @@
         <i class="fa fa-times" onclick="_close()"></i>
     </div>
     
-    <modals></modals>
+    <div id="modal"></div>
 
     <script>
         "use strict";

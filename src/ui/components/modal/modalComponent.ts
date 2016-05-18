@@ -1,6 +1,16 @@
 ///<reference path="../../_app.ts" />
 'use strict';
 
+import Component from "vue-class-component";
+const Vue = <vuejs.VueStatic>require("vue");
+
+const TEMPLATE = `
+<div class="modal-container fade-in" :class="{ 'fade-out-remove': !activeModal }">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" v-if="activeModal"><component :is="activeModal.content"></component></div>
+</div>
+`;
+
 class Modal<T> {
     resolve: (thenableOrResult?: T | PromiseLike<T>) => void;
     params: any[];
@@ -13,13 +23,18 @@ class Modal<T> {
     }
 }
 
-export default class ModalService {
-    activeModal: Modal<any>;
-    pendingModals: Modal<any>[];
+@Component({
+    template: TEMPLATE
+})
+class ModalComponent extends Vue {
+    private activeModal: Modal<any>;
+    private pendingModals: Modal<any>[];
     
-    constructor() {
-        this.activeModal = null;
-        this.pendingModals = [];
+    data() {
+        return {
+            activeModal: null,
+            pendingModals: []
+        };
     }
     
     // Returns a promise that resolves when the view invokes the finish(res) method.
@@ -39,10 +54,19 @@ export default class ModalService {
         this.presentIfNecessary();
     }
     
-    private presentIfNecessary() {
+    presentIfNecessary() {
         if (!this.activeModal && this.pendingModals.length) {
-            // The modal directive will pick up this change.
+            // Vue will pick up the change.
             this.activeModal = this.pendingModals.pop();
         }
     }
+    
+    get params() {
+        return this.activeModal.params;
+    }
 }
+
+const instance = new ModalComponent({
+    el: "#modal"
+});
+export default instance;

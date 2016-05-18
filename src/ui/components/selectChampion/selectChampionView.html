@@ -1,27 +1,28 @@
-<div class="select-champion" ng-controller="selectChampionCtrl">
+<div class="select-champion">
     <div class="header">
         <div class="filters">
-            <div class="top" ng-init="top = true" ng-click="top = !top" ng-class="{ active: top }"></div>
-            <div class="jungle" ng-init="jungle = true" ng-click="jungle = !jungle" ng-class="{ active: jungle }"></div>
-            <div class="mid" ng-init="mid = true" ng-click="mid = !mid" ng-class="{ active: mid }"></div>
-            <div class="bot" ng-init="bot = true" ng-click="bot = !bot" ng-class="{ active: bot }"></div>
-            <div class="support" ng-init="support = true" ng-click="support = !support" ng-class="{ active: support }"></div>
+            <div class="top" @click="top = !top" :class="{ active: top }"></div>
+            <div class="jungle" @click="jungle = !jungle" :class="{ active: jungle }"></div>
+            <div class="mid" @click="mid = !mid" :class="{ active: mid }"></div>
+            <div class="bot" @click="bot = !bot" :class="{ active: bot }"></div>
+            <div class="support" @click="support = !support" :class="{ active: support }"></div>
         </div>
-        <input class="search" ng-model="searchTerm">
+        <input class="search" v-model="searchTerm">
     </div>
     
     <div class="options">
-        <div class="option ng-animate-enabled"
-            ng-click="select(champ)"
-            ng-class="{ active: isSelected(champ) }"
-            background-src="{{ champ.skins[0].splashCutoutURL }}"
-            ng-repeat="champ in getOptions()">
+        <div @click="currentChampion = champ"
+            :class="{ option: true, active: currentChampion === champ }"
+            v-background-src="champ.skins[0].splashCutoutURL"
+            v-for="champ in options | filterBy searchTerm in 'name'">
             <span>{{ champ.name }}</span>
         </div>
     </div>
     
     <div class="footer">
-        <fade-background background="{{ currentChampion.portraitIconURL || '' }}"></fade-background>
-        <div class="button" ng-click="finish()">Select</div>
+        <!-- TODO: Change to src transition on image instead. -->
+        <!--<fade-background background="{{ currentChampion.portraitIconURL || '' }}"></fade-background>-->
+        <img class="background" :src="currentChampion ? currentChampion.portraitIconURL : ''">
+        <div class="button" @click="finish(currentChampion)">Select</div>
     </div>    
 </div>
