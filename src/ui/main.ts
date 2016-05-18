@@ -16,19 +16,25 @@ import LoadingComponent from "./components/loading/loadingComponent.ts";
 import LobbyListComponent from "./components/lobbyList/lobbyListComponent.ts";
 import LoginComponent from "./components/login/loginComponent.ts";
 import ModalComponent from "./components/modal/modalComponent.ts";
+import LobbyComponent from "./components/lobby/lobbyComponent.ts";
 
 import SelectOptionComponent from "./components/selectOption/selectOptionComponent.ts";
 Vue.component("select-option", SelectOptionComponent);
 
+import SelectChampionComponent from "./components/selectChampion/selectChampionComponent.ts";
+Vue.component("select-champion", SelectChampionComponent);
+
+import SelectSummonerSpellComponent from "./components/selectSummonerSpell/selectSummonerSpellComponent.ts";
+Vue.component("select-summoner-spell", SelectSummonerSpellComponent);
+
 import CheckboxComponent from "./components/checkbox/checkboxComponent.ts";
 Vue.component("checkbox", CheckboxComponent);
 
+import SettingComponent from "./components/setting/settingComponent.ts";
+Vue.component("setting", SettingComponent);
+
 import backgroundSrc from "./directives/backgroundSrc.ts";
 Vue.directive("background-src", backgroundSrc);
-
-const NYI = Vue.extend({
-    template: `<strong>Route not yet implemented.</strong>`
-});
 
 const App = Vue.extend({});
 const router = new VueRouter();
@@ -45,7 +51,7 @@ router.map({
         component: LobbyListComponent
     },
     '/lobby': {
-        component: NYI
+        component: LobbyComponent
     },
     '*': {
         component: {

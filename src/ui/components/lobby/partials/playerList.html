@@ -1,13 +1,15 @@
-<div class="team" ng-repeat="team in network.currentLobby.teams">
+<div class="team" v-for="team in lobby.teams">
     <span class="team-name">{{ team.name }}</span>
     
-    <div ng-repeat="player in network.currentLobby.players | filter: { team: team }" background-src="{{ getOrNone(player.champion.skins[player.skinIndex].splashCutoutURL) }}" overlay-color="to left; transparent; black">
+    <div v-for="player in playersInTeam(team)"
+        v-background-src="getOrNone(player.champion ? player.champion.skins[player.skinIndex].splashCutoutURL : undefined)"
+        overlay-color="to left; transparent; black">
         <span>{{ player.name }}</span>
-        <img ng-src="{{ player.spellOne.icon }}">
-        <img ng-src="{{ player.spellTwo.icon }}">
+        <img :src="player.spellOne.icon">
+        <img :src="player.spellTwo.icon">
     </div>
     
-    <div class="join-button" ng-click="network.joinTeam(team)">
+    <div class="join-button" @click="joinTeam(team)">
         <span>JOIN</span>
     </div>
 </div>
