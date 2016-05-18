@@ -45,7 +45,13 @@ export default class SettingComponent extends Vue {
     }
     
     openSpellPicker(index: number) {
-        // TODO
+        ModalComponent.present("select-summoner-spell", this.setting.options, this.setting.value[index], this.setting.value[(index + 1) % 2]).then(s => {
+           if (index === 0) {
+               this.setting.value = [s, this.setting.value[1]];
+           } else {
+               this.setting.value = [this.setting.value[0], s];
+           }
+        });
     }
     
     toggleMembership(obj: any) {

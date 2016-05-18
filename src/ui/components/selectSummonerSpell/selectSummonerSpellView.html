@@ -1,18 +1,18 @@
-<div class="select-summoner-spell" ng-controller="selectSummonerSpellCtrl">
+<div class="select-summoner-spell">
     <div class="select-body">
         <div class="options">
             <div
-                ng-repeat="opt in options"
-                ng-click="select(opt)"
-                ng-class="{ selected: selected.name === opt.name, disabled: opt === other }"
-                background-src="{{ opt.icon }}"></div>
+                v-for="opt in options"
+                @click="selected = opt"
+                :class="{ selected: selected === opt, disabled: other === opt }"
+                v-background-src="opt.icon"></div>
         </div>
         <div class="description">
             <span class="title">{{ selected.name }}</span>
             <hr>
             <span class="description">{{ selected.description }}</span>
-            <div class="img" background-src="{{ selected.image }}"></div>
+            <div class="img" v-background-src="selected.image"></div>
         </div>
     </div>
-    <div ng-click="finish()" class="button">Select</div>
+    <div @click="finish(selected)" class="button">Select</div>
 </div>
