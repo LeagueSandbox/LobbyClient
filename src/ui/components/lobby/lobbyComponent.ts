@@ -56,7 +56,21 @@ export default class LobbyComponent extends Vue {
                 this.messages[this.messages.length - 1].messages.push(message);
             } else {
                 this.messages.push({ timestamp, sender, messages: [message] });
-            }            
+            }
+            
+            // Scroll down on the next tick if we aren't scrolled yet.
+            // We scroll down next tick because by then the contents of the
+            // chat will have been updated with the newly added message.
+            const el = document.getElementById("chat-container");
+            const isAttached = el.scrollTop + el.clientHeight + 1 >= el.scrollHeight;
+            
+            this.$nextTick(() => {
+                // If we were attached before the element got bigger, scroll down.
+                // This effectively reattaches the scroll.
+                if (isAttached) {
+                    el.scrollTop = el.scrollHeight;
+                }
+            });          
         });
     }
     

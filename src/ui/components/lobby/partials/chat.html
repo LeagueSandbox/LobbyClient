@@ -1,4 +1,4 @@
-<div class="messages" scroll-glue>
+<div class="messages" id="chat-container">
     <div class="message-group" v-for="group in messages">
         <span class="timestamp">{{ group.timestamp.getHours() }}:{{ group.timestamp.getMinutes() }}</span>
         <span class="sender">{{ group.sender }}</span>
