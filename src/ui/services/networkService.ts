@@ -4,13 +4,9 @@
 import { EventEmitter } from "events";
 import StaticService from "./staticService.ts";
 
-const io: SocketIOClientStatic = require("socket.io-client");
+const io = <SocketIOClientStatic>require("socket.io-client");
 
-interface KeyTransformMap {
-    [key: string]: (string | ([string, (any, thiz?: any) => any]));
-}
-
-class NetworkService extends EventEmitter {
+export class NetworkService extends EventEmitter {
     /**  Current lobby. May be null. */
     currentLobby: lobby.Lobby;
     /** Current Socket.IO connection to lobby. May be null. */
@@ -264,3 +260,7 @@ class NetworkService extends EventEmitter {
 
 const instance = new NetworkService();
 export default instance;
+
+interface KeyTransformMap {
+    [key: string]: (string | ([string, (any, thiz?: any) => any]));
+}

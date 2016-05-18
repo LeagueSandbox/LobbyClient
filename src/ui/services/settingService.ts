@@ -306,7 +306,7 @@ class SettingManager {
     }
 }
 
-export default class SettingService extends EventEmitter {    
+export class SettingService extends EventEmitter {    
     settings: SettingManager;
     
     constructor() {
@@ -328,3 +328,6 @@ export default class SettingService extends EventEmitter {
         return Object.keys(this.settings.settings).map(x => this.settings.settings[x]).filter(x => x.host);
     }
 }
+
+const instance = new SettingService();
+export default instance;
