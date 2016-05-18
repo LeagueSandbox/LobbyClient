@@ -7,7 +7,7 @@ const Vue = <vuejs.VueStatic>require("vue");
 const TEMPLATE = `
 <div class="modal-container fade-in" :class="{ 'fade-out-remove': !activeModal }">
     <div class="modal-backdrop"></div>
-    <div class="modal-content" v-if="activeModal">{{{ activeModal.content }}}</div>
+    <div class="modal-content" v-if="activeModal"><component :is="activeModal.content"></component></div>
 </div>
 `;
 
@@ -59,6 +59,10 @@ class ModalComponent extends Vue {
             // Vue will pick up the change.
             this.activeModal = this.pendingModals.pop();
         }
+    }
+    
+    get params() {
+        return this.activeModal.params;
     }
 }
 
