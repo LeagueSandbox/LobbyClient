@@ -10,8 +10,8 @@ export abstract class Setting<Deserialized, Serialized> {
     
     /** Internal variable that keeps track of the local value of this setting. */
     private _value: Deserialized;
-    /** Internal variable that keeps track of the potential options for this settiing. */
-    private _options: any;
+    /** Variable that keeps track of the potential options for this settiing. */
+    public options: any;
     /** LobbySetting that this setting represents. */
     protected setting: lobby.LobbySetting;
     
@@ -29,6 +29,7 @@ export abstract class Setting<Deserialized, Serialized> {
         this.setting = setting;
         
         this._value = setting.value ? this.deserialize(setting.value) : this.computeDefault();
+        this.options = this.computeOptions();
         
         if (setting.value) {
             delete setting.value;
@@ -41,12 +42,8 @@ export abstract class Setting<Deserialized, Serialized> {
             this._value = this.deserialize(val);
         }
         
-        this._options = this.computeOptions();
-    }
-    
-    /** Returns available options. */
-    get options() {
-        return this._options || (this._options = this.computeOptions());
+        // Recompute options.
+        this.options = this.computeOptions();
     }
     
     /** Returns the current value. */
