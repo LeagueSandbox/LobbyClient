@@ -36,6 +36,9 @@ Vue.component("setting", SettingComponent);
 import backgroundSrc from "./directives/backgroundSrc.ts";
 Vue.directive("background-src", backgroundSrc);
 
+import formatTime from "./filters/formatTime.ts";
+Vue.filter("formatTime", formatTime);
+
 const App = Vue.extend({});
 const router = new VueRouter();
 
