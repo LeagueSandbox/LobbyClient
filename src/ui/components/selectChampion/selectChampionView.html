@@ -22,6 +22,7 @@
     <div class="footer">
         <!-- TODO: Change to src transition on image instead. -->
         <!--<fade-background background="{{ currentChampion.portraitIconURL || '' }}"></fade-background>-->
+        <img class="background" :src="currentChampion ? currentChampion.portraitIconURL : ''">
         <div class="button" @click="finish(currentChampion)">Select</div>
     </div>    
 </div>

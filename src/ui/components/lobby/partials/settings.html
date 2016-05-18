@@ -7,10 +7,10 @@
 
 <div class="columns">
     <div class="column champion-settings">
-        <setting v-for="(binding, setting) in playerSettings" :setting="setting"></setting>
+        <setting v-for="setting in playerSettings" :setting="setting"></setting>
     </div>
     
     <div class="column custom-settings">
-        <setting v-for="(binding, setting) in hostSettings" :setting="setting"></setting>
+        <setting v-for="setting in hostSettings" :setting="setting"></setting>
     </div>
 </div>
