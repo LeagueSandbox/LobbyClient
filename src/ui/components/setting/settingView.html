@@ -1,0 +1,44 @@
+<div class="config-setting">
+    <span class="config-name">{{ setting.name }}</span>
+
+    <checkbox v-if="setting.field == 'checkbox'" :value.sync="setting.value"></checkbox>
+    <input v-if="setting.field == 'text'" v-model="setting.value">
+
+    <span v-if="setting.field == 'select'">
+        <select-option :value.sync="setting.value" placeholder="..." :options="setting.options"></select-option>
+    </span>
+
+    <div v-if="setting.field == 'championSelect'" @click="openChampionPicker" class="champion selected" v-background-src="getOrNone(setting.value ? setting.value.skins[0].splashCutoutURL : undefined)">
+        <span>{{ setting.value ? setting.value.name : "None" }}</span>
+    </div>
+
+    <div v-if="setting.field == 'summonerSpellSelect'" class="flex">
+        <div @click="openSpellPicker(0)" class="summoner" v-background-src="setting.value ? setting.value[0].icon : ''"></div>
+        <div @click="openSpellPicker(1)" class="summoner" v-background-src="setting.value ? setting.value[1].icon : ''"></div>
+    </div>
+
+    <div v-if="setting.field == 'mapSelect'" class="map-options">
+        <div @click="setting.value = map" :class="{ active: setting.value === map, option: true }" v-for="map in setting.options" v-background-src="map.image">
+            <span>{{ map.name }}</span>
+        </div>
+    </div>
+
+    <div v-if="setting.field == 'championSelectMulti'" class="multi">
+        <div @click="toggleMembership(champion)" v-for="champion in setting.options"
+            :class="{ option: true, active: setting.value.indexOf(champion) !== -1 }" v-background-src="champion.portraitIconURL">
+        </div>
+    </div>
+
+    <div v-if="setting.field == 'summonerSpellSelectMulti'" class="multi">
+        <div @click="toggleMembership(spell)" v-for="spell in setting.options"
+            :class="{ option: true, active: setting.value.indexOf(spell) !== -1 }" v-background-src="spell.icon">
+        </div>
+    </div>
+
+    <div v-if="setting.field == 'skinSelect'" class="flex">
+        <div :class="{ champion: true, selected: setting.value === $index }" v-for="skin in setting.options" v-background-src="skin.splashCutoutURL"
+            @click="setting.value = $index">
+            <span>{{ skin.name }}</span>
+        </div>
+    </div>
+</div>
