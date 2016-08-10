@@ -1,4 +1,7 @@
 @import "helpers";
+@login-background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
+@login-background-blur: 3px;
+@login-background-darkness: 0.5;
 
 @keyframes cubeAnimation {
     0% {
@@ -17,7 +20,9 @@
     .center-children;
 
     flex-direction: column;
-    background-color: rgb(84, 84, 185);
+    //background-color: rgb(84, 84, 185);
+    background: linear-gradient(rgba(0, 0, 0, @login-background-darkness), rgba(0, 0, 0, @login-background-darkness)), @login-background-image;
+    background-size: cover;
 
     & > .title {
         font-size: 40px;

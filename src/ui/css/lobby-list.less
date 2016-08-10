@@ -1,8 +1,45 @@
+@import "helpers";
+
+@login-background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
+@login-background-blur: 3px;
+@login-background-darkness: 0.5;
+@font: "Lato";
+@header-height: 50px;
+
+.headerD{
+        flex: 0 @header-height;
+        display: flex;
+        align-items: center;
+        
+        margin: 10px 20px 10px 20px;
+        padding-left: 10px;
+        padding-bottom: 5px;
+        
+        border-width: 0px;
+        border-bottom-width: 3px;
+        border-image: radial-gradient(ellipse at center, #BBBBBB 70%, rgba(0, 0, 0, 0));
+        border-image-slice: 1;
+}
+.titleD{
+    font-family: @font; 
+    font-size: 30px;
+    line-height: @header-height;
+}
+
 .lobby-list {
-    background-color: white;
+    .full-size;
+    background: linear-gradient(rgba(0, 0, 0, @login-background-darkness), rgba(0, 0, 0, @login-background-darkness)), @login-background-image;
+    background-size: cover;
+    color: #ffffff;
     
     & > div {
         cursor: pointer;
         -webkit-user-select: initial;
     }
+}
+.circleA{
+ border-radius: 29px 29px 29px 29px;
+-moz-border-radius: 29px 29px 29px 29px;
+-webkit-border-radius: 29px 29px 29px 29px;
+ border: 0px solid #ffffff;
 }
