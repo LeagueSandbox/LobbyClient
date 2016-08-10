@@ -1,9 +1,13 @@
-<input v-model="username" style="width: 100%; padding: 5px;">
-
 <div class="lobby-list">
+    <div class="headerD">
+        <span class="titleD">Choose a Game</span>
+    </div>
+    <div>
+        <input class="circleA" v-model="username" style="width: 100%; padding: 5px;">
+    </div>
     <div v-for="lobby in network.lobbies" @click="join(lobby)">
-        {{ lobby.name }} - {{ lobby.creator }}<br>
-        {{ lobby.playerCount }}/{{ lobby.playerLimit }}<br>
-        {{ lobby.address }}:{{ lobby.port }}
+        {{ lobby.name }} - {{ lobby.creator }}<br> 
+        {{ lobby.playerCount }}/{{ lobby.playerLimit }}<br>  
+        {{ lobby.address }}:{{ lobby.port }} 
     </div>
 </div>
