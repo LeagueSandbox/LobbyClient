@@ -33,20 +33,21 @@ export class NetworkService extends EventEmitter {
             const [add, update, remove] = this.buildListUpdater("lobbylist", this.lobbies, {
                 id: "id",
                 name: "name",
-                creator: "creator",
-                playerLimit: "playerLimit",
-                playerCount: "playerCount",
-                gamemodeName: "gameMode",
-                hasPassword: "requirePassword",
-                address: "address",
-                port: "port"
+                //creator: "creator",
+                //playerLimit: "playerLimit",
+                //playerCount: "playerCount",
+                //gamemodeName: "gameMode",
+                //hasPassword: "requirePassword",
+                //address: "address",
+                //port: "port"
             });
-
             this.currentConnection.on("lobbylist-add", add);
             this.currentConnection.on("lobbylist-update", update);
             this.currentConnection.on("lobbylist-remove", remove);
+            this.currentConnection.emit('lobby.create');
         });
     }
+
 
     /*
      * ======================================
@@ -60,13 +61,16 @@ export class NetworkService extends EventEmitter {
         
         this.currentUsername = username;
         return new Promise((resolve, reject) => {
-            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, { reconnection: false });
+            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, { reconnection: false, 'forceNew': true});
             this.currentLobbyConnection.on("connect", () => {
                 this.currentLobbyConnection.emit("lobby-connect", { name: username, password: password });
             });
-
             this.currentLobbyConnection.on("lobby-connect", (c) => this.handleLobbyConnect(c, resolve, reject));
         });
+    }
+
+    public leaveLobby() {
+        this.currentLobbyConnection.disconnect();
     }
     /*
      * ======================================
