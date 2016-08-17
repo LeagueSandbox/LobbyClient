@@ -33,13 +33,13 @@ export class NetworkService extends EventEmitter {
             const [add, update, remove] = this.buildListUpdater("lobbylist", this.lobbies, {
                 id: "id",
                 name: "name",
-                //creator: "creator",
-                //playerLimit: "playerLimit",
-                //playerCount: "playerCount",
-                //gamemodeName: "gameMode",
-                //hasPassword: "requirePassword",
-                //address: "address",
-                //port: "port"
+                creator: "creator",
+                playerLimit: "playerLimit",
+                playerCount: "playerCount",
+                gamemodeName: "gameMode",
+                hasPassword: "requirePassword",
+                address: "address",
+                port: "port"
             });
             this.currentConnection.on("lobbylist-add", add);
             this.currentConnection.on("lobbylist-update", update);
