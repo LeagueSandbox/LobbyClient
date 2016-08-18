@@ -61,7 +61,7 @@ export class NetworkService extends EventEmitter {
         
         this.currentUsername = username;
         return new Promise((resolve, reject) => {
-            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, { reconnection: false, 'forceNew': true});
+            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, {reconnection: false, 'forceNew': true});
             this.currentLobbyConnection.on("connect", () => {
                 this.currentLobbyConnection.emit("lobby-connect", { name: username, password: password });
             });
