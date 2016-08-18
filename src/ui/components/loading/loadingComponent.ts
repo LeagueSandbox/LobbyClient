@@ -29,7 +29,7 @@ export default class LoadingComponent extends Vue {
             return StaticService.populate();
         }).then(() => {
             this.state = "Connecting to server...";
-            return NetworkService.connectToCentral("http://localhost:8082");
+            return NetworkService.connectToCentral("http://localhost:9090");
         }).then(() => {
             this.state = "Done!"; 
             this.$router.go("/login");
