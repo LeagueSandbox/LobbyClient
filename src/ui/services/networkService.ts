@@ -44,7 +44,19 @@ export class NetworkService extends EventEmitter {
             this.currentConnection.on("lobbylist-add", add);
             this.currentConnection.on("lobbylist-update", update);
             this.currentConnection.on("lobbylist-remove", remove);
-            this.currentConnection.emit('lobby.create');
+
+            //Sending the options to the server
+            var options = {
+                name: "name",
+                creator: "creator",
+                playerLimit: "playerLimit",
+                playerCount: "playerCount",
+                gamemodeName: "gameMode",
+                requirePassword: "false",
+                address: "address",
+                port: "port"
+            }
+            this.currentConnection.emit('lobby.create', options);
         });
     }
 
