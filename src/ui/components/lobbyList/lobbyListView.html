@@ -5,7 +5,9 @@
     <div>
          <input class="username-input" v-model="username" >
     </div>
+    <div v-for="lobby in network.lobbies" @click="join(lobby)">
         {{ lobby.name }} - {{ lobby.creator }}<br>
         {{ lobby.playerCount }}/{{ lobby.playerLimit }}<br>
         {{ lobby.address }}:{{ lobby.port }}
+    </div>
 </div>
