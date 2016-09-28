@@ -1,10 +1,16 @@
 @import "helpers";
 
-@login-background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
-@login-background-blur: 3px;
-@login-background-darkness: 0.5;
 @font: "Lato";
 @header-height: 50px;
+
+body {
+    background-attachment: fixed;
+    background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+}
 
 .lobby-list-header {
     flex: 0 @header-height;
