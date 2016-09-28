@@ -1,8 +1,14 @@
 @import "helpers";
-@login-background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
-@login-background-blur: 3px;
-@login-background-darkness: 0.5;
-  
+
+body {
+    background-attachment: fixed;
+    background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+     background-size: cover;
+}
+
 @keyframes cubeAnimation {
     0% {
         transform: scale3D(1, 1, 1) rotate(0deg);
