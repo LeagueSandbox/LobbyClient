@@ -31,7 +31,6 @@ export class NetworkService extends EventEmitter {
             this.currentConnection.on("connect", resolve);
 
             const [add, update, remove] = this.buildListUpdater("lobbylist", this.lobbies, {
-                id: "id",
                 name: "name",
                 creator: "creator",
                 playerLimit: "playerLimit",
@@ -49,14 +48,21 @@ export class NetworkService extends EventEmitter {
             var options = {
                 name: "name",
                 creator: "creator",
-                playerLimit: "playerLimit",
-                playerCount: "playerCount",
+                playerLimit: "10",
                 gamemodeName: "gameMode",
                 requirePassword: "false",
                 address: "address",
                 port: "port"
             }
             this.currentConnection.emit('lobby.create', options);
+            this.currentConnection.emit('lobby.list');
+            this.currentConnection.on("lobby.list", function(lobbies){
+                var count = 0;
+                while (count <= lobbies.length){
+                    add(lobbies[count]);
+                    count++;
+                }
+            });
         });
     }
 
@@ -70,7 +76,7 @@ export class NetworkService extends EventEmitter {
         if (this.currentLobby || this.currentLobbyConnection) {
             throw new Error("Already connected to lobby.");
         }
-        
+
         this.currentUsername = username;
         return new Promise((resolve, reject) => {
             this.currentLobbyConnection = io.connect(item.address + ":" + item.port, {reconnection: false, 'forceNew': true});
