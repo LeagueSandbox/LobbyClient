@@ -90,6 +90,9 @@ export default class LobbyComponent extends Vue {
     joinTeam(team: lobby.Team) {
         NetworkServiceStatic.joinTeam(team);
     }
+    startGame(){
+        NetworkServiceStatic.startGame();
+    }
     
     get playerSettings() {
         return this.settings.playerSettings;
