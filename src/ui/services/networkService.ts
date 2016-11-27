@@ -3,13 +3,13 @@
 
 import { EventEmitter } from "events";
 import StaticService from "./staticService.ts";
-import f from "../../../ConfigReader.ts";
+import readConfigData from "../../../ConfigReader.ts";
 
 const io = <SocketIOClientStatic>require("socket.io-client");
-var player_id;
+var playerId;
 var pathToLolExe;
 var pathToLolFolder;
-var child_process = require('child_process');
+var execFile = require('child_process').execFile;
 export class NetworkService extends EventEmitter {
     /**  Current lobby. May be null. */
     currentLobby: lobby.Lobby;
@@ -169,14 +169,16 @@ export class NetworkService extends EventEmitter {
             function startGame(gameServerPort){
                 //Start the game with the port
                 console.log("Starting LoL...")
-                var configContent = f();
+                var configContent = readConfigData();
                 var args = [
-                "8394",
-                "LoLLauncher.exe",
-                "",
-                "127.0.0.1 " + gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + player_id
+                    "8394",
+                    "LoLLauncher.exe",
+                    "",
+                    "127.0.0.1 " + gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
                 ];
-                child_process.execFile(configContent.pathToLolExe, args, {cwd: configContent.pathToLolFolder, maxBuffer: 1024 * 90000}, (error) => {
+                execFile.execFile(configContent.pathToLolExe, 
+                args, {cwd: configContent.pathToLolFolder, maxBuffer: 1024 * 90000},
+                (error) => {
                     if (error){
                         throw error;
                 }});
@@ -198,14 +200,11 @@ export class NetworkService extends EventEmitter {
                 d.setUTCMilliseconds(data.timestamp);
                 this.emit("chat", d, data.sender, data.message); 
             });
-            this.currentLobbyConnection.on("start-game", function(gameServerPort){
-                startGame(gameServerPort);
-            });
-            this.currentLobbyConnection.on("playerID", function(playerid){
+            this.currentLobbyConnection.on("start-game", startGame);
+            this.currentLobbyConnection.on("playerID", function(receivedPlayerId){
                 //Start the game with the port
-                player_id = playerid;
+                playerId = receivedPlayerId;
             });
-            
             this.currentLobbyConnection.on("chat-message-batch", data => {
                 data.messages.forEach(m => {
                     const d = new Date(0);
