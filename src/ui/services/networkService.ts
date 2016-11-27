@@ -110,7 +110,7 @@ export class NetworkService extends EventEmitter {
         });
     }
     public startGame(){
-        if (!this.currentLobby || !this.currentLobbyConnection) {
+        if (!(this.currentLobby && this.currentLobbyConnection)) {
             throw new Error("Not connected to lobby.");
         }
         this.currentLobbyConnection.emit("start-game");
@@ -166,7 +166,21 @@ export class NetworkService extends EventEmitter {
                 spellOne: ["spell1id", id => StaticService.summonerSpells.filter(x => x.id === id)[0]],
                 spellTwo: ["spell2id", id => StaticService.summonerSpells.filter(x => x.id === id)[0]]
             });
-
+            function startGame(gameServerPort){
+                //Start the game with the port
+                console.log("Starting LoL...")
+                var configContent = f();
+                var args = [
+                "8394",
+                "LoLLauncher.exe",
+                "",
+                "127.0.0.1 " + gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + player_id
+                ];
+                child_process.execFile(configContent.pathToLolExe, args, {cwd: configContent.pathToLolFolder, maxBuffer: 1024 * 90000}, (error) => {
+                    if (error){
+                        throw error;
+                }});
+            }
             this.currentLobbyConnection.on("teamlist-add", teamlistAdd);
             this.currentLobbyConnection.on("teamlist-update", teamlistUpdate);
             this.currentLobbyConnection.on("teamlist-remove", teamlistRemove);
@@ -184,16 +198,8 @@ export class NetworkService extends EventEmitter {
                 d.setUTCMilliseconds(data.timestamp);
                 this.emit("chat", d, data.sender, data.message); 
             });
-            this.currentLobbyConnection.on("start-game", function(GameServerPort){
-                //Start the game with the port
-                console.log("Starting LoL...")
-                var configContent = f();
-                var args = ["8394", "LoLLauncher.exe", ""]
-                args[3] =  "127.0.0.1 " + GameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + player_id;
-                child_process.execFile(configContent.pathToLolExe, args, {cwd: configContent.pathToLolFolder, maxBuffer: 1024 * 90000}, (error) => {
-                    if (error){
-                        throw error;
-                }});
+            this.currentLobbyConnection.on("start-game", function(gameServerPort){
+                startGame(gameServerPort);
             });
             this.currentLobbyConnection.on("playerID", function(playerid){
                 //Start the game with the port
