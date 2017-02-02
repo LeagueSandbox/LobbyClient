@@ -31,12 +31,17 @@ export default class LobbyComponent extends Vue {
     
     private settings: SettingService;
     private lobby: lobby.Lobby;
-      
-    data() {
+    private isHost: boolean;
+    
+    data() {   
+        
         return {
             message: "",
             messages: [],
             lobby: NetworkServiceStatic.currentLobby,
+            network: NetworkService,
+            isHost: this.isHost,
+            staticServer: StaticService,
             
             // The settings property is not needed, but
             // adding it forces Vue to observe it. This
@@ -45,11 +50,15 @@ export default class LobbyComponent extends Vue {
         };
     }
     
-    created() {        
+    created() {
         // Mainly for debugging. Redirects if there's no connection.
         if (!NetworkServiceStatic.currentConnection) {
             this.$router.go("/loading");
         }
+
+        NetworkServiceStatic.on("host", isHost => {
+            this.isHost = isHost;
+        });
         
         NetworkServiceStatic.on("chat", (timestamp, sender, message) => {
             if (this.messages.length && this.messages[this.messages.length - 1].sender === sender) {
@@ -72,6 +81,8 @@ export default class LobbyComponent extends Vue {
                 }
             });          
         });
+
+        NetworkServiceStatic.currentLobbyConnection.emit("host");
     }
     
     playersInTeam(team: lobby.Team) {
@@ -90,15 +101,27 @@ export default class LobbyComponent extends Vue {
     joinTeam(team: lobby.Team) {
         NetworkServiceStatic.joinTeam(team);
     }
+
     startGame(){
         NetworkServiceStatic.startGame();
     }
-    
-    get playerSettings() {
-        return this.settings.playerSettings;
+
+    leave() {
+        NetworkServiceStatic.leaveLobby();
+        this.$router.go("/lobbies");
+    }
+
+    iconByUser(user) {
+        return StaticService.iconById(NetworkServiceStatic.userById(user.idServer).idIcon).iconURL;
     }
     
     get hostSettings() {
         return this.settings.hostSettings;
+    }
+
+    openLobbySettings() {
+        ModalComponent.present("lobby-settings", this.settings).then(c => {
+            
+        });
     }
 }

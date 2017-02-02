@@ -2,23 +2,25 @@
 <html ng-app="app">
 
 <head>
-    <title>IntWars</title>
+    <title>Lobby Client</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster:400,700">
 </head>
 
 <body>
+    <nav class="nav-bar nav-wrapper row">
+        <div class="col s3 left-align"><span class="brand-logo">League UI</span></div>
+        <div class="col s6 center-align">
+        </div>
+        <div class="col s3 right-align">
+            <span class="fa fa-window-minimize nav-button" id="min-btn" onclick="_minimize()"></span>
+            <span class="fa fa-window-maximize nav-button" id="max-btn" onclick="_resize()"></span>
+            <span class="fa fa-window-close nav-button" id="close-btn" onclick="_close()"></span>
+        </div>
+    </nav>
+    <div class="nav-separator"></div>
+    <div class="background"></div>
     <div class="content" id="content">
         <router-view></router-view>
-    </div>
-    <div class="draggable"></div>
-
-    <div class="app-controls">
-        <i class="fa fa-minus" onclick="_minimize()"></i>
-        <i class="fa fa-times" onclick="_close()"></i>
     </div>
     
     <div id="modal"></div>
@@ -47,6 +49,10 @@
 
 		window._minimize = function() {
 			ipc.send("minimize");
+		};
+
+        window._resize = function() {
+			ipc.send("resize");
 		};
     </script>
 </body>

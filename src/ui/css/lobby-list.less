@@ -1,8 +1,24 @@
+.page {
+    height: calc(~"100% - 64px");
+    font-family: "Beaufort for LOL";
+    text-transform: uppercase;
+}
+
 .lobby-list {
-    background-color: white;
-    
-    & > div {
-        cursor: pointer;
-        -webkit-user-select: initial;
-    }
+    height: calc(~"100% - 50px");
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 0 0 10px;
+}
+
+.lobby-page {
+    height: 100%;
+    padding-left: 0.75em;
+}
+
+.online-players {
+    background: #010A13;
+    height: 100%;
+    overflow-y: scroll;
+    width: 100%;
 }

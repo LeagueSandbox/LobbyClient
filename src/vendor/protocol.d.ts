@@ -153,7 +153,7 @@ declare namespace lobby {
         /** Name of the lobby. */
         name: string;
         /** Creator of the lobby. */
-        creator: string;
+        owner: string;
         /** The gamemode in this lobby. */
         gamemodeName: string;
         /** List of teams in this lobby. */
@@ -163,5 +163,25 @@ declare namespace lobby {
         
         /** Settings. */
         settings: LobbySetting[];
+    }
+}
+
+declare namespace user {
+    /**
+     * Represents an user
+     */
+    interface User {
+        /** ID of the user */
+        id: number;
+        /** Name of the user */
+        username: string;
+        /** ID of the icon */
+        idIcon: number;
+    }
+
+    interface Icon {
+        id: number;
+
+        iconURL: string;
     }
 }

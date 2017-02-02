@@ -1,10 +1,20 @@
-<div class="background"></div>
-
 <div class="lobby">
-    <div class="left">
-        <div class="settings"><partial name="lobby-settings"></partial></div>
-        <div class="chat"><partial name="lobby-chat"></partial></div>
+    <div class="lobby-header">
+        <div class="lobby-name">
+            {{ lobby.name }}
+        </div>
+        <div class="lobby-gamemode">
+            {{ lobby.gamemodeName }} <i class="diamond">&diams;</i> Map name <i class="diamond">&diams;</i> 5v5 <i class="diamond">&diams;</i> Blind pick
+        </div>
+        <div class="divider"></div>
     </div>
-
-    <div class="right"><partial name="lobby-player-list"></partial></div>
+    <partial name="lobby-player-list"></partial>
+    
+    
+    <div class="lobby-footer">
+        <partial name="lobby-chat"></partial>
+        <button class="btn">Start</button>
+        <button class="btn" @click="leave()">Leave</button>
+        <button v-if="isHost" class="btn" @click="openLobbySettings()">Settings</button>
+    </div>
 </div>

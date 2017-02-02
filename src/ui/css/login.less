@@ -1,42 +1,21 @@
 @import "helpers";
 
-@login-background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
-@login-background-blur: 3px;
-@login-background-darkness: 0.5;
+
 
 @login-form-width: 300px;
 @login-form-background: white;
 
 @login-summoner-icon-size: 120px;
 
-@login-text-font: "Lato";
+@login-text-font: "Roboto";
 
 @login-field-height: 30px;
 @login-button-height: 40px;
 
 // Styles for the login component.
 .login-component {
-    .full-size;
-
-    .background {
-        .full-size;
-
-        background: linear-gradient(rgba(0, 0, 0, @login-background-darkness), rgba(0, 0, 0, @login-background-darkness)), @login-background-image;
-        background-size: cover;
-
-        -webkit-filter: blur(@login-background-blur);
-
-        // Blur creates ugly edges, so we zoom in just enough to hide those.
-        transform: scale(1.03); 
-        overflow: hidden;
-
-        // We want to be beneath everything.
-        z-index: -1;
-        position: absolute;
-    }
-
     .login-container {
-        .full-size;
+        /*.full-size;
         .center-children;
 
         .login-form {
@@ -107,19 +86,6 @@
                 text-transform: uppercase;
             }
 
-            input {
-                width: 100%;
-                height: @login-field-height;
-                cursor: text;
-
-                font-family: @login-text-font;
-                font-size: 14px;
-
-                border: none;
-                outline: none;
-                border-bottom: 1px solid #000000;
-            }
-
             input.invalid {
                 border-color: red;
             }
@@ -176,8 +142,23 @@
                     color: rgb(84, 84, 185);
                 }
             }
-        }
+        }*/
     }
+}
+
+.icon-selected {
+    display: inline-block;
+    height: 54px;
+    width: 54px;
+    position: relative;
+    left: -5px;
+    border: 2px solid #645127;
+    border-top-color: #c0ab71;
+    border-image: linear-gradient(to bottom,#c0ab71,#645127) 1 stretch;
+}
+
+.btn-large {
+    top: -23px;
 }
 
 @keyframes spin {

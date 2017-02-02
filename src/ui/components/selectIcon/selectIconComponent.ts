@@ -1,36 +1,34 @@
 ///<reference path="../../_app.ts" />
 'use strict';
 
+import "../../css/select-icon.less";
 import ModalComponent from "../modal/modalComponent.ts";
-import CDNService from "../../services/cdnService.ts";
-import Component from "vue-class-component";
+import StaticService from "../../services/staticService.ts";
 
+import Component from "vue-class-component";
 const Vue = <vuejs.VueStatic>require("vue");
 
 @Component({
-    template: require("./selectSummonerSpellView.html")
+    template: require("./selectIconView.html")
 })
-export default class SelectSummonerSpellComponent extends Vue {
-    private options: lobby.SummonerSpell[];
-    private selected: lobby.SummonerSpell;
-    private other: lobby.SummonerSpell;
-    
-    private listenerFun: any;
-    
+export default class SelectIconComponent extends Vue {
+
+    private listenerFun : any;
+    private selectedIcon : user.Icon;
+
     ready() {
         // Attach ESC listener. Is removed in finish() call.
         this.listenerFun = (evnt: KeyboardEvent) => {
             if (evnt.keyCode !== 27) return;
-            this.finish(ModalComponent.params[1]);
+            this.finish(ModalComponent.params[0]);
         };
         document.addEventListener("keyup", this.listenerFun);
     }
     
     data() {
         return {
-            options: ModalComponent.params[0],
-            selected: ModalComponent.params[1],
-            other: ModalComponent.params[2]
+            staticService : StaticService,
+            selectedIcon : ModalComponent.params[0]
         };
     }
     
