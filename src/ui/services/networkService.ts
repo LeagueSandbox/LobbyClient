@@ -226,18 +226,17 @@ export class NetworkService extends EventEmitter {
                 team: ["teamId", id => this.currentLobby.teams.filter(x => x.id === id)[0]],
                 isHost: "isHost"
             });
-            function startGame(gameServerPort){
+            function startGame(data){
                 //Start the game with the port
                 console.log("Starting LoL...")
-                var configContent = readConfigData();
                 var args = [
                     "8394",
                     "LoLLauncher.exe",
                     "",
-                    "127.0.0.1 " + gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
+                    "127.0.0.1 " + data.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + data.playerId
                 ];
-                execFile.execFile(configContent.pathToLolExe, 
-                args, {cwd: configContent.pathToLolFolder, maxBuffer: 1024 * 90000},
+                execFile(localStorage.getItem("path") + "/League of Legends.exe", 
+                args, {cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000},
                 (error) => {
                     if (error){
                         throw error;
