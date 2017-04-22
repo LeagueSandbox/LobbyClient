@@ -17,6 +17,7 @@ import LobbyListComponent from "./components/lobbyList/lobbyListComponent.ts";
 import LoginComponent from "./components/login/loginComponent.ts";
 import ModalComponent from "./components/modal/modalComponent.ts";
 import LobbyComponent from "./components/lobby/lobbyComponent.ts";
+import ChampionSelectComponent from "./components/championSelect/championSelectComponent.ts"
 
 import SelectOptionComponent from "./components/selectOption/selectOptionComponent.ts";
 Vue.component("select-option", SelectOptionComponent);
@@ -55,6 +56,9 @@ router.map({
     },
     '/lobby': {
         component: LobbyComponent
+    },
+    '/championSelect': {
+        component: ChampionSelectComponent
     },
     '*': {
         component: {

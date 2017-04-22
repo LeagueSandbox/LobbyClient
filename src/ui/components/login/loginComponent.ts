@@ -69,7 +69,7 @@ export default class LoginComponent extends Vue {
     }
     
     login() {
-        if (!this.username || !this.host) return;
+        if (!this.username || !this.host || this.isLoading) return;
         
         localStorage.setItem("host", this.host);
         localStorage.setItem("path", this.path);
@@ -80,7 +80,7 @@ export default class LoginComponent extends Vue {
         this.isLoading = true;
         this.previousInvalid = false;
         NetworkService.connectToCentral("http://" + this.host + ":" + this.port, this.username, this.icon.id).then(() => {
-            this.$router.go("/lobbies");
+            this.$router.go("/login");
         });
     }
 
