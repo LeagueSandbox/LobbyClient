@@ -80,7 +80,7 @@ export default class LoginComponent extends Vue {
         this.isLoading = true;
         this.previousInvalid = false;
         NetworkService.connectToCentral("http://" + this.host + ":" + this.port, this.username, this.icon.id).then(() => {
-            this.$router.go("/login");
+            this.$router.go("/lobbies");
         });
     }
 

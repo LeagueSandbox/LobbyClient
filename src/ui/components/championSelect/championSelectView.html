@@ -38,9 +38,9 @@
         </div>
         <div class="champion-list col s6 center-align">
             <div v-for="champion in staticService.champions" class="champion-box center-align">
-                <div v-background-src="champion.portraitIconURL" class="champion-icon">
+                <div v-background-src="champion.portraitIconURL" class="champion-icon" @click="selectChampion(champion.id)">
                 </div>
-                <div class="champion-name">
+                <div class="champion-name" @click="selectChampion(champion.id)">
                     {{ champion.name }}
                 </div>
             </div>
@@ -81,7 +81,7 @@
     <div class="champion-select-footer center-align">
         <div class="champion-select-button">
             <div class="left-decoration"></div>
-            <button class="btn">Lock in</button>
+            <button class="btn" @click="lock()">Lock in</button>
             <div class="right-decoration"></div>
         </div>
         <div class="champion-select-settings">

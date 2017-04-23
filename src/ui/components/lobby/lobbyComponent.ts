@@ -104,7 +104,7 @@ export default class LobbyComponent extends Vue {
 
     startGame(){
         //NetworkServiceStatic.startGame();
-        
+        NetworkServiceStatic.startChampionSelect();
         this.$router.go("/championSelect");
     }
 

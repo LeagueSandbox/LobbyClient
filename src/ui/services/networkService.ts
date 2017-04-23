@@ -3,12 +3,14 @@
 
 import { EventEmitter } from "events";
 import StaticService from "./staticService.ts";
-import readConfigData from "../../../ConfigReader.ts";
 
 const io = <SocketIOClientStatic>require("socket.io-client");
 var playerId;
 var pathToLolExe;
 var pathToLolFolder;
+var selectedChampion;
+var championSelectStarted = false;
+var canPick = false;
 var execFile = require('child_process').execFile;
 export class NetworkService extends EventEmitter {
     /**  Current lobby. May be null. */
@@ -167,6 +169,12 @@ export class NetworkService extends EventEmitter {
         }
         this.currentLobbyConnection.emit("start-game");
     }
+    public startChampionSelect(){
+        if (!(this.currentLobby && this.currentLobbyConnection)) {
+            throw new Error("Not connected to lobby.");
+        }
+        this.currentLobbyConnection.emit("start-championselect");
+    }
     
     /** Sends a chat message. */
     public sendMessage(msg: string) {
@@ -226,6 +234,10 @@ export class NetworkService extends EventEmitter {
                 team: ["teamId", id => this.currentLobby.teams.filter(x => x.id === id)[0]],
                 isHost: "isHost"
             });
+            function startChampionSelect(){
+                championSelectStarted = true;
+                canPick = true;
+            }
             function startGame(data){
                 //Start the game with the port
                 console.log("Starting LoL...")
@@ -260,6 +272,7 @@ export class NetworkService extends EventEmitter {
                 this.emit("chat", d, data.sender, data.message); 
             });
             this.currentLobbyConnection.on("start-game", startGame);
+            this.currentLobbyConnection.on("start-championselect", startChampionSelect);
             this.currentLobbyConnection.on("playerID", function(receivedPlayerId){
                 //Start the game with the port
                 playerId = receivedPlayerId;
@@ -286,6 +299,26 @@ export class NetworkService extends EventEmitter {
             this.currentLobbyConnection.close();
             this.currentLobbyConnection = null;
         }
+    }
+
+    /*
+     * ======================================
+     * ========== Champion Select ===========
+     * ======================================
+     */
+    public selectChampion(championId){
+        if (championSelectStarted == true){
+            selectedChampion = championId;
+            this.currentLobbyConnection.emit("select-champion", {
+                championId
+            });
+        }
+    }
+    public lockChampion(){
+        if (championSelectStarted == true){
+            canPick = false;
+        }
+        this.currentLobbyConnection.emit("lock-champion");
     }
 
     /**
