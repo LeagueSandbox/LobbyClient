@@ -317,8 +317,8 @@ export class NetworkService extends EventEmitter {
     public lockChampion(){
         if (championSelectStarted == true){
             canPick = false;
+            this.currentLobbyConnection.emit("lock-champion");
         }
-        this.currentLobbyConnection.emit("lock-champion");
     }
 
     /**

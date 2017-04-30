@@ -9,7 +9,6 @@ import "../../css/champion-select.less";
 import CDNService from "../../services/cdnService.ts";
 import StaticService from "../../services/staticService.ts";
 import NetworkService from "../../services/networkService.ts";
-import NetworkServiceStatic, { NetworkService } from "../../services/networkService.ts";
 import SettingService from "../../services/settingService.ts";
 import ModalComponent from "../modal/modalComponent.ts";
 
@@ -22,15 +21,23 @@ export default class ChampionSelectComponent extends Vue {
     private remainingTime: number;
     private leftTeam: number[];
     private rightTeam: number[];
+    private timer;
 
     ready() {
         if (!NetworkService.currentConnection) {
             this.$router.go("/loading");
         }
-        this.remainingTime = 90;
+        this.remainingTime = 10;
         this.canPick = true;
+        this.timer = setInterval(this.startTimer, 1000);
     }
-
+    startTimer() {
+        this.remainingTime = this.remainingTime - 1;
+        if (this.remainingTime == 0){
+            clearInterval(this.timer);
+            this.lock();
+        }
+    }
     data() {
         return {
             staticService: StaticService,
@@ -42,15 +49,17 @@ export default class ChampionSelectComponent extends Vue {
         if (this.canPick == true){
             if (this.selectedChampion != null){
                 this.canPick = false;
-                NetworkServiceStatic.lockChampion();
+                NetworkService.lockChampion();
             }
         }
     }
     selectChampion(championId){
         if (this.canPick == true){
             this.selectedChampion = championId;
-            NetworkServiceStatic.selectChampion(championId);
-            console.log("aqui")
+            NetworkService.selectChampion(championId);
+            let button = document.getElementById('3');
+            //button.setAttribute("v-background-src", "staticService.championById(20).skins[0].splashCutoutURL")
+            button.attributes['v-background-src'] = 'staticService.championById(20).skins[0].splashCutoutURL';
         }
     }
 }
