@@ -17,8 +17,9 @@ import ModalComponent from "../modal/modalComponent.ts";
 })
 export default class ChampionSelectComponent extends Vue {
     private canPick: boolean;
-    private selectedChampion : number;
+    private mySelectedChampion: number;
     private remainingTime: number;
+    private players;
     private leftTeam: number[];
     private rightTeam: number[];
     private timer;
@@ -27,13 +28,21 @@ export default class ChampionSelectComponent extends Vue {
         if (!NetworkService.currentConnection) {
             this.$router.go("/loading");
         }
-        this.remainingTime = 10;
+        this.remainingTime = 90;
         this.canPick = true;
         this.timer = setInterval(this.startTimer, 1000);
+        this.players = [];
+        NetworkService.getChampionSelectData()
+    }
+    created() {
+        NetworkService.on("get-championselect-data", players => {
+            this.players = players;
+            this.drawPlayers();
+        });
     }
     startTimer() {
         this.remainingTime = this.remainingTime - 1;
-        if (this.remainingTime == 0){
+        if (this.remainingTime == 0) {
             clearInterval(this.timer);
             this.lock();
         }
@@ -42,24 +51,28 @@ export default class ChampionSelectComponent extends Vue {
         return {
             staticService: StaticService,
             canPick: this.canPick,
-            remainingTime: this.remainingTime
+            remainingTime: this.remainingTime,
+            players: this.players
         };
     }
     lock() {
-        if (this.canPick == true){
-            if (this.selectedChampion != null){
+        if (this.canPick == true) {
+            if (this.mySelectedChampion != null) {
                 this.canPick = false;
                 NetworkService.lockChampion();
             }
         }
     }
-    selectChampion(championId){
-        if (this.canPick == true){
-            this.selectedChampion = championId;
+    selectMyChampion(championId) {
+        if (this.canPick == true) {
+            this.mySelectedChampion = championId;
             NetworkService.selectChampion(championId);
-            let button = document.getElementById('3');
-            //button.setAttribute("v-background-src", "staticService.championById(20).skins[0].splashCutoutURL")
-            button.attributes['v-background-src'] = 'staticService.championById(20).skins[0].splashCutoutURL';
         }
+    }
+    selectChampion(playerId, championId) {
+        this.players[playerId].champion = championId;
+    }
+    drawPlayers(){
+
     }
 }

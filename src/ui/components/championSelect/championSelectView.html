@@ -6,8 +6,8 @@
     <div class="champion-select-lists row">
         <div class="left-team col s3">
             <hr>
-            <div id="3" class="champion-team-block" v-background-src="staticService.championById(1).skins[0].splashCutoutURL">
-                Nunu bot
+            <div class="champion-team-block" v-background-src="staticService.championById(players[0].).skins[0].splashCutoutURL">
+                {{ players[1].username }}
             </div>
             <hr>
             <div class="champion-team-block" v-background-src="staticService.championById(1).skins[0].splashCutoutURL">
@@ -38,9 +38,9 @@
         </div>
         <div class="champion-list col s6 center-align">
             <div v-for="champion in staticService.champions" class="champion-box center-align">
-                <div v-background-src="champion.portraitIconURL" class="champion-icon" @click="selectChampion(champion.id)">
+                <div v-background-src="champion.portraitIconURL" class="champion-icon" @click="selectMyChampion(champion.id)">
                 </div>
-                <div class="champion-name" @click="selectChampion(champion.id)">
+                <div class="champion-name" @click="selectMyChampion(champion.id)">
                     {{ champion.name }}
                 </div>
             </div>
