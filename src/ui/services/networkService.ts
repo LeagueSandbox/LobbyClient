@@ -278,8 +278,10 @@ export class NetworkService extends EventEmitter {
                 this.emit("start-championselect");
             });
             this.currentLobbyConnection.on("get-championselect-data", players => {
-                startChampionSelect()
                 this.emit("get-championselect-data", players);
+            });
+            this.currentLobbyConnection.on("champion-select-update", players => {
+                this.emit("champion-select-update", players);
             });
             this.currentLobbyConnection.on("playerID", function (receivedPlayerId) {
                 //Start the game with the port
@@ -314,10 +316,9 @@ export class NetworkService extends EventEmitter {
      * ========== Champion Select ===========
      * ======================================
      */
-    public selectChampion(championId) {
+    public selectMyChampion(championId) {
         if (championSelectStarted == true) {
             selectedChampion = championId;
-            console.log("icked")
             this.currentLobbyConnection.emit("select-champion", championId);
         }
     }

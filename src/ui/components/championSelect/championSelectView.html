@@ -5,36 +5,12 @@
     </div>
     <div class="champion-select-lists row">
         <div class="left-team col s3">
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(players[0].).skins[0].splashCutoutURL">
-                {{ players[1].username }}
+            <div v-for="player in players" v-if="player.teamId == 0">
+                <hr>
+                <div class="champion-team-block" v-background-src="staticService.championById(player.championId).skins[0].splashCutoutURL">
+                    {{ player.username }}
+                </div>
             </div>
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(1).skins[0].splashCutoutURL">
-                Annie bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(17).skins[0].splashCutoutURL">
-                Teemo bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(53).skins[0].splashCutoutURL">
-                Blitzcrank bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(43).skins[0].splashCutoutURL">
-                Karma bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(81).skins[0].splashCutoutURL">
-                Ezreal bot
-            </div>
-
-            <hr>
         </div>
         <div class="champion-list col s6 center-align">
             <div v-for="champion in staticService.champions" class="champion-box center-align">
@@ -46,36 +22,12 @@
             </div>
         </div>
         <div class="right-team col s3">
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(103).skins[0].splashCutoutURL">
-                Ahri bot
+            <div v-for="player in players" v-if="player.teamId == 1">
+                <hr>
+                <div class="champion-team-block" v-background-src="staticService.championById(player.championId).skins[0].splashCutoutURL">
+                    {{ player.username }}
+                </div>
             </div>
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(42).skins[0].splashCutoutURL">
-                Corki bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(150).skins[0].splashCutoutURL">
-                Gnar bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(107).skins[0].splashCutoutURL">
-                Rengar bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(69).skins[0].splashCutoutURL">
-                Cassiopeia bot
-            </div>
-
-            <hr>
-            <div class="champion-team-block" v-background-src="staticService.championById(113).skins[0].splashCutoutURL">
-                Sejuani bot
-            </div>
-
-            <hr>
         </div>
     </div>
     <div class="champion-select-footer center-align">

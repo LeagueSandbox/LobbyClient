@@ -37,7 +37,9 @@ export default class ChampionSelectComponent extends Vue {
     created() {
         NetworkService.on("get-championselect-data", players => {
             this.players = players;
-            this.drawPlayers();
+        });
+        NetworkService.on("champion-select-update", players => {
+            this.players = players;
         });
     }
     startTimer() {
@@ -66,13 +68,10 @@ export default class ChampionSelectComponent extends Vue {
     selectMyChampion(championId) {
         if (this.canPick == true) {
             this.mySelectedChampion = championId;
-            NetworkService.selectChampion(championId);
+            NetworkService.selectMyChampion(championId);
         }
     }
     selectChampion(playerId, championId) {
         this.players[playerId].champion = championId;
-    }
-    drawPlayers(){
-
     }
 }
