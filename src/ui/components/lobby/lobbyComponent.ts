@@ -53,7 +53,7 @@ export default class LobbyComponent extends Vue {
     created() {
         // Mainly for debugging. Redirects if there's no connection.
         if (!NetworkServiceStatic.currentConnection) {
-            this.$router.go("/loading");
+            this.$router.go("/login");
         }
 
         NetworkServiceStatic.on("host", isHost => {

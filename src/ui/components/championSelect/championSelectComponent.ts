@@ -26,7 +26,7 @@ export default class ChampionSelectComponent extends Vue {
 
     ready() {
         if (!NetworkService.currentConnection) {
-            this.$router.go("/loading");
+            this.$router.go("/login");
         }
         this.remainingTime = 90;
         this.canPick = true;
@@ -40,6 +40,11 @@ export default class ChampionSelectComponent extends Vue {
         });
         NetworkService.on("champion-select-update", players => {
             this.players = players;
+        });
+        NetworkService.on("stop-timer", data => {
+            console.log("stop received")
+            this.remainingTime = 0;
+            this.$router.go("/reconnect");
         });
     }
     startTimer() {

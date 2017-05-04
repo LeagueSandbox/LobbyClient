@@ -18,6 +18,7 @@ import LoginComponent from "./components/login/loginComponent.ts";
 import ModalComponent from "./components/modal/modalComponent.ts";
 import LobbyComponent from "./components/lobby/lobbyComponent.ts";
 import ChampionSelectComponent from "./components/championSelect/championSelectComponent.ts"
+import ReconnectComponent from "./components/reconnect/reconnectComponent.ts"
 
 import SelectOptionComponent from "./components/selectOption/selectOptionComponent.ts";
 Vue.component("select-option", SelectOptionComponent);
@@ -59,6 +60,9 @@ router.map({
     },
     '/championSelect': {
         component: ChampionSelectComponent
+    },
+    '/reconnect': {
+        component: ReconnectComponent
     },
     '*': {
         component: {

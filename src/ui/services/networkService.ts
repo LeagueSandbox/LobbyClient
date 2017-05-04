@@ -7,6 +7,7 @@ import StaticService from "./staticService.ts";
 const io = <SocketIOClientStatic>require("socket.io-client");
 var playerId;
 var pathToLolExe;
+var dataToStartGame;
 var pathToLolFolder;
 var selectedChampion;
 var championSelectStarted = false;
@@ -273,7 +274,11 @@ export class NetworkService extends EventEmitter {
                 d.setUTCMilliseconds(data.timestamp);
                 this.emit("chat", d, data.sender, data.message);
             });
-            this.currentLobbyConnection.on("start-game", startGame);
+            this.currentLobbyConnection.on("start-game", (data) => {
+                this.emit("stop-timer", data);
+                dataToStartGame = data;
+                startGame(data)
+            });
             this.currentLobbyConnection.on("start-championselect", () => {
                 startChampionSelect()
                 this.emit("start-championselect");
@@ -330,6 +335,23 @@ export class NetworkService extends EventEmitter {
     }
     public getChampionSelectData() {
         this.currentLobbyConnection.emit("get-championselect-data");
+    }
+    public startGameAgain() {
+        //Start the game with the port
+        console.log("Starting LoL...")
+        var args = [
+            "8394",
+            "LoLLauncher.exe",
+            "",
+            "127.0.0.1 " + dataToStartGame.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
+        ];
+        execFile(localStorage.getItem("path") + "/League of Legends.exe",
+            args, { cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000 },
+            (error) => {
+                if (error) {
+                    throw error;
+                }
+            });
     }
 
     /**
