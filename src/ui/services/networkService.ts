@@ -220,6 +220,7 @@ export class NetworkService extends EventEmitter {
             console.log(contents);
             console.log(this.currentLobby);
             this.emit("lobby-connect");
+            this.currentLobbyConnection.emit("myID");
             const [teamlistAdd, teamlistUpdate, teamlistRemove] = this.buildListUpdater("teamlist", this.currentLobby.teams, {
                 id: "id",
                 name: "name",
@@ -245,7 +246,7 @@ export class NetworkService extends EventEmitter {
                     "8394",
                     "LoLLauncher.exe",
                     "",
-                    "127.0.0.1 " + data.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + data.playerId
+                    "127.0.0.1 " + data.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
                 ];
                 execFile(localStorage.getItem("path") + "/League of Legends.exe",
                     args, { cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000 },
@@ -283,9 +284,8 @@ export class NetworkService extends EventEmitter {
             this.currentLobbyConnection.on("champion-select-update", players => {
                 this.emit("champion-select-update", players);
             });
-            this.currentLobbyConnection.on("playerID", function (receivedPlayerId) {
-                //Start the game with the port
-                playerId = receivedPlayerId;
+            this.currentLobbyConnection.on("myID", receivedPlayerId => {
+                playerId = receivedPlayerId + 1;
             });
             this.currentLobbyConnection.on("chat-message-batch", data => {
                 data.messages.forEach(m => {
