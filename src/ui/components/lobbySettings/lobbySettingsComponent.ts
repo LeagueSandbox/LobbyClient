@@ -14,8 +14,8 @@ const Vue = <vuejs.VueStatic>require("vue");
 })
 export default class LobbySettingsComponent extends Vue {
 
-    private listenerFun : any;
-    private selectedIcon : user.Icon;
+    private listenerFun: void;
+    private selectedIcon: user.Icon;
     private settings: SettingService;
 
     ready() {
@@ -29,8 +29,8 @@ export default class LobbySettingsComponent extends Vue {
     
     data() {
         return {
-            staticService : StaticService,
-            selectedIcon : ModalComponent.params[0],
+            staticService: StaticService,
+            selectedIcon: ModalComponent.params[0],
             settings: SettingServiceStatic,
         };
     }

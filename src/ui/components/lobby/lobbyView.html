@@ -8,12 +8,12 @@
         </div>
         <div class="divider"></div>
     </div>
+
     <partial name="lobby-player-list"></partial>
-    
     
     <div class="lobby-footer">
         <partial name="lobby-chat"></partial>
-        <button class="btn" @click="startGame()">Start</button>
+        <button class="btn" @click="startChampionSelect()">Start</button>
         <button class="btn" @click="leave()">Leave</button>
         <button v-if="isHost" class="btn" @click="openLobbySettings()">Settings</button>
     </div>

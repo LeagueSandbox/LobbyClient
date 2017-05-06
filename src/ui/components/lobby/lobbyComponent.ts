@@ -106,7 +106,7 @@ export default class LobbyComponent extends Vue {
         NetworkServiceStatic.joinTeam(team);
     }
 
-    startGame() {
+    startChampionSelect() {
         NetworkServiceStatic.startChampionSelect();
     }
 
@@ -124,8 +124,6 @@ export default class LobbyComponent extends Vue {
     }
 
     openLobbySettings() {
-        ModalComponent.present("lobby-settings", this.settings).then(c => {
-
-        });
+        ModalComponent.present("lobby-settings", this.settings);
     }
 }

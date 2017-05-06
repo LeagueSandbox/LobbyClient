@@ -13,8 +13,8 @@ const Vue = <vuejs.VueStatic>require("vue");
 })
 export default class SelectIconComponent extends Vue {
 
-    private listenerFun : any;
-    private selectedIcon : user.Icon;
+    private listenerFun: void;
+    private selectedIcon: user.Icon;
 
     ready() {
         // Attach ESC listener. Is removed in finish() call.
@@ -27,8 +27,8 @@ export default class SelectIconComponent extends Vue {
     
     data() {
         return {
-            staticService : StaticService,
-            selectedIcon : ModalComponent.params[0]
+            staticService: StaticService,
+            selectedIcon: ModalComponent.params[0]
         };
     }
     

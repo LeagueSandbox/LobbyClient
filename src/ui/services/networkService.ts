@@ -9,9 +9,9 @@ var playerId;
 var pathToLolExe;
 var dataToStartGame;
 var pathToLolFolder;
-var selectedChampion;
-var championSelectStarted = false;
-var canPick = false;
+let selectedChampion;
+const championSelectStarted = false;
+let canPick = false;
 var execFile = require('child_process').execFile;
 export class NetworkService extends EventEmitter {
     /**  Current lobby. May be null. */
@@ -44,7 +44,7 @@ export class NetworkService extends EventEmitter {
         return new Promise<void>((resolve, reject) => {
             this.currentConnection = io.connect(url, { reconnection: false });
             this.currentConnection.on("connect", resolve);
-            var userInfo = {
+            const userInfo = {
                 username: username,
                 idIcon: idIcon
             };
@@ -80,16 +80,12 @@ export class NetworkService extends EventEmitter {
 
             //Sending the options to the server
             this.currentConnection.on("lobby.list", function (lobbiesList) {
-                for (var i = 0; i < lobbiesList.length; i++) {
-                    addLobby(lobbiesList[i]);
-                }
+                lobbiesList.forEach(addLobby)
             });
             this.currentConnection.emit('lobby.list');
 
             this.currentConnection.on('user.list', function (clientsList) {
-                for (var i = 0; i < clientsList.length; i++) {
-                    addUser(clientsList[i]);
-                }
+                lobbiesList.forEach(addUser)
             });
             this.currentConnection.emit('user.list');
         });
@@ -124,12 +120,12 @@ export class NetworkService extends EventEmitter {
     }
 
     public createLobby(): Promise<any> {
-        var options = {
+        const options = {
             name: this.me.username + "'s lobby",
             playerLimit: "10",
             gamemodeName: "Capture the Deudly",
             password: ""
-        }
+        };
         return new Promise((resolve, reject) => {
             this.currentConnection.emit('lobby.create', options);
             this.currentConnection.on('lobby.create', (c) => this.handleLobbyCreate(c, resolve, reject));
@@ -218,8 +214,6 @@ export class NetworkService extends EventEmitter {
                 players: [],
                 settings: []
             };
-            console.log(contents);
-            console.log(this.currentLobby);
             this.emit("lobby-connect");
             this.currentLobbyConnection.emit("myID");
             const [teamlistAdd, teamlistUpdate, teamlistRemove] = this.buildListUpdater("teamlist", this.currentLobby.teams, {
@@ -243,7 +237,7 @@ export class NetworkService extends EventEmitter {
             function startGame(data) {
                 //Start the game with the port
                 console.log("Starting LoL...")
-                var args = [
+                const args = [
                     "8394",
                     "LoLLauncher.exe",
                     "",
@@ -277,10 +271,10 @@ export class NetworkService extends EventEmitter {
             this.currentLobbyConnection.on("start-game", (data) => {
                 this.emit("stop-timer", data);
                 dataToStartGame = data;
-                startGame(data)
+                startGame(data);
             });
             this.currentLobbyConnection.on("start-championselect", () => {
-                startChampionSelect()
+                startChampionSelect();
                 this.emit("start-championselect");
             });
             this.currentLobbyConnection.on("get-championselect-data", players => {
@@ -300,11 +294,7 @@ export class NetworkService extends EventEmitter {
                 });
             });
             this.currentLobbyConnection.on("host", data => {
-                if (data.isHost) {
-                    this.emit("host", true);
-                } else {
-                    this.emit("host", false);
-                }
+                this.emit("host", data.isHost);
             });
 
             resolve(contents);
@@ -322,13 +312,13 @@ export class NetworkService extends EventEmitter {
      * ======================================
      */
     public selectMyChampion(championId) {
-        if (championSelectStarted == true) {
+        if (championSelectStarted) {
             selectedChampion = championId;
             this.currentLobbyConnection.emit("select-champion", championId);
         }
     }
     public lockChampion() {
-        if (championSelectStarted == true) {
+        if (championSelectStarted) {
             canPick = false;
             this.currentLobbyConnection.emit("lock-champion");
         }
@@ -339,7 +329,7 @@ export class NetworkService extends EventEmitter {
     public startGameAgain() {
         //Start the game with the port
         console.log("Starting LoL...")
-        var args = [
+        const args = [
             "8394",
             "LoLLauncher.exe",
             "",

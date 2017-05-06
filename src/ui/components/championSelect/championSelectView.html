@@ -4,22 +4,22 @@
         <div class="remaining-time">{{ remainingTime }}</div>
     </div>
     <div class="champion-select-lists row">
-        <div v-for="player in players" v-if="player.teamId == 0" class="left-team col s3">
+        <div v-for="player in players" v-if="player.teamId === 0" class="left-team col s3">
             <hr>
             <div class="champion-team-block" v-background-src="staticService.championById(player.championId).skins[0].splashCutoutURL">
                 {{ player.username }}
             </div>
         </div>
         <div class="champion-list col s6 center-align">
-            <div v-for="champion in staticService.champions" class="champion-box center-align">
-                <div v-background-src="champion.portraitIconURL" class="champion-icon" @click="selectMyChampion(champion.id)">
+            <div v-for="champion in staticService.champions" class="champion-box center-align" @click="selectMyChampion(champion.id)">
+                <div v-background-src="champion.portraitIconURL" class="champion-icon">
                 </div>
-                <div class="champion-name" @click="selectMyChampion(champion.id)">
+                <div class="champion-name">
                     {{ champion.name }}
                 </div>
             </div>
         </div>
-        <div v-for="player in players" v-if="player.teamId == 1" class="right-team col s3">
+        <div v-for="player in players" v-if="player.teamId === 1" class="right-team col s3">
             <hr>
             <div class="champion-team-block" v-background-src="staticService.championById(player.championId).skins[0].splashCutoutURL">
                 {{ player.username }}

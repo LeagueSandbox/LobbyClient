@@ -12,8 +12,8 @@ import StaticService from "../../services/staticService.ts";
     template: require("./lobbyListView.html")
 })
 export default class LobbyListComponent extends Vue {
-    private lobbySelected : lobby.LobbyListItem;
-    private canCreateLobby : boolean;
+    private lobbySelected: lobby.LobbyListItem;
+    private canCreateLobby: boolean;
     
     created() {
         this.canCreateLobby = true;
@@ -48,7 +48,7 @@ export default class LobbyListComponent extends Vue {
 
     //TODO: limit lobby creation when clicked
     create() {
-        if(!this.canCreateLobby) return;
+        if (!this.canCreateLobby) return;
 
         this.canCreateLobby = false;
         NetworkService.createLobby().then(() => {

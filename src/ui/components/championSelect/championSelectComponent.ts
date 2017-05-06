@@ -19,10 +19,10 @@ export default class ChampionSelectComponent extends Vue {
     private canPick: boolean;
     private mySelectedChampion: number;
     private remainingTime: number;
-    private players;
+    private players: Object[];
     private leftTeam: number[];
     private rightTeam: number[];
-    private timer;
+    private timer: NodeJS.Timer;
 
     ready() {
         if (!NetworkService.currentConnection) {
@@ -30,11 +30,18 @@ export default class ChampionSelectComponent extends Vue {
         }
         this.remainingTime = 90;
         this.canPick = true;
-        this.timer = setInterval(this.startTimer, 1000);
+        this.timer = setInterval(this.timerStep, 1000);
         this.players = [];
-        NetworkService.getChampionSelectData()
+        NetworkService.getChampionSelectData();
     }
-    created() {
+    timerStep() {
+        this.remainingTime = this.remainingTime - 1;
+        if (this.remainingTime === 0) {
+            clearInterval(this.timer);
+            this.lock();
+        }
+    }
+    data() {
         NetworkService.on("get-championselect-data", players => {
             this.players = players;
         });
@@ -42,19 +49,9 @@ export default class ChampionSelectComponent extends Vue {
             this.players = players;
         });
         NetworkService.on("stop-timer", data => {
-            console.log("stop received")
             this.remainingTime = 0;
             this.$router.go("/reconnect");
         });
-    }
-    startTimer() {
-        this.remainingTime = this.remainingTime - 1;
-        if (this.remainingTime == 0) {
-            clearInterval(this.timer);
-            this.lock();
-        }
-    }
-    data() {
         return {
             staticService: StaticService,
             canPick: this.canPick,
@@ -63,15 +60,15 @@ export default class ChampionSelectComponent extends Vue {
         };
     }
     lock() {
-        if (this.canPick == true) {
-            if (this.mySelectedChampion != null) {
+        if (this.canPick) {
+            if (this.mySelectedChampion !== null) {
                 this.canPick = false;
                 NetworkService.lockChampion();
             }
         }
     }
     selectMyChampion(championId) {
-        if (this.canPick == true) {
+        if (this.canPick) {
             this.mySelectedChampion = championId;
             NetworkService.selectMyChampion(championId);
         }

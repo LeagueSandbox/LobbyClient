@@ -29,8 +29,7 @@ export default class LoginComponent extends Vue {
     ready() {
         if (localStorage.getItem("path") != undefined && localStorage.getItem("path") != "") {
             this.path = localStorage.getItem("path");
-        }
-        else {
+        } else {
             this.path = "Path to LoL 4.20";
         }
         if (localStorage.getItem("host") != undefined && localStorage.getItem("host") != "") {
@@ -42,12 +41,9 @@ export default class LoginComponent extends Vue {
         if (localStorage.getItem("name") != undefined && localStorage.getItem("name") != "") {
             this.username = localStorage.getItem("name");
         }
-        var idIcon : number;
+        var idIcon = 0;
         if (localStorage.getItem("icon") != undefined && localStorage.getItem("icon") != "") {
             idIcon = parseInt(localStorage.getItem("icon"));
-        }
-        else {
-            idIcon = 0;
         }
         CDNService.load().then(() => {
             return StaticService.populate();
