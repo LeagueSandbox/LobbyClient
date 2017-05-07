@@ -35,7 +35,7 @@ app.on("ready", () => {
         mainWindow && mainWindow.minimize();
     });
 
-    ipc.on("resize", () => {
+    ipc.on("maximize", () => {
         if (mainWindow && !mainWindow.isMaximized()) {
             mainWindow.maximize();
         }
