@@ -6,11 +6,11 @@ import "../../css/lobby.less";
 import Component from "vue-class-component";
 const Vue = <vuejs.VueStatic>require("vue");
 
-import ModalComponent from "../modal/modalComponent.ts";
-import CDNService from "../../services/cdnService.ts";
-import StaticService from "../../services/staticService.ts";
-import NetworkServiceStatic, { NetworkService } from "../../services/networkService.ts";
-import SettingServiceStatic, { SettingService } from "../../services/settingService.ts";
+import ModalComponent from "../modal/modalComponent";
+import CDNService from "../../services/cdnService";
+import StaticService from "../../services/staticService";
+import NetworkServiceStatic, { NetworkService } from "../../services/networkService";
+import SettingServiceStatic, { SettingService } from "../../services/settingService";
 
 interface ChatMessages {
     timestamp: Date;
@@ -33,24 +33,7 @@ export default class LobbyComponent extends Vue {
     private lobby: lobby.Lobby;
     private isHost: boolean;
 
-    data() {
-
-        return {
-            message: "",
-            messages: [],
-            lobby: NetworkServiceStatic.currentLobby,
-            network: NetworkService,
-            isHost: this.isHost,
-            staticServer: StaticService,
-
-            // The settings property is not needed, but
-            // adding it forces Vue to observe it. This
-            // way we get notified of changes and update.
-            settings: SettingServiceStatic,
-        };
-    }
-
-    created() {
+    ready() {
         // Mainly for debugging. Redirects if there's no connection.
         if (!NetworkServiceStatic.currentConnection) {
             this.$router.go("/login");
@@ -63,7 +46,6 @@ export default class LobbyComponent extends Vue {
         NetworkServiceStatic.on("start-championselect", () => {
             this.$router.go("/championSelect");
         });
-
         NetworkServiceStatic.on("chat", (timestamp, sender, message) => {
             if (this.messages.length && this.messages[this.messages.length - 1].sender === sender) {
                 this.messages[this.messages.length - 1].messages.push(message);
@@ -87,6 +69,23 @@ export default class LobbyComponent extends Vue {
         });
 
         NetworkServiceStatic.currentLobbyConnection.emit("host");
+    }
+    data() {
+        return {
+            message: "",
+            messages: [],
+            lobby: NetworkServiceStatic.currentLobby,
+            network: NetworkService,
+            isHost: this.isHost,
+
+            // The settings property is not needed, but
+            // adding it forces Vue to observe it. This
+            // way we get notified of changes and update.
+            settings: SettingServiceStatic,
+        };
+    }
+
+    created() {
     }
 
     playersInTeam(team: lobby.Team) {
@@ -115,7 +114,7 @@ export default class LobbyComponent extends Vue {
         this.$router.go("/lobbies");
     }
 
-    iconByUser(user) {
+    iconByUser(user: Object) {
         return StaticService.iconById(NetworkServiceStatic.userById(user.idServer).idIcon).iconURL;
     }
 
