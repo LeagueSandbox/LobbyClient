@@ -16,7 +16,6 @@ export default class LobbyListComponent extends Vue {
     private canCreateLobby: boolean;
     
     created() {
-        this.canCreateLobby = true;
         // Mainly for debugging. Redirects if theres no connection.
         if (!NetworkService.currentConnection) {
             this.$router.go("/login");
@@ -24,6 +23,7 @@ export default class LobbyListComponent extends Vue {
     }
     
     data() {
+        this.canCreateLobby = true;
         return {
             network: NetworkService,
             staticService: StaticService,
