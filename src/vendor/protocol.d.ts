@@ -176,7 +176,7 @@ declare namespace user {
         /** Name of the user */
         username: string;
         /** ID of the icon */
-        idIcon: number;
+        iconId: number;
     }
 
     interface Icon {

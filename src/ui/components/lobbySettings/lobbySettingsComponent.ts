@@ -14,7 +14,7 @@ const Vue = <vuejs.VueStatic>require("vue");
 })
 export default class LobbySettingsComponent extends Vue {
 
-    private listenerFun: void;
+    private listenerFun: (evt: KeyboardEvent) => void;
     private selectedIcon: user.Icon;
     private settings: SettingService;
 

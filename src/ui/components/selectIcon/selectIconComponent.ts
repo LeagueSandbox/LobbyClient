@@ -13,7 +13,7 @@ const Vue = <vuejs.VueStatic>require("vue");
 })
 export default class SelectIconComponent extends Vue {
 
-    private listenerFun: ;
+    private listenerFun: (evt: KeyboardEvent) => void;
     private selectedIcon: user.Icon;
 
     ready() {

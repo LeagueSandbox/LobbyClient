@@ -10,7 +10,7 @@ var pathToLolExe;
 var dataToStartGame;
 var pathToLolFolder;
 let selectedChampion;
-const championSelectStarted = false;
+let championSelectStarted = false;
 let canPick = false;
 var execFile = require('child_process').execFile;
 export class NetworkService extends EventEmitter {
@@ -40,15 +40,15 @@ export class NetworkService extends EventEmitter {
         this.users = [];
     }
 
-    connectToCentral(url: string, username = "Unknown", idIcon: number): Promise<void> {
+    connectToCentral(url: string, username = "Unknown", iconId: number): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.currentConnection = io.connect(url, { reconnection: false });
             this.currentConnection.on("connect", resolve);
             const userInfo = {
                 username: username,
-                idIcon: idIcon
+                iconId: iconId
             };
-            this.me = { id: -1, username: username, idIcon: idIcon };
+            this.me = { id: -1, username: username, iconId: iconId };
             this.currentConnection.emit("user.userInfo", userInfo);
             this.currentConnection.on("user.userInfo", (c) => {
                 this.me = c;
@@ -72,7 +72,7 @@ export class NetworkService extends EventEmitter {
             const [addUser, updateUser, removeUser] = this.buildListUpdater("users", this.users, {
                 id: "id",
                 username: "username",
-                idIcon: "idIcon"
+                iconId: "iconId"
             });
             this.currentConnection.on("users-add", addUser);
             this.currentConnection.on("users-update", updateUser);
@@ -85,7 +85,7 @@ export class NetworkService extends EventEmitter {
             this.currentConnection.emit('lobby.list');
 
             this.currentConnection.on('user.list', function (clientsList) {
-                lobbiesList.forEach(addUser)
+                clientsList.forEach(addUser)
             });
             this.currentConnection.emit('user.list');
         });
@@ -136,7 +136,7 @@ export class NetworkService extends EventEmitter {
     /*
      * ======================================
      * ============= User settings ==========
-     * ====================================== 
+     * ======================================
      */
 
     public setUsername(username = "Unknown") {

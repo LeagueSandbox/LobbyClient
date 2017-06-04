@@ -18,15 +18,15 @@ import ModalComponent from "../modal/modalComponent.ts";
 export default class LoginComponent extends Vue {
     private isLoading: boolean;
     private previousInvalid: boolean;
-    
+
     private username: string;
     private host: string;
     private path: string;
     private port: string;
     private state: string;
-    private icon : any;
+    private icon: any;
 
-    ready() {
+    data() {
         if (localStorage.getItem("path") != undefined && localStorage.getItem("path") != "") {
             this.path = localStorage.getItem("path");
         } else {
@@ -41,18 +41,15 @@ export default class LoginComponent extends Vue {
         if (localStorage.getItem("name") != undefined && localStorage.getItem("name") != "") {
             this.username = localStorage.getItem("name");
         }
-        var idIcon = 0;
+        var iconId = 0;
         if (localStorage.getItem("icon") != undefined && localStorage.getItem("icon") != "") {
-            idIcon = parseInt(localStorage.getItem("icon"));
+            iconId = parseInt(localStorage.getItem("icon"));
         }
         CDNService.load().then(() => {
             return StaticService.populate();
         }).then(() => {
-            this.icon = StaticService.icons[idIcon];
+            this.icon = StaticService.icons[iconId];
         });
-    }
-
-    data() {
         return {
             isLoading: false,
             previousInvalid: false,
@@ -63,15 +60,15 @@ export default class LoginComponent extends Vue {
             icon: this.icon
         };
     }
-    
+
     login() {
         if (!this.username || !this.host || this.isLoading) return;
-        
+
         localStorage.setItem("host", this.host);
         localStorage.setItem("path", this.path);
         localStorage.setItem("name", this.username);
         localStorage.setItem("port", this.port);
-        localStorage.setItem("icon", this.indexByIdIcon(this.icon.id).toString());
+        localStorage.setItem("icon", this.indexByiconId(this.icon.id).toString());
 
         this.isLoading = true;
         this.previousInvalid = false;
@@ -86,7 +83,7 @@ export default class LoginComponent extends Vue {
         });
     }
 
-    indexByIdIcon(id: number): number {
+    indexByiconId(id: number): number {
         return StaticService.icons.indexOf(StaticService.icons.filter(x => x.id === id)[0]);
     }
 }

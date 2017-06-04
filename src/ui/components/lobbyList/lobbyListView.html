@@ -31,7 +31,7 @@
         <div class="collection">
             <template v-for="user in network.users">
                 <a href="#" class="collection-item avatar">
-                    <img :src="staticService.iconById(user.idIcon).iconURL" alt="" class="circle">
+                    <img :src="staticService.iconById(user.iconId).iconURL" alt="" class="circle">
                     <span class="title">{{ user.username }}</span>
                     <p>Available</p>
                 </a>

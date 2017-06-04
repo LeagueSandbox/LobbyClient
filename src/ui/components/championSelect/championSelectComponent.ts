@@ -6,11 +6,11 @@ const Vue = <vuejs.VueStatic>require("vue");
 
 import "../../css/champion-select.less";
 
-import CDNService from "../../services/cdnService";
-import StaticService from "../../services/staticService";
-import NetworkService from "../../services/networkService";
-import SettingService from "../../services/settingService";
-import ModalComponent from "../modal/modalComponent";
+import CDNService from "../../services/cdnService.ts";
+import StaticService from "../../services/staticService.ts";
+import NetworkService from "../../services/networkService.ts";
+import SettingService from "../../services/settingService.ts";
+import ModalComponent from "../modal/modalComponent.ts";
 
 @Component({
     template: require("./championSelectView.html")
