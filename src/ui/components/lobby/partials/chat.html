@@ -1,13 +1,14 @@
-<div class="messages" id="chat-container">
-    <div class="message-group" v-for="group in messages">
-        <span class="timestamp">{{ group.timestamp | formatTime }}</span>
-        <span class="sender">{{ group.sender }}</span>
-        <div class="messages">
-            <span v-for="message in group.messages" track-by="$index">{{ message }}</span>
-        </div>
+<div class="lobby-chat">
+    <div class="chat-box" id="chat-container">
+        <span class="message-group" v-for="group in messages">
+            <span class="message-info">{{ group.timestamp | formatTime }} {{ group.sender }}:</span>
+            <div class="messages">
+                <div v-for="message in group.messages" track-by="$index">{{ message }}</div>
+            </div>
+        </span>
     </div>
-</div>
 
-<div class="input">
-    <input v-model="message" class="send-message" placeholder="Your message..." @keyup.enter="sendChat">
+    <div class="input">
+        <input v-model="message" class="send-message" placeholder="Your message..." @keyup.enter="sendChat">
+    </div>
 </div>

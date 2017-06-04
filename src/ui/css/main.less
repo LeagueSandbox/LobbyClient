@@ -8,6 +8,7 @@
 
     cursor: default;
     -webkit-user-select: none;
+    color: white;
 }
 
 body {
@@ -20,7 +21,7 @@ body {
 }
 
 .content {
-    .full-size;
+    height: calc(~"100% - 64px");
 }
 
 .draggable {
@@ -69,7 +70,6 @@ body {
 }
 
 .modal-container {
-    .center-children;
     
     position: absolute;
     top: 0px;
@@ -93,6 +93,161 @@ body {
     
     & > .modal-content {
         .full-size;
-        .center-children;
     }
+}
+
+.row {
+    margin: 0;
+}
+
+.brand-logo {
+    margin-left: 0.5em;
+    font-family: "Beaufort for LOL";
+    font-weight: 500;
+    font-style: normal;
+    color: #f0e6d2;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    background: -webkit-repeating-linear-gradient(#e5cda0 0,#e5cda0 10px,#79622b 60px,#79622b 75px);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-bar {
+    background: #2A628F url(https://lolstatic-a.akamaihd.net/frontpage/apps/prod/lcu_alpha_website/en_US/c0dcb26e1ba53437859331627d5e2f01dfda818e/assets/img/bgs/magic-page-top.jpg);
+    -webkit-app-region: drag;
+    background-size: cover;
+    background-position: center;
+    height: 64px;
+}
+
+.nav-separator {
+    height: 2px;
+    background: -webkit-gradient(linear,left top,right top,color-stop(0,#816e3e),color-stop(25%,#816e3e),color-stop(75%,#816e3e),color-stop(100%,#816e3e));
+}
+
+.nav-button {
+    -webkit-app-region: no-drag;
+    font-size: 1.2em;
+    margin: 0.4em;
+    transition: opacity .2s;
+    opacity: .6;
+}
+
+.nav-button:hover {
+    opacity: 1;
+}
+
+.btn {
+    background: #191814;
+    color: #bd9d43;
+    border: 1px solid #645127;
+    border-top-color: #c0ab71;
+    border-image: linear-gradient(to bottom,#c0ab71,#645127) 1 stretch;
+    border-width: 3px;
+    text-align: center;
+    font-family: "Beaufort for LOL";
+    font-size: 2vmin;
+    padding: 0 25px;
+    white-space: nowrap;
+    line-height: 0px;
+}
+
+.btn:hover {
+    background-color: #121212;
+    background-image: linear-gradient(to bottom,#121212,#121212 70%,#2e2a18);
+    color: #ede6d3;
+}
+
+.btn-large {
+    background: #191814;
+    color: #bd9d43;
+    border: 1px solid #645127;
+    border-top-color: #c0ab71;
+    border-image: linear-gradient(to bottom,#c0ab71,#645127) 1 stretch;
+    border-width: 3px;
+    text-align: center;
+    font-family: "Beaufort for LOL";
+    font-size: 18px;
+    padding: 0 25px;
+    height: 54px;
+    white-space: nowrap;
+}
+
+.btn-small {
+    background: #191814;
+    color: #bd9d43;
+    border: 1px solid #645127;
+    border-top-color: #c0ab71;
+    border-image: linear-gradient(to bottom,#c0ab71,#645127) 1 stretch;
+    border-width: 3px;
+    text-align: center;
+    font-family: "Beaufort for LOL";
+    font-size: 15px;
+    padding: 0 5px;
+    white-space: nowrap;
+}
+
+@login-background-image: url("https://lolstatic-a.akamaihd.net/frontpage/apps/prod/lcu_alpha_website/en_US/c0dcb26e1ba53437859331627d5e2f01dfda818e/assets/img/bgs/overview-section.jpg");
+@login-background-blur: 5px;
+@login-background-darkness: 0.0;
+
+.background {
+    background: linear-gradient(rgba(0, 0, 0, @login-background-darkness), rgba(0, 0, 0, @login-background-darkness)), @login-background-image;
+    -webkit-filter: blur(@login-background-blur);
+    overflow: hidden;
+    z-index: -1;
+    position: absolute;
+    background-position: bottom right; 
+    width: 100%;
+    height: 100%;
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    transform: scale(1.02);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #785a28;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c8aa6e;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #463714;
+}
+::-webkit-scrollbar-track {
+  background: #010a13;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #010a13;
+}
+::-webkit-scrollbar-track:active {
+  background: #010a13;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.icon {
+    width: 42px;
+    height: 42px;
+    left: 15px;
+    border: 1px solid #645127;
+    border-top-color: #c0ab71;
+    border-radius: 21px;
+    border-width: 2px;
 }

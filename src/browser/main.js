@@ -7,6 +7,8 @@ const ipc = electron.ipcMain;
 
 if (process.argv.join(" ").indexOf("--dev") !== -1) {
     process.env.LOBBYCLIENT_DEV = "true";
+} else {
+    process.env.LOBBYCLIENT_BUILD = "true";
 }
 
 app.on("window-all-closed", () => {
@@ -17,7 +19,7 @@ app.on("window-all-closed", () => {
 
 let mainWindow;
 app.on("ready", () => {
-    mainWindow = new BrowserWindow({ width: 1200, height: 700, frame: false, transparent: true });
+    mainWindow = new BrowserWindow({ width: 1280, height: 720, frame: false });
     mainWindow.loadURL(`file://${__dirname}/../ui/index.html`);
     mainWindow.openDevTools({ detach: true });
 
@@ -31,5 +33,14 @@ app.on("ready", () => {
 
     ipc.on("minimize", () => {
         mainWindow && mainWindow.minimize();
+    });
+
+    ipc.on("maximize", () => {
+        if (mainWindow && !mainWindow.isMaximized()) {
+            mainWindow.maximize();
+        }
+        if (mainWindow) {
+            mainWindow.unmaximize();
+        }
     });
 });
