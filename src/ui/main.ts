@@ -2,6 +2,7 @@
 'use strict';
 
 import "font-awesome/css/font-awesome.min.css";
+import "./css/materialize.css";
 import "./css/main.less";
 import "./css/animations.less";
 import "./css/ui.less";
@@ -12,20 +13,24 @@ const Vue = <vuejs.VueStatic>require("vue");
 const VueRouter = <vuejs.RouterStatic>require("vue-router");
 Vue.use(VueRouter);
 
-import LoadingComponent from "./components/loading/loadingComponent.ts";
 import LobbyListComponent from "./components/lobbyList/lobbyListComponent.ts";
 import LoginComponent from "./components/login/loginComponent.ts";
 import ModalComponent from "./components/modal/modalComponent.ts";
 import LobbyComponent from "./components/lobby/lobbyComponent.ts";
+import ChampionSelectComponent from "./components/championSelect/championSelectComponent.ts"
+import ReconnectComponent from "./components/reconnect/reconnectComponent.ts"
 
 import SelectOptionComponent from "./components/selectOption/selectOptionComponent.ts";
 Vue.component("select-option", SelectOptionComponent);
 
-import SelectChampionComponent from "./components/selectChampion/selectChampionComponent.ts";
-Vue.component("select-champion", SelectChampionComponent);
-
 import SelectSummonerSpellComponent from "./components/selectSummonerSpell/selectSummonerSpellComponent.ts";
 Vue.component("select-summoner-spell", SelectSummonerSpellComponent);
+
+import LobbySettingsComponent from "./components/lobbySettings/lobbySettingsComponent.ts";
+Vue.component("lobby-settings", LobbySettingsComponent);
+
+import SelectIconComponent from "./components/selectIcon/selectIconComponent.ts";
+Vue.component("select-icon", SelectIconComponent);
 
 import CheckboxComponent from "./components/checkbox/checkboxComponent.ts";
 Vue.component("checkbox", CheckboxComponent);
@@ -44,9 +49,6 @@ const router = new VueRouter();
 
 // Map available routes.
 router.map({
-    '/loading': {
-        component: LoadingComponent
-    },
     '/login': {
         component: LoginComponent
     },
@@ -56,10 +58,15 @@ router.map({
     '/lobby': {
         component: LobbyComponent
     },
+    '/championSelect': {
+        component: ChampionSelectComponent
+    },
+    '/reconnect': {
+        component: ReconnectComponent
+    },
     '*': {
         component: {
-            // Redirect to '/loading' if no urls match.
-            ready() { router.go("/loading"); }
+            ready() { router.go("/login"); }
         }
     }
 });

@@ -1,15 +1,4 @@
-<!-- Header with navigation and stuff. -->
-<div class="header">
-    <span class="title">Lobby</span>
-    <span class="divider"></span>
-    <span class="title">Configure</span>
-</div>
-
-<div class="columns">
-    <div class="column champion-settings">
-        <setting v-for="setting in playerSettings" :setting="setting"></setting>
-    </div>
-    
+<div class="settings">    
     <div class="column custom-settings">
         <setting v-for="setting in hostSettings" :setting="setting"></setting>
     </div>
