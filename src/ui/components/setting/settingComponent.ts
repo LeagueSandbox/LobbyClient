@@ -38,22 +38,6 @@ export default class SettingComponent extends Vue {
         return url;
     }
     
-    openChampionPicker() {
-        ModalComponent.present("select-champion", this.setting.options, this.setting.value).then(c => {
-            this.setting.value = c; 
-        });
-    }
-    
-    openSpellPicker(index: number) {
-        ModalComponent.present("select-summoner-spell", this.setting.options, this.setting.value[index], this.setting.value[(index + 1) % 2]).then(s => {
-           if (index === 0) {
-               this.setting.value = [s, this.setting.value[1]];
-           } else {
-               this.setting.value = [this.setting.value[0], s];
-           }
-        });
-    }
-    
     toggleMembership(obj: any) {
         const list = <any[]>this.setting.value;
         

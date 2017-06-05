@@ -1,99 +1,11 @@
 @import "../helpers";
+@import "../lobby";
 
-@font: "Lato";
-
-.lobby > .right {
-    .full-size;
-    display: flex;
-    flex-direction: column;
-    
-    overflow-x: hidden;
-    overflow-y: scroll;
-    
-    // Hide scrollbar.
-    &::-webkit-scrollbar { 
-        display: none; 
-    }
-
-    background-color: rgba(0, 0, 0, 0.4);
-    
-    & > .team {
-        & > .team-name {
-            font-family: @font;
-            font-size: 20px;
-            line-height: 30px;
-            padding: 5px;
-            
-            color: white;
-            display: block;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-        
-        & > div {            
-            height: 80px;
-            background-position: center;
-            
-            border-width: 2px;
-            border-image: linear-gradient(#676767, #9A9A9A, #CCCCCC, #9A9A9A, #676767);
-               border-image-slice: 1;
-            
-            & > span {
-                padding: 5px;
-                display: block;
-                
-                color: white;
-                font-family: @font;
-                text-transform: uppercase;
-                font-size: 18px;
-            }
-            
-            & > img {
-                margin: 5px;
-                margin-left: 0px;
-                width: 32px;
-            }
-            
-            & > img:first-of-type {
-                margin-left: 5px;
-            }
-        }
-        
-        & > .join-button {
-            .center-children;
-            .transitions(background-color);
-            
-            margin: 4px;
-            height: 40px;
-            background-color: rgba(0, 0, 0, 0.4);
-            cursor: pointer;
-            
-            &:hover {
-                background-color: rgba(0, 0, 0, 0.6);
-            }
-            
-            & > span {
-                cursor: pointer;
-                font-size: 22px;
-            }
-        }
-    }
+.lobby-playerList {
+    height: calc(~"100% - "@header-size~" - "@footer-size);
+    padding: 5px 0;
 }
-.start-button {
-    .center-children;
-        .transitions(background-color);
-        color: white;
-        font-family: @font;
-        margin: 4px;
-        height: 40px;
-        background-color: rgba(0, 0, 0, 0.4);
-        cursor: pointer;
-            
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-            
-        & > span {
-            cursor: pointer;
-            font-size: 22px;
-        }
+
+.lobby-player {
+    margin: 14px 9px;
 }

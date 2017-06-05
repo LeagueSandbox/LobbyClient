@@ -3,12 +3,15 @@
 
 import { EventEmitter } from "events";
 import StaticService from "./staticService.ts";
-import readConfigData from "../../../ConfigReader.ts";
 
 const io = <SocketIOClientStatic>require("socket.io-client");
 var playerId;
 var pathToLolExe;
+var dataToStartGame;
 var pathToLolFolder;
+let selectedChampion;
+let championSelectStarted = false;
+let canPick = false;
 var execFile = require('child_process').execFile;
 export class NetworkService extends EventEmitter {
     /**  Current lobby. May be null. */
@@ -23,50 +26,68 @@ export class NetworkService extends EventEmitter {
     /** Current Socket.IO connection to central server. */
     currentConnection: SocketIOClient.Socket;
 
+    /** List of all users. */
+    users: user.User[];
+
+    me: user.User;
+
+    imHost: boolean;
+
     constructor() {
         super();
 
         this.lobbies = [];
+        this.users = [];
     }
 
-    connectToCentral(url: string): Promise<void> {
+    connectToCentral(url: string, username = "Unknown", iconId: number): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.currentConnection = io.connect(url, { reconnection: false });
             this.currentConnection.on("connect", resolve);
+            const userInfo = {
+                username: username,
+                iconId: iconId
+            };
+            this.me = { id: -1, username: username, iconId: iconId };
+            this.currentConnection.emit("user.userInfo", userInfo);
+            this.currentConnection.on("user.userInfo", (c) => {
+                this.me = c;
+            });
 
-            const [add, update, remove] = this.buildListUpdater("lobbylist", this.lobbies, {
+            const [addLobby, updateLobby, removeLobby] = this.buildListUpdater("lobbylist", this.lobbies, {
+                id: "id",
                 name: "name",
-                creator: "creator",
+                owner: "owner",
                 playerLimit: "playerLimit",
                 playerCount: "playerCount",
-                gamemodeName: "gameMode",
+                gamemodeName: "gamemodeName",
                 hasPassword: "requirePassword",
                 address: "address",
                 port: "port"
             });
-            this.currentConnection.on("lobbylist-add", add);
-            this.currentConnection.on("lobbylist-update", update);
-            this.currentConnection.on("lobbylist-remove", remove);
+            this.currentConnection.on("lobbylist-add", addLobby);
+            this.currentConnection.on("lobbylist-update", updateLobby);
+            this.currentConnection.on("lobbylist-remove", removeLobby);
+
+            const [addUser, updateUser, removeUser] = this.buildListUpdater("users", this.users, {
+                id: "id",
+                username: "username",
+                iconId: "iconId"
+            });
+            this.currentConnection.on("users-add", addUser);
+            this.currentConnection.on("users-update", updateUser);
+            this.currentConnection.on("users-remove", removeUser);
 
             //Sending the options to the server
-            var options = {
-                name: "name",
-                creator: "creator",
-                playerLimit: "10",
-                gamemodeName: "gameMode",
-                requirePassword: "false",
-                address: "address",
-                port: "port"
-            }
-            this.currentConnection.emit('lobby.create', options);
-            this.currentConnection.emit('lobby.list');
-            this.currentConnection.on("lobby.list", function(lobbies){
-                var count = 0;
-                while (count <= lobbies.length){
-                    add(lobbies[count]);
-                    count++;
-                }
+            this.currentConnection.on("lobby.list", function (lobbiesList) {
+                lobbiesList.forEach(addLobby)
             });
+            this.currentConnection.emit('lobby.list');
+
+            this.currentConnection.on('user.list', function (clientsList) {
+                clientsList.forEach(addUser)
+            });
+            this.currentConnection.emit('user.list');
         });
     }
 
@@ -76,24 +97,54 @@ export class NetworkService extends EventEmitter {
      * ============= Lobby Lists ============
      * ======================================
      */
-    public joinLobby(item: lobby.LobbyListItem, username = "Player", password?: string): Promise<any> {
+    public joinLobby(item: lobby.LobbyListItem, password?: string): Promise<any> {
         if (this.currentLobby || this.currentLobbyConnection) {
             throw new Error("Already connected to lobby.");
         }
 
-        this.currentUsername = username;
         return new Promise((resolve, reject) => {
-            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, {reconnection: false, 'forceNew': true});
-            this.currentLobbyConnection.on("connect", () => {
-                this.currentLobbyConnection.emit("lobby-connect", { name: username, password: password });
-            });
+            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, { reconnection: true, forceNew: true });
             this.currentLobbyConnection.on("lobby-connect", (c) => this.handleLobbyConnect(c, resolve, reject));
+            this.currentLobbyConnection.on("connect", () => {
+                this.currentLobbyConnection.emit("lobby-connect", { idServer: this.me.id, username: this.me.username, password: "" });
+            });
         });
     }
 
     public leaveLobby() {
+        console.log("Lobby left");
         this.currentLobbyConnection.disconnect();
+        this.currentLobbyConnection.close();
+        this.currentLobby = undefined;
+        this.currentLobbyConnection = undefined;
     }
+
+    public createLobby(): Promise<any> {
+        const options = {
+            name: this.me.username + "'s lobby",
+            playerLimit: "10",
+            gamemodeName: "Capture the Deudly",
+            password: ""
+        };
+        return new Promise((resolve, reject) => {
+            this.currentConnection.emit('lobby.create', options);
+            this.currentConnection.on('lobby.create', (c) => this.handleLobbyCreate(c, resolve, reject));
+        });
+    }
+
+
+    /*
+     * ======================================
+     * ============= User settings ==========
+     * ======================================
+     */
+
+    public setUsername(username = "Unknown") {
+        this.currentConnection.emit("user.username", {
+            username: username
+        });
+    }
+
     /*
      * ======================================
      * =============== Lobby ================
@@ -103,53 +154,68 @@ export class NetworkService extends EventEmitter {
         if (!this.currentLobby || !this.currentLobbyConnection) {
             throw new Error("Not connected to lobby.");
         }
-        
-        this.currentLobbyConnection.emit("lobby-setting", { 
+
+        this.currentLobbyConnection.emit("lobby-setting", {
             "setting-binding": setting.binding,
-            "value": value 
+            "value": value
         });
     }
-    public startGame(){
+    public startGame() {
         if (!(this.currentLobby && this.currentLobbyConnection)) {
             throw new Error("Not connected to lobby.");
         }
         this.currentLobbyConnection.emit("start-game");
     }
-    
+    public startChampionSelect() {
+        if (!(this.currentLobby && this.currentLobbyConnection)) {
+            throw new Error("Not connected to lobby.");
+        }
+        this.currentLobbyConnection.emit("start-championselect");
+    }
+
     /** Sends a chat message. */
     public sendMessage(msg: string) {
         if (!this.currentLobby || !this.currentLobbyConnection) {
             throw new Error("Not connected to lobby.");
         }
-        
-        this.currentLobbyConnection.emit("chat-message", { 
+
+        this.currentLobbyConnection.emit("chat-message", {
             message: msg
         });
     }
-    
+
     /** Joins the specified team. */
     public joinTeam(team: lobby.Team) {
         if (!this.currentLobby || !this.currentLobbyConnection) {
             throw new Error("Not connected to lobby.");
         }
-        
-        this.currentLobbyConnection.emit("join-team", { 
+
+        this.currentLobbyConnection.emit("join-team", {
             team: team.id
         });
     }
-    
+
+    private handleLobbyCreate(contents: any, resolve: any, reject: any) {
+        this.currentLobbyConnection = io.connect(contents.address + ":" + contents.port, { reconnection: true, forceNew: true });
+        this.currentLobbyConnection.on("lobby-connect", (c) => this.handleLobbyConnect(c, resolve, reject));
+        this.currentLobbyConnection.on("connect", () => {
+            this.currentLobbyConnection.emit("lobby-connect", { idServer: this.me.id, username: this.me.username, password: "" });
+            this.currentConnection.removeListener("lobby.create");
+        });
+    }
+
     private handleLobbyConnect(contents: any, resolve: any, reject: any) {
         if (contents.ok) {
             this.currentLobby = {
                 name: contents.name,
-                creator: contents.creator,
-                gamemodeName: contents.gameMode,
+                owner: contents.owner,
+                gamemodeName: contents.gamemodeName,
                 teams: [],
                 players: [],
                 settings: []
             };
             this.emit("lobby-connect");
-
+            this.currentLobbyConnection.emit("myID");
             const [teamlistAdd, teamlistUpdate, teamlistRemove] = this.buildListUpdater("teamlist", this.currentLobby.teams, {
                 id: "id",
                 name: "name",
@@ -159,29 +225,31 @@ export class NetworkService extends EventEmitter {
 
             const [playerlistAdd, playerlistUpdate, playerlistRemove] = this.buildListUpdater("playerlist", this.currentLobby.players, {
                 id: "id",
-                name: "name",
+                idServer: "idServer",
+                username: "username",
                 team: ["teamId", id => this.currentLobby.teams.filter(x => x.id === id)[0]],
-                champion: ["championId", id => StaticService.champions.filter(x => x.id === id)[0]],
-                skinIndex: "skinIndex",
-                spellOne: ["spell1id", id => StaticService.summonerSpells.filter(x => x.id === id)[0]],
-                spellTwo: ["spell2id", id => StaticService.summonerSpells.filter(x => x.id === id)[0]]
+                isHost: "isHost"
             });
-            function startGame(gameServerPort){
+            function startChampionSelect() {
+                championSelectStarted = true;
+                canPick = true;
+            }
+            function startGame(data) {
                 //Start the game with the port
                 console.log("Starting LoL...")
-                var configContent = readConfigData();
-                var args = [
+                const args = [
                     "8394",
                     "LoLLauncher.exe",
                     "",
-                    "127.0.0.1 " + gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
+                    "127.0.0.1 " + data.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
                 ];
-                execFile.execFile(configContent.pathToLolExe, 
-                args, {cwd: configContent.pathToLolFolder, maxBuffer: 1024 * 90000},
-                (error) => {
-                    if (error){
-                        throw error;
-                }});
+                execFile(localStorage.getItem("path") + "/League of Legends.exe",
+                    args, { cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000 },
+                    (error) => {
+                        if (error) {
+                            throw error;
+                        }
+                    });
             }
             this.currentLobbyConnection.on("teamlist-add", teamlistAdd);
             this.currentLobbyConnection.on("teamlist-update", teamlistUpdate);
@@ -190,20 +258,33 @@ export class NetworkService extends EventEmitter {
             this.currentLobbyConnection.on("playerlist-add", playerlistAdd);
             this.currentLobbyConnection.on("playerlist-update", playerlistUpdate);
             this.currentLobbyConnection.on("playerlist-remove", playerlistRemove);
-            
+
             this.currentLobbyConnection.on("settinglist-add", this.handleSettingAdd.bind(this));
             this.currentLobbyConnection.on("settinglist-update", this.handleSettingUpdate.bind(this));
             this.currentLobbyConnection.on("settinglist-remove", this.handleSettingRemove.bind(this));
-            
+
             this.currentLobbyConnection.on("chat-message", data => {
                 const d = new Date(0);
                 d.setUTCMilliseconds(data.timestamp);
-                this.emit("chat", d, data.sender, data.message); 
+                this.emit("chat", d, data.sender, data.message);
             });
-            this.currentLobbyConnection.on("start-game", startGame);
-            this.currentLobbyConnection.on("playerID", function(receivedPlayerId){
-                //Start the game with the port
-                playerId = receivedPlayerId;
+            this.currentLobbyConnection.on("start-game", (data) => {
+                this.emit("stop-timer", data);
+                dataToStartGame = data;
+                startGame(data);
+            });
+            this.currentLobbyConnection.on("start-championselect", () => {
+                startChampionSelect();
+                this.emit("start-championselect");
+            });
+            this.currentLobbyConnection.on("get-championselect-data", players => {
+                this.emit("get-championselect-data", players);
+            });
+            this.currentLobbyConnection.on("champion-select-update", players => {
+                this.emit("champion-select-update", players);
+            });
+            this.currentLobbyConnection.on("myID", receivedPlayerId => {
+                playerId = receivedPlayerId + 1;
             });
             this.currentLobbyConnection.on("chat-message-batch", data => {
                 data.messages.forEach(m => {
@@ -212,7 +293,10 @@ export class NetworkService extends EventEmitter {
                     this.emit("chat", d, m.sender, m.message);
                 });
             });
-            
+            this.currentLobbyConnection.on("host", data => {
+                this.emit("host", data.isHost);
+            });
+
             resolve(contents);
         } else {
             reject(contents);
@@ -220,6 +304,44 @@ export class NetworkService extends EventEmitter {
             this.currentLobbyConnection.close();
             this.currentLobbyConnection = null;
         }
+    }
+
+    /*
+     * ======================================
+     * ========== Champion Select ===========
+     * ======================================
+     */
+    public selectMyChampion(championId) {
+        if (championSelectStarted) {
+            selectedChampion = championId;
+            this.currentLobbyConnection.emit("select-champion", championId);
+        }
+    }
+    public lockChampion() {
+        if (championSelectStarted) {
+            canPick = false;
+            this.currentLobbyConnection.emit("lock-champion");
+        }
+    }
+    public getChampionSelectData() {
+        this.currentLobbyConnection.emit("get-championselect-data");
+    }
+    public startGameAgain() {
+        //Start the game with the port
+        console.log("Starting LoL...")
+        const args = [
+            "8394",
+            "LoLLauncher.exe",
+            "",
+            "127.0.0.1 " + dataToStartGame.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + playerId
+        ];
+        execFile(localStorage.getItem("path") + "/League of Legends.exe",
+            args, { cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000 },
+            (error) => {
+                if (error) {
+                    throw error;
+                }
+            });
     }
 
     /**
@@ -276,7 +398,7 @@ export class NetworkService extends EventEmitter {
             this.emit(evntName + "-remove", item);
         }];
     }
-    
+
     private handleSettingAdd(contents: any) {
         if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length > 0) {
             throw new Error("Duplicate setting " + contents.binding);
@@ -286,7 +408,7 @@ export class NetworkService extends EventEmitter {
         this.currentLobby.settings.push(setting);
         this.emit("setting-add", setting);
     }
-    
+
     private handleSettingUpdate(contents: any) {
         if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length) {
             const item = this.currentLobby.settings.filter(x => x.binding === contents.binding)[0];
@@ -297,7 +419,7 @@ export class NetworkService extends EventEmitter {
 
         throw new Error("Unknown setting " + contents.binding);
     }
-    
+
     private handleSettingRemove(contents: any) {
         if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length) {
             const item = this.currentLobby.settings.filter(x => x.binding === contents.binding)[0];
@@ -305,8 +427,12 @@ export class NetworkService extends EventEmitter {
             this.emit("setting-remove", item);
             return;
         }
-        
+
         throw new Error("Unknown setting " + contents.binding);
+    }
+
+    public userById(id: number): user.User {
+        return this.users.filter(x => x.id === id)[0];
     }
 }
 
