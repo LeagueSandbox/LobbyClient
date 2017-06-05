@@ -1,0 +1,146 @@
+@import "helpers";
+
+@champion-select-header-height: 70px;
+@champion-select-footer-height: 200px;
+
+.champion-select-header {
+    height: @champion-select-header-height;
+    background-image: url(~"decoration-header.png");
+    background-position: 50% 30%;
+    background-size: 75%;
+    background-repeat: no-repeat;
+}
+
+.champion-select-footer {
+    height: @champion-select-footer-height;
+}
+
+.champion-box {
+    display: inline-block;
+    width: 95px;
+}
+
+.champion-name {
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.champion-icon {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    border: #1E2328 1px solid;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+
+    .selected {
+        border-width: 3px;
+    }
+}
+
+.champion-icon:hover {
+    border-color: #C8AA6D;
+    box-shadow: 0 0 10px 0px #C8AA6D;
+    cursor: pointer;
+}
+
+.champion-list {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.champion-select {
+    padding: 0 5px;
+    height: 100%;
+}
+
+.champion-select-lists {
+    height: calc(~"100% - " @champion-select-header-height ~" - " @champion-select-footer-height);
+}
+
+.champion-select-lists::after {
+    width: 100%;
+    height: 100%;
+    background: url(~"ring-splash-dashed.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    position: absolute;
+    top: 0px;
+    background-size: 50%;
+    animation: spinX 20s infinite;
+}
+
+@keyframes spinX {
+    0%   {transform: rotateZ(0deg); transform-origin: 50% 50% 0;}  
+    100% {transform: rotateZ(360deg); transform-origin: 50% 50% 0;}  
+}
+
+hr {
+    display: block;
+    border: 0;
+    border-top: 1px solid #474138;
+    padding: 0;
+}
+
+.right-team, .left-team {
+    height: 100%;
+}
+
+.champion-team-block {
+    height: 16%;
+    background-size: cover;
+    background-position: center;
+    color: #B2943C;
+    text-shadow: 1px 1px black;
+}
+
+.left-decoration {
+    background: url(~"decoration-gradient-left.png");
+    height: 35px;
+    width: 300px;
+    display: inline-block;
+}
+
+.right-decoration {
+    background: url(~"decoration-gradient-right.png");
+    height: 35px;
+    width: 300px;
+    display: inline-block;
+}
+
+.champion-summoner-block {
+    width: 70px;
+    height: 70px;
+    border: 1px #1E2328 solid;
+    display: inline-block;
+}
+
+.champion-select-rune-mastery {
+    display: inline-block;
+    
+    & > select {
+        width: 250px;
+        margin: 5px 0px;
+        display: block;
+        color: #BCAF8E;
+        border: 2px solid #79622C;
+        border-radius: 0px;
+        border-image: linear-gradient(to bottom, #c0ab71, #645127) 1 stretch;
+    }
+
+    & > select:focus {
+        outline: 0px;
+    }
+}
+
+.champion-select-summoners {
+    display: inline-block;    
+}
+
+.champion-select-settings {
+    margin: 20px 0;
+}

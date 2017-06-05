@@ -1,27 +1,13 @@
-<div class="login-component">
-    <div class="background"></div>
-    <div class="login-container">
-        <div class="login-form" :class="{ wobble: previousInvalid }">
-            <div class="summoner-icon">
-                <img src="http://placehold.it/120x120">
-                <div class="spinner-container" :class="isLoading ? 'fade-in' : 'fade-out'">
-                    <div class="spinner"></div>
-                </div>
-            </div>
-
-            <div class="title">Welcome</div>
-
-            <div class="username-header">Username</div>
-            <input class="username-field" :class="{ invalid: previousInvalid }" @change="previousInvalid = false" v-model="username"
-            type="text">
-
-            <div class="password-header">Password</div>
-            <input class="password-field" :class="{ invalid: previousInvalid }" @change="previousInvalid = false" v-model="password"
-            type="password">
-
-            <div class="login-button" :class="{ disabled: !username || !password }" @click="login">Login</div>
-
-            <div class="no-account">No account? <span class="register">Register</span></div>
-        </div>
-    </div>
+<div class="login-component container center-align">
+    <div>League Path</div>
+    <input class="login-path-input input-text" v-model="path" type="text">
+    <div>Nickname</div>
+    <input class="login-username-input input-text" v-model="username" type="text">
+    <div>Host</div>
+    <input class="login-host-input input-text" v-model="host" type="text">
+    <div>Port</div>
+    <input class="login-port-input input-text" v-model="port" type="text">
+    <div class="icon-selected" v-background-src="icon.iconURL"></div>
+    <button class="btn-large" @click="openIconPicker">Choose icon</button>
+    <button class="waves-effect waves-light btn-large" :class="{ disabled: !username }" @click="login">Login</button>
 </div>
