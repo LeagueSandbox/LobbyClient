@@ -1,183 +1,30 @@
 @import "helpers";
 
-@login-background-image: url("http://screensaver.riotgames.com/latest/content/original/Champion%20Illustrations/Group%20Splashes/Blue_Buff_Fight.jpg");
-@login-background-blur: 3px;
-@login-background-darkness: 0.5;
+
 
 @login-form-width: 300px;
 @login-form-background: white;
 
 @login-summoner-icon-size: 120px;
 
-@login-text-font: "Lato";
+@login-text-font: "Roboto";
 
 @login-field-height: 30px;
 @login-button-height: 40px;
 
-// Styles for the login component.
-.login-component {
-    .full-size;
+.icon-selected {
+    display: inline-block;
+    height: 54px;
+    width: 54px;
+    position: relative;
+    left: -5px;
+    border: 2px solid #645127;
+    border-top-color: #c0ab71;
+    border-image: linear-gradient(to bottom,#c0ab71,#645127) 1 stretch;
+}
 
-    .background {
-        .full-size;
-
-        background: linear-gradient(rgba(0, 0, 0, @login-background-darkness), rgba(0, 0, 0, @login-background-darkness)), @login-background-image;
-        background-size: cover;
-
-        -webkit-filter: blur(@login-background-blur);
-
-        // Blur creates ugly edges, so we zoom in just enough to hide those.
-        transform: scale(1.03); 
-        overflow: hidden;
-
-        // We want to be beneath everything.
-        z-index: -1;
-        position: absolute;
-    }
-
-    .login-container {
-        .full-size;
-        .center-children;
-
-        .login-form {
-            .center-children;
-            flex-direction: column;
-
-            width: @login-form-width;
-            background-color: @login-form-background;
-
-            border-radius: 5px;
-            padding: 10px;
-
-            .summoner-icon {
-                width: @login-summoner-icon-size;
-                height: @login-summoner-icon-size;
-                margin-top: -(@login-summoner-icon-size / 2);
-
-                position: relative;
-
-                & > img {
-                    .full-size;
-                    .round;
-                    
-                    border: 6px solid white;
-                }
-
-                .spinner-container {
-                    .top-left;
-                    .full-size;
-                    .round;
-                    .center-children;
-
-                    background-color: rgba(0, 0, 0, 0.6);
-                    border: 6px solid white;
-                }
-
-                // I decided not to include this in the element just above this one because the indentation got crazy.
-                .spinner-container .spinner {
-                    .round;
-
-                    width: @login-summoner-icon-size / 2;
-                    height: @login-summoner-icon-size / 2;
-
-                    border: 4px solid transparent;
-                    border-color: fade(white, 40%) fade(white, 40%) fade(white, 40%) white;
-
-                    animation: spin 1.1s infinite linear;
-                }
-            }
-
-            .title {
-                font-family: @login-text-font;
-                font-weight: bold;
-                font-size: 24px;
-                text-transform: uppercase;
-
-                padding: 10px 0px 15px 0px;
-            }
-
-            .username-header, .password-header {
-                padding: 10px 0px 2px 0px;
-                align-self: flex-start;
-
-                color: #A9A9A9;
-
-                font-family: @login-text-font;
-                font-size: 10px;
-                text-transform: uppercase;
-            }
-
-            input {
-                width: 100%;
-                height: @login-field-height;
-                cursor: text;
-
-                font-family: @login-text-font;
-                font-size: 14px;
-
-                border: none;
-                outline: none;
-                border-bottom: 1px solid #000000;
-            }
-
-            input.invalid {
-                border-color: red;
-            }
-
-            input:focus {
-                border-color: rgb(84, 84, 185);
-                border-width: 2px;
-            }
-
-            .login-button {
-                .center-children;
-                .transitions(background-color);
-
-                width: 100%;
-                height: @login-button-height;
-
-                margin-top: 12px;
-                cursor: pointer;
-
-                color: white;
-                font-family: @login-text-font;
-                text-transform: uppercase;
-
-                background-color: rgba(84, 84, 185, 0.75);
-                border-radius: 4px;
-            }
-
-            .login-button.disabled {
-                background-color: rgba(116, 116, 177, 0.75);
-                cursor: not-allowed;
-            }
-
-            .login-button:not(.disabled):hover {
-                background-color: rgb(84, 84, 185);
-            }
-
-            .no-account {
-                color: #A9A9A9;
-
-                align-self: flex-start;
-                font-family: @login-text-font;
-                font-size: 14px;
-
-                padding-top: 4px;
-
-                .register {
-                    .transitions(color);
-
-                    color: black;
-                    cursor: pointer;
-                }
-
-                .register:hover {
-                    color: rgb(84, 84, 185);
-                }
-            }
-        }
-    }
+.btn-large {
+    top: -23px;
 }
 
 @keyframes spin {

@@ -3,5 +3,6 @@ node_modules
 *.log
 *.codekit
 *.sublime-*
+.idea
 src/built
 built

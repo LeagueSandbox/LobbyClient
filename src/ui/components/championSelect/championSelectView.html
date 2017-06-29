@@ -1,0 +1,54 @@
+<div class="champion-select">
+    <div class="champion-select-header center-align">
+        <div class="state">Pick your champion</div>
+        <div class="remaining-time">{{ remainingTime }}</div>
+    </div>
+    <div class="champion-select-lists row">
+        <div v-for="player in players" v-if="player.teamId === 0" class="left-team col s3">
+            <hr>
+            <div class="champion-team-block" v-background-src="staticService.championById(player.championId).skins[0].splashCutoutURL">
+                {{ player.username }}
+            </div>
+        </div>
+        <div class="champion-list col s6 center-align">
+            <div v-for="champion in staticService.champions" class="champion-box center-align" @click="selectMyChampion(champion.id)">
+                <div v-background-src="champion.portraitIconURL" class="champion-icon">
+                </div>
+                <div class="champion-name">
+                    {{ champion.name }}
+                </div>
+            </div>
+        </div>
+        <div v-for="player in players" v-if="player.teamId === 1" class="right-team col s3">
+            <hr>
+            <div class="champion-team-block" v-background-src="staticService.championById(player.championId).skins[0].splashCutoutURL">
+                {{ player.username }}
+            </div>
+        </div>
+    </div>
+    <div class="champion-select-footer center-align">
+        <div class="champion-select-button">
+            <div class="left-decoration"></div>
+            <button class="btn" @click="lock()">Lock in</button>
+            <div class="right-decoration"></div>
+        </div>
+        <div class="champion-select-settings">
+            <div class="champion-select-rune-mastery">
+                <select>
+                    <option value="1">Rune 1</option>
+                    <option value="2">Rune 2</option>
+                    <option value="3">Rune 3</option>
+                </select>
+                <select>
+                    <option value="1">Masteries 1</option>
+                    <option value="2">Masteries 2</option>
+                    <option value="3">Masteries 3</option>
+                </select>
+            </div>
+            <div class="champion-select-summoners">
+                <div class="champion-summoner-block" v-background-src="staticService.spellById(1).icon"></div>
+                <div class="champion-summoner-block" v-background-src="staticService.spellById(2).icon"></div>
+            </div>
+        </div>
+    </div>
+</div>

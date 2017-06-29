@@ -1,7 +1,6 @@
 ///<reference path="../../_app.ts" />
 'use strict';
 
-import "../../css/select-summonerspell.less";
 import ModalComponent from "../modal/modalComponent.ts";
 import CDNService from "../../services/cdnService.ts";
 import Component from "vue-class-component";

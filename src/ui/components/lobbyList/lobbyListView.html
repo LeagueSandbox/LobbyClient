@@ -1,9 +1,41 @@
-<input v-model="username" style="width: 100%; padding: 5px;">
-
-<div class="lobby-list">
-    <div v-for="lobby in network.lobbies" @click="join(lobby)">
-        {{ lobby.name }} - {{ lobby.creator }}<br>
-        {{ lobby.playerCount }}/{{ lobby.playerLimit }}<br>
-        {{ lobby.address }}:{{ lobby.port }}
+<div class="page row">
+    <div class="col s9 lobby-page">
+        <div class="lobby-list">
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th data-field="name">Lobby name</th>
+                        <th data-field="owner">Owner</th>
+                        <th data-field="gamemode">Gamemode</th>
+                        <th data-field="user">Users</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="lobby in network.lobbies">
+                        <tr @click="select(lobby)" :class="(typeof lobbySelected !== 'undefined' && lobbySelected.id === lobby.id) ? 'selected' : ''">
+                            <td>{{ lobby.name }}</td>
+                            <td>{{ lobby.owner }}</td>
+                            <td>{{ lobby.gamemodeName }}</td>
+                            <td>{{ lobby.playerCount }}/{{ lobby.playerLimit }}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+        <div class="buttons-lobby-list center-align">
+            <button class="btn" @click="create" :disabled="!canCreateLobby ? true : false">Create</button>
+            <button :class="(typeof lobbySelected !== 'undefined' && lobbySelected === undefined) ? 'disabled' : ''" class="btn" @click="join(lobbySelected)">Join</button>
+        </div>
+    </div>
+    <div class="online-players col s3">
+        <div class="collection">
+            <template v-for="user in network.users">
+                <a href="#" class="collection-item avatar">
+                    <img :src="staticService.iconById(user.iconId).iconURL" alt="" class="circle">
+                    <span class="title">{{ user.username }}</span>
+                    <p>Available</p>
+                </a>
+            </template>
+        </div>
     </div>
 </div>
