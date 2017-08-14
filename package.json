@@ -9,7 +9,7 @@
     "bundle": "./node_modules/.bin/webpack --bail",
     "clean": "rm -r built src/built",
     "package:osx": "./node_modules/.bin/electron-packager . LobbyClient --out=built --platform=darwin --arch=x64 --version=0.37.5 --ignore='(node_modules|src/ui/components|src/ui/directives|src/ui/css|src/ui/services)'",
-    "package:win": "./node_modules/.bin/electron-packager . LobbyClient --out=built --platform=win32 --arch=x64 --version=0.37.5 --ignore='(node_modules|src/ui/components|src/ui/directives|src/ui/css|src/ui/services)'",
+    "package:win": "./node_modules/.bin/electron-packager . LobbyClient --out=built --platform=win32 --arch=x64 --version=0.37.5 --ignore='node_modules' --ignore='src/ui/components' --ignore='src/ui/directives' --ignore='src/ui/css' --ignore='src/ui/services'",
     "test": "npm run bundle"
   },
   "keywords": [
@@ -48,8 +48,8 @@
   "dependencies": {
     "babel-polyfill": "^6.7.4",
     "bluebird": "^3.3.4",
-    "font-awesome": "^4.5.0",
-    "socket.io-client": "^1.4.5",
+    "font-awesome": "^4.7.0",
+    "socket.io-client": "^2.0.0",
     "vue": "^1.0.24",
     "vue-router": "^0.7.13"
   }
