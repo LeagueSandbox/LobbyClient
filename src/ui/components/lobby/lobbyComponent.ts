@@ -105,10 +105,6 @@ export default class LobbyComponent extends Vue {
         NetworkServiceStatic.joinTeam(team);
     }
 
-    startChampionSelect() {
-        NetworkServiceStatic.startChampionSelect();
-    }
-
     leave() {
         NetworkServiceStatic.leaveLobby();
         this.$router.go("/lobbies");
