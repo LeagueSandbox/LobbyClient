@@ -1,18 +1,19 @@
-<div class="team" v-for="team in lobby.teams">
-    <span class="team-name">{{ team.name }}</span>
-    
-    <div v-for="player in playersInTeam(team)"
-        v-background-src="getOrNone(player.champion ? player.champion.skins[player.skinIndex].splashCutoutURL : undefined)"
-        overlay-color="to left; transparent; black">
-        <span>{{ player.name }}</span>
-        <img :src="player.spellOne.icon">
-        <img :src="player.spellTwo.icon">
+<div class="lobby-playerList">
+    <div class="row">
+        <div class="team col s6" v-for="team in lobby.teams">
+            <div class="team-name">{{ team.name }}</div>
+
+            <div v-for="player in playersInTeam(team)" class="lobby-player-item">
+                <div class="valign-wrapper">
+                    <img :src="iconForUser(player)" class="icon">
+                    <span class="valign lobby-player">{{ player.username }} {{ player.id }} {{ player.serverId }} {{ player.isHost }}</span>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+            <button class="btn" @click="joinTeam(team)">
+                Join
+            </button>
+        </div>
     </div>
-    
-    <div class="join-button" @click="joinTeam(team)">
-        <span>JOIN</span>
-    </div>
-</div>
-<div class="start-button" @click="startGame()">
-    <span>START</span>
 </div>

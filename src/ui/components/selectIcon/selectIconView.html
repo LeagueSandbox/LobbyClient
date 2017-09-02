@@ -1,0 +1,12 @@
+<div class="icon-header center-align">
+    Select your icon
+</div>
+<div class="icon-box">
+    <div v-for="icon in staticService.icons" class="icon-selector">
+        <div v-background-src="icon.iconURL" @click="selectedIcon = icon"></div>
+    </div>
+</div>
+<div class="icon-footer center-align">
+    <img :src="selectedIcon.iconURL" class="icon-selected">
+    <button class="btn-large" @click="finish(selectedIcon)">Select</button>
+</div>

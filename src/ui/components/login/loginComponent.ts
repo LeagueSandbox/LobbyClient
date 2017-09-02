@@ -6,32 +6,81 @@ const Vue = <vuejs.VueStatic>require("vue");
 
 import "../../css/login.less";
 
+import CDNService from "../../services/cdnService.ts";
+import StaticService from "../../services/staticService.ts";
+import NetworkService from "../../services/networkService.ts";
+import SettingService from "../../services/settingService.ts";
+import ModalComponent from "../modal/modalComponent.ts";
+
 @Component({
     template: require("./loginView.html")
 })
 export default class LoginComponent extends Vue {
     private isLoading: boolean;
     private previousInvalid: boolean;
-    
+
     private username: string;
-    private password: string;
-    
+    private host: string;
+    private path: string;
+    private port: string;
+    private state: string;
+    private icon: user.Icon;
+
     data() {
+        this.path = localStorage.getItem("path") || "Path to LoL 4.20";
+        if (localStorage.getItem("host")){
+            this.host = localStorage.getItem("host");
+        }
+        if (localStorage.getItem("port")){
+            this.port = localStorage.getItem("port");
+        }
+        if (localStorage.getItem("name")){
+            this.username = localStorage.getItem("name");
+        }
+        let iconId = 0;
+        if (localStorage.getItem("icon")){
+            iconId = parseInt(localStorage.getItem("icon"));
+        }
+        CDNService.load().then(() => {
+            return StaticService.populate();
+        }).then(() => {
+            this.icon = StaticService.icons[iconId];
+            console.log(this.icon.iconURL)
+        });
         return {
             isLoading: false,
             previousInvalid: false,
-            username: "",
-            password: ""
+            username: this.username,
+            host: this.host,
+            path: this.path,
+            port: this.port,
+            icon: this.icon
         };
     }
-    
+
     login() {
-        if (!this.username || !this.password) return;
-        
+        if (!this.username || !this.host || this.isLoading) return;
+
+        localStorage.setItem("host", this.host);
+        localStorage.setItem("path", this.path);
+        localStorage.setItem("name", this.username);
+        localStorage.setItem("port", this.port);
+        localStorage.setItem("icon", this.indexByiconId(this.icon.id).toString());
+
         this.isLoading = true;
         this.previousInvalid = false;
-        setTimeout(() => {
+        NetworkService.connectToCentral("http://" + this.host + ":" + this.port, this.username, this.icon.id).then(() => {
             this.$router.go("/lobbies");
-        }, 1000);
+        });
+    }
+
+    openIconPicker() {
+        ModalComponent.present("select-icon", this.icon).then((c: user.Icon) => {
+            this.icon = c;
+        });
+    }
+
+    indexByiconId(id: number): number {
+        return StaticService.icons.indexOf(StaticService.icons.filter(x => x.id === id)[0]);
     }
 }
