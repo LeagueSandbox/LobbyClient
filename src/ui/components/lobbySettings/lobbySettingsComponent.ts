@@ -39,7 +39,7 @@ export default class LobbySettingsComponent extends Vue {
         return this.settings.hostSettings;
     }
     
-    finish(arg) {
+    finish(arg: string) {
         ModalComponent.finish(arg);
         document.removeEventListener("keyup", this.listenerFun);
     }

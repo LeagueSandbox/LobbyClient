@@ -24,31 +24,28 @@ export default class LoginComponent extends Vue {
     private path: string;
     private port: string;
     private state: string;
-    private icon: any;
+    private icon: user.Icon;
 
     data() {
-        if (localStorage.getItem("path") != undefined && localStorage.getItem("path") != "") {
-            this.path = localStorage.getItem("path");
-        } else {
-            this.path = "Path to LoL 4.20";
-        }
-        if (localStorage.getItem("host") != undefined && localStorage.getItem("host") != "") {
+        this.path = localStorage.getItem("path") || "Path to LoL 4.20";
+        if (localStorage.getItem("host")){
             this.host = localStorage.getItem("host");
         }
-        if (localStorage.getItem("port") != undefined && localStorage.getItem("port") != "") {
+        if (localStorage.getItem("port")){
             this.port = localStorage.getItem("port");
         }
-        if (localStorage.getItem("name") != undefined && localStorage.getItem("name") != "") {
+        if (localStorage.getItem("name")){
             this.username = localStorage.getItem("name");
         }
-        var iconId = 0;
-        if (localStorage.getItem("icon") != undefined && localStorage.getItem("icon") != "") {
+        let iconId = 0;
+        if (localStorage.getItem("icon")){
             iconId = parseInt(localStorage.getItem("icon"));
         }
         CDNService.load().then(() => {
             return StaticService.populate();
         }).then(() => {
             this.icon = StaticService.icons[iconId];
+            console.log(this.icon.iconURL)
         });
         return {
             isLoading: false,
@@ -78,7 +75,7 @@ export default class LoginComponent extends Vue {
     }
 
     openIconPicker() {
-        ModalComponent.present("select-icon", this.icon).then(c => {
+        ModalComponent.present("select-icon", this.icon).then((c: user.Icon) => {
             this.icon = c;
         });
     }

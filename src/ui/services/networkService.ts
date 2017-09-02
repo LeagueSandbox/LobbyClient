@@ -28,8 +28,6 @@ export class NetworkService extends EventEmitter {
 
     me: user.User;
 
-    imHost: boolean;
-
     constructor() {
         super();
 
@@ -41,16 +39,16 @@ export class NetworkService extends EventEmitter {
         return new Promise<void>((resolve, reject) => {
             this.currentConnection = io.connect(url, { reconnection: false });
             this.currentConnection.on("connect", resolve);
-            var userInfo = {
+            const userInfo = {
                 username: username,
                 iconId: iconId
             };
-            this.me = {id: -1, username: username, iconId: iconId};
+            this.me = { id: -1, username: username, iconId: iconId };
             this.currentConnection.emit("user.userInfo", userInfo);
             this.currentConnection.on("user.userInfo", (c) => {
                 this.me = c;
             });
-            
+
             const [addLobby, updateLobby, removeLobby] = this.buildListUpdater("lobbylist", this.lobbies, {
                 id: "id",
                 name: "name",
@@ -76,18 +74,18 @@ export class NetworkService extends EventEmitter {
             this.currentConnection.on("users-remove", removeUser);
 
             //Sending the options to the server
-            this.currentConnection.on("lobby.list", function(lobbiesList){
-                for(var i = 0; i < lobbiesList.length; i++){
-                    addLobby(lobbiesList[i]);
+            this.currentConnection.on("lobby.list", (lobbiesList) => {
+                for (const lobby of lobbiesList) {
+                    addLobby(lobby);
                 }
-            });
+            })
             this.currentConnection.emit('lobby.list');
-            
-            this.currentConnection.on('user.list', function(clientsList){
-                for(var i = 0; i < clientsList.length; i++){
-                    addUser(clientsList[i]);
+
+            this.currentConnection.on('user.list', (clientsList) => {
+                for (const client of clientsList) {
+                    addUser(client);
                 }
-            });
+            })
             this.currentConnection.emit('user.list');
         });
     }
@@ -104,10 +102,10 @@ export class NetworkService extends EventEmitter {
         }
 
         return new Promise((resolve, reject) => {
-            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, {reconnection: true, forceNew: true});
+            this.currentLobbyConnection = io.connect(item.address + ":" + item.port, { reconnection: true, forceNew: true });
             this.currentLobbyConnection.on("lobby-connect", (c) => this.handleLobbyConnect(c, resolve, reject));
             this.currentLobbyConnection.on("connect", () => {
-                this.currentLobbyConnection.emit("lobby-connect", { idServer: this.me.id, username: this.me.username, password: "" });
+                this.currentLobbyConnection.emit("lobby-connect", { serverId: this.me.id, username: this.me.username, password: "" });
             });
         });
     }
@@ -121,12 +119,12 @@ export class NetworkService extends EventEmitter {
     }
 
     public createLobby(): Promise<any> {
-        var options = {
+        const options = {
             name: this.me.username + "'s lobby",
             playerLimit: "10",
             gamemodeName: "Capture the Deudly",
             password: ""
-        }
+        };
         return new Promise((resolve, reject) => {
             this.currentConnection.emit('lobby.create', options);
             this.currentConnection.on('lobby.create', (c) => this.handleLobbyCreate(c, resolve, reject));
@@ -140,7 +138,7 @@ export class NetworkService extends EventEmitter {
      * ====================================== 
      */
 
-    public setUsername(username = "Unknown"){
+    public setUsername(username = "Unknown") {
         this.currentConnection.emit("user.username", {
             username: username
         });
@@ -155,46 +153,46 @@ export class NetworkService extends EventEmitter {
         if (!this.currentLobby || !this.currentLobbyConnection) {
             throw new Error("Not connected to lobby.");
         }
-        
-        this.currentLobbyConnection.emit("lobby-setting", { 
+
+        this.currentLobbyConnection.emit("lobby-setting", {
             "setting-binding": setting.binding,
-            "value": value 
+            "value": value
         });
     }
-    public startGame(){
+    public startGame() {
         if (!(this.currentLobby && this.currentLobbyConnection)) {
             throw new Error("Not connected to lobby.");
         }
         this.currentLobbyConnection.emit("start-game");
     }
-    
+
     /** Sends a chat message. */
     public sendMessage(msg: string) {
         if (!this.currentLobby || !this.currentLobbyConnection) {
             throw new Error("Not connected to lobby.");
         }
-        
-        this.currentLobbyConnection.emit("chat-message", { 
+
+        this.currentLobbyConnection.emit("chat-message", {
             message: msg
         });
     }
-    
+
     /** Joins the specified team. */
     public joinTeam(team: lobby.Team) {
         if (!this.currentLobby || !this.currentLobbyConnection) {
             throw new Error("Not connected to lobby.");
         }
-        
-        this.currentLobbyConnection.emit("join-team", { 
+
+        this.currentLobbyConnection.emit("join-team", {
             team: team.id
         });
     }
-    
+
     private handleLobbyCreate(contents: any, resolve: any, reject: any) {
-        this.currentLobbyConnection = io.connect(contents.address + ":" + contents.port, {reconnection: true, forceNew: true});
+        this.currentLobbyConnection = io.connect(contents.address + ":" + contents.port, { reconnection: true, forceNew: true });
         this.currentLobbyConnection.on("lobby-connect", (c) => this.handleLobbyConnect(c, resolve, reject));
         this.currentLobbyConnection.on("connect", () => {
-            this.currentLobbyConnection.emit("lobby-connect", { idServer: this.me.id, username: this.me.username, password: "" });
+            this.currentLobbyConnection.emit("lobby-connect", { serverId: this.me.id, username: this.me.username, password: "" });
             this.currentConnection.removeListener("lobby.create");
         });
     }
@@ -220,28 +218,12 @@ export class NetworkService extends EventEmitter {
             });
 
             const [playerlistAdd, playerlistUpdate, playerlistRemove] = this.buildListUpdater("playerlist", this.currentLobby.players, {
-                id: "id",                
-                idServer: "idServer",
+                id: "id",
+                serverId: "serverId",
                 username: "username",
                 team: ["teamId", id => this.currentLobby.teams.filter(x => x.id === id)[0]],
                 isHost: "isHost"
             });
-            function startGame(data){
-                //Start the game with the port
-                console.log("Starting LoL...")
-                var args = [
-                    "8394",
-                    "LoLLauncher.exe",
-                    "",
-                    "127.0.0.1 " + data.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + data.playerId
-                ];
-                execFile(localStorage.getItem("path") + "/League of Legends.exe", 
-                args, {cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000},
-                (error) => {
-                    if (error){
-                        throw error;
-                }});
-            }
             this.currentLobbyConnection.on("teamlist-add", teamlistAdd);
             this.currentLobbyConnection.on("teamlist-update", teamlistUpdate);
             this.currentLobbyConnection.on("teamlist-remove", teamlistRemove);
@@ -249,18 +231,32 @@ export class NetworkService extends EventEmitter {
             this.currentLobbyConnection.on("playerlist-add", playerlistAdd);
             this.currentLobbyConnection.on("playerlist-update", playerlistUpdate);
             this.currentLobbyConnection.on("playerlist-remove", playerlistRemove);
-            
+
             this.currentLobbyConnection.on("settinglist-add", this.handleSettingAdd.bind(this));
             this.currentLobbyConnection.on("settinglist-update", this.handleSettingUpdate.bind(this));
             this.currentLobbyConnection.on("settinglist-remove", this.handleSettingRemove.bind(this));
-            
+
             this.currentLobbyConnection.on("chat-message", data => {
                 const d = new Date(0);
                 d.setUTCMilliseconds(data.timestamp);
-                this.emit("chat", d, data.sender, data.message); 
+                this.emit("chat", d, data.sender, data.message);
             });
-            this.currentLobbyConnection.on("start-game", startGame);
-            this.currentLobbyConnection.on("playerID", function(receivedPlayerId){
+            this.currentLobbyConnection.on("start-game", data => {
+                //Start the game with the port
+                console.log("Starting LoL...");
+                const args = [
+                    "8394",
+                    "LoLLauncher.exe",
+                    "",
+                    "127.0.0.1 " + data.gameServerPort + " 17BLOhi6KZsTtldTsizvHg== " + data.playerId
+                ];
+                execFile(localStorage.getItem("path") + "/League of Legends.exe", args, { cwd: localStorage.getItem("path"), maxBuffer: 1024 * 90000 }, (error) => {
+                        if (error) {
+                            throw error;
+                        }
+                    });
+            });
+            this.currentLobbyConnection.on("playerID", function (receivedPlayerId) {
                 //Start the game with the port
                 playerId = receivedPlayerId;
             });
@@ -272,13 +268,9 @@ export class NetworkService extends EventEmitter {
                 });
             });
             this.currentLobbyConnection.on("host", data => {
-                if(data.isHost) {
-                    this.emit("host", true); 
-                } else {
-                    this.emit("host", false); 
-                }
+                this.emit("host", data.isHost)
             });
-            
+
             resolve(contents);
         } else {
             reject(contents);
@@ -299,7 +291,7 @@ export class NetworkService extends EventEmitter {
         function get(id): L {
             return list.filter(x => x.id === id)[0];
         }
-        
+
         return [contents => { // add
             if (get(contents.id)) throw new Error(evntName + " with id " + contents.id + " already exists.");
 
@@ -342,7 +334,7 @@ export class NetworkService extends EventEmitter {
             this.emit(evntName + "-remove", item);
         }];
     }
-    
+
     private handleSettingAdd(contents: any) {
         if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length > 0) {
             throw new Error("Duplicate setting " + contents.binding);
@@ -352,7 +344,7 @@ export class NetworkService extends EventEmitter {
         this.currentLobby.settings.push(setting);
         this.emit("setting-add", setting);
     }
-    
+
     private handleSettingUpdate(contents: any) {
         if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length) {
             const item = this.currentLobby.settings.filter(x => x.binding === contents.binding)[0];
@@ -363,7 +355,7 @@ export class NetworkService extends EventEmitter {
 
         throw new Error("Unknown setting " + contents.binding);
     }
-    
+
     private handleSettingRemove(contents: any) {
         if (this.currentLobby.settings.filter(x => x.binding === contents.binding).length) {
             const item = this.currentLobby.settings.filter(x => x.binding === contents.binding)[0];
@@ -371,7 +363,7 @@ export class NetworkService extends EventEmitter {
             this.emit("setting-remove", item);
             return;
         }
-        
+
         throw new Error("Unknown setting " + contents.binding);
     }
 

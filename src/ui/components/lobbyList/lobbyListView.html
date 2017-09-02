@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                     <template v-for="lobby in network.lobbies">
-                        <tr @click="select(lobby)" :class="(typeof lobbySelected !== 'undefined' && lobbySelected.id === lobby.id) ? 'selected' : ''">
+                        <tr @click="select(lobby)" :class="(typeof selectedLobby !== 'undefined' && selectedLobby.id === lobby.id) ? 'selected' : ''">
                             <td>{{ lobby.name }}</td>
                             <td>{{ lobby.owner }}</td>
                             <td>{{ lobby.gamemodeName }}</td>
@@ -24,7 +24,7 @@
         </div>
         <div class="buttons-lobby-list center-align">
             <button class="btn" @click="create" :disabled="!canCreateLobby ? true : false">Create</button>
-            <button :class="(typeof lobbySelected !== 'undefined' && lobbySelected === undefined) ? 'disabled' : ''" class="btn" @click="join(lobbySelected)">Join</button>
+            <button :class="(typeof selectedLobby !== 'undefined' && selectedLobby === undefined) ? 'disabled' : ''" class="btn" @click="join(selectedLobby)">Join</button>
         </div>
     </div>
     <div class="online-players col s3">

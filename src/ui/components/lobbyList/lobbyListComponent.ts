@@ -12,9 +12,9 @@ import StaticService from "../../services/staticService.ts";
     template: require("./lobbyListView.html")
 })
 export default class LobbyListComponent extends Vue {
-    private lobbySelected: lobby.LobbyListItem;
+    private selectedLobby: lobby.LobbyListItem;
     private canCreateLobby: boolean;
-    
+
     created() {
         // Mainly for debugging. Redirects if theres no connection.
         if (!NetworkService.currentConnection) {
@@ -22,18 +22,21 @@ export default class LobbyListComponent extends Vue {
         }
     }
     
-    data() {
+    ready() {
         this.canCreateLobby = true;
+    }
+
+    data() {
         return {
             network: NetworkService,
             staticService: StaticService,
-            lobbySelected: undefined,
+            selectedLobby: null,
             canCreateLobby: this.canCreateLobby
         };
     }
-    
+
     select(lobby: lobby.LobbyListItem) {
-        this.lobbySelected = lobby;
+        this.selectedLobby = lobby;
     }
 
     join(lobby: lobby.LobbyListItem) {

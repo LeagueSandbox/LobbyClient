@@ -110,8 +110,8 @@ export default class LobbyComponent extends Vue {
         this.$router.go("/lobbies");
     }
 
-    iconByUser(user: { idServer: number}) {
-        return StaticService.iconById(NetworkServiceStatic.userById(user.idServer).iconId).iconURL;
+    iconForUser(user: { serverId: number}) {
+        return StaticService.iconById(NetworkServiceStatic.userById(user.serverId).iconId).iconURL;
     }
 
     get hostSettings() {

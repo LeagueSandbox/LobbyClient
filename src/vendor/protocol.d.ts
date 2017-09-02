@@ -152,7 +152,7 @@ declare namespace lobby {
     interface Lobby {        
         /** Name of the lobby. */
         name: string;
-        /** Creator of the lobby. */
+        /** Owner of the lobby. */
         owner: string;
         /** The gamemode in this lobby. */
         gamemodeName: string;
@@ -180,8 +180,9 @@ declare namespace user {
     }
 
     interface Icon {
+        /** ID of the icon */
         id: number;
-
+        /** URL of the icon */
         iconURL: string;
     }
 }
